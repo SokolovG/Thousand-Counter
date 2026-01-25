@@ -1,20 +1,20 @@
-import 'package:logger/logger.dart';
+import 'package:talker/talker.dart';
 
 class AppLogger {
-  static final Logger _logger = Logger(
-    printer: PrettyPrinter(
-      methodCount: 2, //
-      errorMethodCount: 8,
-      lineLength: 120,
-      colors: true,
-      printEmojis: true,
+  static final _talker = Talker(
+    settings: TalkerSettings(
+      useConsoleLogs: true,
+      useHistory: true,
+      maxHistoryItems: 200,
     ),
   );
 
-  static void debug(String message) => _logger.d(message);
-  static void info(String message) => _logger.i(message);
-  static void warning(String message) => _logger.w(message);
-  static void error(String message, [Object? error, StackTrace? stackTrace]) {
-    _logger.e(message, error: error, stackTrace: stackTrace);
+  static void debug(String msg) => _talker.debug(msg);
+  static void info(String msg) => _talker.info(msg);
+  static void warning(String msg) => _talker.warning(msg);
+  static void error(String msg, [Object? error, StackTrace? st]) {
+    _talker.error(msg, error, st);
   }
+
+  static List<dynamic> getHistory() => _talker.history;
 }
