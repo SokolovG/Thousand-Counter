@@ -34,3 +34,12 @@
 *.zip             binary
 *.ttf             binary
 *.otf             binary
+
+
+# Exclude platform-specific code from language statistics
+android/**            linguist-vendored
+ios/**                linguist-vendored
+web/**                linguist-vendored
+windows/**            linguist-vendored
+linux/**              linguist-vendored
+macos/**              linguist-vendored
