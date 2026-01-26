@@ -46,7 +46,7 @@ class GameService {
     AppLogger.info("Player added");
   }
 
-  Game createGame(List<PlayerGameState> players) {
+  Game startGame(List<PlayerGameState> players) {
     GameValidators.validatePlayerCount(players.length);
     GameValidators.validatePlayerName(
       players.map((p) => p.profile.name).toString(),
