@@ -1,4 +1,4 @@
-import 'package:thousand_counter/models/player_profile.dart';
+import 'player_profile.dart';
 
 class PlayerGameState {
   final PlayerProfile profile;

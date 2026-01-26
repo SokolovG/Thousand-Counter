@@ -1,11 +1,11 @@
-import 'package:thousand_counter/core/constants.dart';
-import 'package:thousand_counter/core/logger.dart';
-import 'package:thousand_counter/models/game.dart';
-import 'package:thousand_counter/models/player_game_state.dart';
-import 'package:thousand_counter/models/player_profile.dart';
-import 'package:thousand_counter/models/round.dart';
-import 'package:thousand_counter/services/rules_service.dart';
-import 'package:thousand_counter/services/score_service.dart';
+import '../core/constants.dart';
+import '../core/logger.dart';
+import '../core/utils/validators.dart';
+import '../models/game.dart';
+import '../models/player_game_state.dart';
+import '../models/round.dart';
+import 'rules_service.dart';
+import 'score_service.dart';
 
 class GameService {
   final RulesService _rulesService;
@@ -46,7 +46,11 @@ class GameService {
     AppLogger.info("Player added");
   }
 
-  Game createGame(List<PlayerGameState> players, List<PlayerProfile> profiles) {
+  Game createGame(List<PlayerGameState> players) {
+    GameValidators.validatePlayerCount(players.length);
+    GameValidators.validatePlayerName(
+      players.map((p) => p.profile.name).toString(),
+    );
     final game = Game(playerStates: players);
     AppLogger.info("Game created: $game");
     return game;

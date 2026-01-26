@@ -1,5 +1,5 @@
-import 'package:thousand_counter/core/constants.dart';
-import 'package:thousand_counter/models/player_game_state.dart';
+import '../core/constants.dart';
+import '../models/player_game_state.dart';
 
 class RulesService {
   bool isBolt(int points) => points == 0;

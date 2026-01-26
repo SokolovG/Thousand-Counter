@@ -1,4 +1,4 @@
-import 'package:thousand_counter/models/player_game_state.dart';
+import 'player_game_state.dart';
 import 'package:recase/recase.dart';
 
 import 'round.dart';
