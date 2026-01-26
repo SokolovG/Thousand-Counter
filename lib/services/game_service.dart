@@ -1,7 +1,8 @@
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/logger.dart';
 import 'package:thousand_counter/models/game.dart';
-import 'package:thousand_counter/models/player.dart';
+import 'package:thousand_counter/models/player_game_state.dart';
+import 'package:thousand_counter/models/player_profile.dart';
 import 'package:thousand_counter/models/round.dart';
 import 'package:thousand_counter/services/rules_service.dart';
 import 'package:thousand_counter/services/score_service.dart';
@@ -17,8 +18,10 @@ class GameService {
     game.rounds.add(round);
 
     points.forEach((playerId, basePoints) {
-      final player = game.players.firstWhere((p) => p.id == playerId);
-      final isBolt = _rulesService.isBolt(points[playerId]);
+      final player = game.playerStates.firstWhere(
+        (p) => p.playerId == playerId,
+      );
+      final isBolt = _rulesService.isBolt(basePoints);
       final isMagic = _rulesService.isMagicNumber(basePoints);
 
       if (isBolt) {
@@ -35,22 +38,22 @@ class GameService {
     game.currentRound++;
   }
 
-  void addPlayer(Game game, Player player) {
-    if (game.players.length >= maxPlayers) {
+  void addPlayer(Game game, PlayerGameState player) {
+    if (game.playerStates.length >= maxPlayers) {
       throw Exception("Max $maxPlayers players");
     }
-    game.players.add(player);
+    game.playerStates.add(player);
     AppLogger.info("Player added");
   }
 
-  Game createGame(List<Player> players) {
-    final game = Game(players: players);
+  Game createGame(List<PlayerGameState> players, List<PlayerProfile> profiles) {
+    final game = Game(playerStates: players, profiles: profiles);
     AppLogger.info("Game created: $game");
     return game;
   }
 
-  Player? getWinner(Game game) {
-    final qualifiedPlayers = game.players
+  PlayerGameState? getWinner(Game game) {
+    final qualifiedPlayers = game.playerStates
         .where((p) => p.totalPoints >= 1000)
         .toList();
 

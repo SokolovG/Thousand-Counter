@@ -9,12 +9,14 @@ class AppLogger {
     ),
   );
 
-  static void debug(String msg) => _talker.debug(msg);
-  static void info(String msg) => _talker.info(msg);
-  static void warning(String msg) => _talker.warning(msg);
-  static void error(String msg, [Object? error, StackTrace? st]) {
+  static void debug(Object msg) => _talker.debug(msg);
+  static void info(Object msg) => _talker.info(msg);
+  static void warning(Object msg) => _talker.warning(msg);
+  static void error(Object msg, [Object? error, StackTrace? st]) {
     _talker.error(msg, error, st);
   }
+
+  static void critical(Object msg) => _talker.critical(msg);
 
   static List<dynamic> getHistory() => _talker.history;
 }
