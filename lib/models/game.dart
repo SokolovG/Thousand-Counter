@@ -3,7 +3,7 @@ import 'round.dart';
 import 'package:uuid/uuid.dart';
 
 class Game {
-  final List<Player> players;
+  List<Player> players;
   final List<Round> rounds;
   final DateTime createdAt;
   final String id;

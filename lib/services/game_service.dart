@@ -12,18 +12,24 @@ class GameService {
     AppLogger.info("Player added");
   }
 
-  void createGame(List<Player> players) {
+  Game createGame(List<Player> players) {
     final game = Game(players: players);
     AppLogger.info("Game created: $game");
+    return game;
   }
 
   void addRound(Game game, Map<String, int> points) {
     ///
   }
 
-  Player getWinner(Game game) {
-    // List<Player> players = game.players;
-    // return players.where(Player.total_points == 10000).first;
-    return game.players.first;
+  Player? getWinner(Game game) {
+    final qualifiedPlayers = game.players
+        .where((p) => p.totalPoints >= 1000)
+        .toList();
+
+    if (qualifiedPlayers.isEmpty) return null;
+
+    qualifiedPlayers.sort((a, b) => b.totalPoints.compareTo(a.totalPoints));
+    return qualifiedPlayers.first;
   }
 }

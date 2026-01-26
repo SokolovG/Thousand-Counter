@@ -1,15 +1,17 @@
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/models/player.dart';
+import 'package:thousand_counter/models/round.dart';
 
 class RulesService {
-  bool checkBolt(Player player) {
-    // if user points in round == 0 -> bolt
-    return true;
+  bool checkBolt(Round round, String playerId) {
+    return round.playerScores[playerId] == 0;
   }
 
   bool checkBarrel(Player player) {
-    // if user points in round == 0 -> bolt
-    return true;
+    if (player.totalPoints == barrelNumber) {
+      return true;
+    }
+    return false;
   }
 
   bool checkMagicalNumbers(int points) {
