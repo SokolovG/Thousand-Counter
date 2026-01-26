@@ -11,7 +11,7 @@ class MenuButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
       onPressed: onPressed,
-      child: Text(text, style: const TextStyle(fontSize: 18)),
+      child: Text(text, style: const TextStyle(fontSize: 24)),
     );
   }
 }

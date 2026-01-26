@@ -14,7 +14,7 @@ class ThousandCounterApp extends StatelessWidget {
     return MaterialApp(
       title: 'Thousand Counter',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepOrange)),
-      home: const HomeScreen(title: 'Thousand Counter'),
+      home: const HomeScreen(),
     );
   }
 }
