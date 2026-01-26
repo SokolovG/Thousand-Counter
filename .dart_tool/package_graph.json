@@ -9,7 +9,6 @@
       "dependencies": [
         "cupertino_icons",
         "flutter",
-        "flutter_lints",
         "recase",
         "talker",
         "uuid"
