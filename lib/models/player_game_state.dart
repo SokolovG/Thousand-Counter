@@ -1,10 +1,12 @@
+import 'package:thousand_counter/models/player_profile.dart';
+
 class PlayerGameState {
-  final String playerId;
+  final PlayerProfile profile;
   int totalPoints;
   int boltsCount;
 
   PlayerGameState({
-    required this.playerId,
+    required this.profile,
     this.totalPoints = 0,
     this.boltsCount = 0,
   });

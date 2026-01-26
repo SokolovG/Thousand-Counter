@@ -19,7 +19,7 @@ class GameService {
 
     points.forEach((playerId, basePoints) {
       final player = game.playerStates.firstWhere(
-        (p) => p.playerId == playerId,
+        (p) => p.profile.id == playerId,
       );
       final isBolt = _rulesService.isBolt(basePoints);
       final isMagic = _rulesService.isMagicNumber(basePoints);
@@ -47,7 +47,7 @@ class GameService {
   }
 
   Game createGame(List<PlayerGameState> players, List<PlayerProfile> profiles) {
-    final game = Game(playerStates: players, profiles: profiles);
+    final game = Game(playerStates: players);
     AppLogger.info("Game created: $game");
     return game;
   }

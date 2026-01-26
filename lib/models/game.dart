@@ -1,18 +1,17 @@
 import 'package:thousand_counter/models/player_game_state.dart';
-import 'package:thousand_counter/models/player_profile.dart';
+import 'package:recase/recase.dart';
 
 import 'round.dart';
 import 'package:uuid/uuid.dart';
 
 class Game {
   List<PlayerGameState> playerStates;
-  final List<PlayerProfile> profiles;
   final List<Round> rounds;
   final DateTime createdAt;
   final String id;
   int currentRound;
 
-  Game({required this.playerStates, required this.profiles})
+  Game({required this.playerStates})
     : rounds = [],
       id = Uuid().v4(),
       currentRound = 0,
@@ -20,6 +19,9 @@ class Game {
 
   @override
   String toString() {
-    return "Game with players $profiles";
+    final playerNames = playerStates
+        .map((p) => p.profile.name.sentenceCase)
+        .join(', ');
+    return "Game with players $playerNames";
   }
 }

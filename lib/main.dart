@@ -13,13 +13,11 @@ void main() {
   PlayerProfile grischaProfile = PlayerProfile(id: "1", name: "grischa");
   PlayerProfile sonyaProfile = PlayerProfile(id: "2", name: "sonya");
 
-  PlayerGameState grischa = PlayerGameState(playerId: grischaProfile.id);
-  PlayerGameState sonya = PlayerGameState(playerId: sonyaProfile.id);
+  PlayerGameState grischa = PlayerGameState(profile: grischaProfile);
+  PlayerGameState sonya = PlayerGameState(profile: sonyaProfile);
 
-  Game game = Game(
-    playerStates: [sonya, grischa],
-    profiles: [grischaProfile, sonyaProfile],
-  );
+  Game game = Game(playerStates: [sonya, grischa]);
+  // ignore: unused_local_variable
   GameService gameS = GameService(rulesService, scoreService);
   AppLogger.info(game);
 }
