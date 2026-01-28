@@ -8,10 +8,14 @@ class MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+      style: ElevatedButton.styleFrom(
+        textStyle: theme.textTheme.bodyMedium,
+        minimumSize: const Size(200, 50),
+      ),
       onPressed: onPressed,
-      child: Text(text, style: const TextStyle(fontSize: 24)),
+      child: Text(text, style: Theme.of(context).textTheme.headlineMedium),
     );
   }
 }

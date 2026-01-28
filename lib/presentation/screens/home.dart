@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:thousand_counter/presentation/screens/game.dart';
+import 'package:thousand_counter/presentation/screens/game_settings.dart';
+import 'package:thousand_counter/presentation/screens/players.dart';
+import 'package:thousand_counter/presentation/screens/settings.dart';
 import 'package:thousand_counter/presentation/widgets/buttons/menu_button.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -11,10 +13,18 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Thousand Counter"),
-        // backgroundColor: const Color.fromARGB(255, 74, 179, 18),
+        leading: IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingsScreen()),
+            );
+          },
+        ),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(120.0),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -23,14 +33,26 @@ class HomeScreen extends ConsumerWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const GameScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const GameSettingsScreen(),
+                  ),
                 );
               },
             ),
             SizedBox(height: 40),
-            MenuButton(text: "History of games", onPressed: () {}),
+            MenuButton(text: "Recent games", onPressed: () {}),
             SizedBox(height: 40),
-            MenuButton(text: "Players", onPressed: () {}),
+            MenuButton(
+              text: "Players",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PlayersScreen(),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
