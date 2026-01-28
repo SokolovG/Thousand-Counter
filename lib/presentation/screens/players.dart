@@ -19,6 +19,7 @@ class PlayersScreen extends ConsumerWidget {
             onPressed: () {},
             icon: Icon(Icons.add_circle_outline_sharp),
           ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.edit_outlined)),
         ],
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
