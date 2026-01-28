@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/models/player_profile.dart';
+import 'package:thousand_counter/presentation/widgets/objects/player.dart';
 
 class PlayersScreen extends ConsumerWidget {
   const PlayersScreen({super.key});
@@ -13,12 +14,18 @@ class PlayersScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Players"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.add_circle_outline_sharp),
+          ),
+        ],
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: ListView.builder(
         itemCount: players.length,
         itemBuilder: (context, i) =>
-            ListTile(title: Text(players.elementAt(i).name)),
+            PlayerWidget(name: players.elementAt(i).name),
       ),
     );
   }

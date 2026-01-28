@@ -15,17 +15,20 @@ class GameSettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Game")),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            PlayerProfile sonyaProfile = PlayerProfile(name: "Sonya");
-            PlayerProfile grishaProfile = PlayerProfile(name: "Sonya");
-            PlayerGameState sonya = PlayerGameState(profile: sonyaProfile);
-            PlayerGameState grisha = PlayerGameState(profile: grishaProfile);
-            gameService.startGame([sonya, grisha]);
-          },
-          child: const Text("Start Game"),
-        ),
+      body: Column(
+        children: [
+          Text("Please choose players: "),
+          ElevatedButton(
+            onPressed: () {
+              PlayerProfile sonyaProfile = PlayerProfile(name: "Sonya");
+              PlayerProfile grishaProfile = PlayerProfile(name: "Sonya");
+              PlayerGameState sonya = PlayerGameState(profile: sonyaProfile);
+              PlayerGameState grisha = PlayerGameState(profile: grishaProfile);
+              gameService.startGame([sonya, grisha]);
+            },
+            child: const Text("Start Game"),
+          ),
+        ],
       ),
     );
   }
