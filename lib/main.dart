@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:thousand_counter/presentation/screens/home.dart';
+import 'package:thousand_counter/router/app_router.dart';
 
 void main() {
   runApp(const ProviderScope(child: ThousandCounterApp()));
@@ -11,7 +11,8 @@ class ThousandCounterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       title: 'Thousand Counter',
       theme: ThemeData(
         primarySwatch: Colors.pink,
@@ -34,7 +35,6 @@ class ThousandCounterApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomeScreen(),
     );
   }
 }

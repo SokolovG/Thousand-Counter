@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:thousand_counter/presentation/screens/game_settings.dart';
-import 'package:thousand_counter/presentation/screens/players.dart';
-import 'package:thousand_counter/presentation/screens/settings.dart';
+import 'package:go_router/go_router.dart';
+import 'package:thousand_counter/models/menu_item.dart';
 import 'package:thousand_counter/presentation/widgets/buttons/menu_button.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
+
+  static const _menuItems = [
+    MenuItem(
+      title: 'Create new game',
+      icon: Icons.add_circle,
+      route: "/game_settings",
+    ),
+    MenuItem(
+      title: 'Recent games',
+      icon: Icons.add_circle,
+      route: "/recent_games",
+    ),
+    MenuItem(title: 'Players', icon: Icons.add_circle, route: "/players"),
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,12 +29,7 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              );
-            },
+            onPressed: () => context.push("/settings"),
           ),
         ],
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -29,45 +37,18 @@ class HomeScreen extends ConsumerWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MenuButton(
-              text: "Create new game",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const GameSettingsScreen(),
+          children: _menuItems
+              .map(
+                (item) => Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: MenuButton(
+                    text: item.title,
+                    icon: item.icon,
+                    onPressed: () => context.push(item.route),
                   ),
-                );
-              },
-            ),
-            SizedBox(height: 40),
-            MenuButton(
-              text: "Continue recent games",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const GameSettingsScreen(),
-                  ),
-                );
-              },
-            ),
-            SizedBox(height: 40),
-            MenuButton(text: "Recent games", onPressed: () {}),
-            SizedBox(height: 40),
-            MenuButton(
-              text: "Players",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PlayersScreen(),
-                  ),
-                );
-              },
-            ),
-          ],
+                ),
+              )
+              .toList(),
         ),
       ),
     );

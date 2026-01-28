@@ -21,7 +21,7 @@ class GameSettingsScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {
               PlayerProfile sonyaProfile = PlayerProfile(name: "Sonya");
-              PlayerProfile grishaProfile = PlayerProfile(name: "Sonya");
+              PlayerProfile grishaProfile = PlayerProfile(name: "Grischa");
               PlayerGameState sonya = PlayerGameState(profile: sonyaProfile);
               PlayerGameState grisha = PlayerGameState(profile: grishaProfile);
               gameService.startGame([sonya, grisha]);
