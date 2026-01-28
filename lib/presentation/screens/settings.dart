@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/models/settings_item.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -8,10 +9,9 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool notifications = ref.watch(notificationsProvider);
-    bool singeMode = ref.watch(singleModeProvider);
+    bool singleMode = ref.watch(singleModeProvider);
     bool sounds = ref.watch(soundsModeProvider);
     String language = "English";
-    final version = "1.0.0";
 
     return Scaffold(
       appBar: AppBar(
@@ -19,85 +19,129 @@ class SettingsScreen extends ConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: ListView(
-        children: [
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text("Thema"),
-            subtitle: Text("Default"),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text("Notifications"),
-            trailing: Switch(
-              value: notifications,
-              onChanged: (val) {
-                ref.read(notificationsProvider.notifier).state = val;
-              },
-            ),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.people_alt),
-            title: Text("Single mode"),
-            trailing: Switch(
-              value: singeMode,
-              onChanged: (val) {
-                ref.read(singleModeProvider.notifier).state = val;
-              },
-            ),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.volume_up),
-            title: Text("Sounds"),
-            trailing: Switch(
-              value: sounds,
-              onChanged: (val) {
-                ref.read(soundsModeProvider.notifier).state = val;
-              },
-            ),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.help_outline),
-            title: Text("Game rules"),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.language),
-            title: Text("Language"),
-            subtitle: Text(language),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.info_outline),
-            title: Text("About"),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.share),
-            title: Text("Share app"),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text("Version"),
-            subtitle: Text(version),
-          ),
-          Divider(),
-        ],
+        children: _buildSettingsItems(
+          ref,
+          notifications,
+          singleMode,
+          sounds,
+          language,
+        ).map((item) => _buildItem(item)).toList(),
       ),
     );
+  }
+}
+
+List<SettingsItem> _buildSettingsItems(
+  WidgetRef ref,
+  bool notifications,
+  bool singleMode,
+  bool sounds,
+  String language,
+) {
+  const version = "1.0.0";
+
+  return [
+    SettingsItem(
+      icon: Icons.palette,
+      title: 'Theme',
+      subtitle: 'Default',
+      type: SettingsItemType.navigation,
+      onTap: () {},
+    ),
+    SettingsItem(
+      icon: Icons.notifications,
+      title: "Notifications",
+      type: SettingsItemType.toggle,
+      switchValue: notifications,
+      onSwitchChanged: (val) =>
+          ref.read(notificationsProvider.notifier).state = val,
+    ),
+    SettingsItem(
+      icon: Icons.people_alt,
+      title: "Single mode",
+      type: SettingsItemType.toggle,
+      switchValue: singleMode,
+      onSwitchChanged: (val) =>
+          ref.read(singleModeProvider.notifier).state = val,
+    ),
+    SettingsItem(
+      icon: Icons.volume_up,
+      title: "Sounds",
+      type: SettingsItemType.toggle,
+      switchValue: sounds,
+      onSwitchChanged: (val) =>
+          ref.read(soundsModeProvider.notifier).state = val,
+    ),
+    SettingsItem(
+      icon: Icons.help_outline,
+      title: 'Game rules',
+      type: SettingsItemType.navigation,
+      onTap: () {},
+    ),
+    SettingsItem(
+      icon: Icons.language,
+      title: 'Language',
+      subtitle: language,
+      type: SettingsItemType.navigation,
+      onTap: () {},
+    ),
+    SettingsItem(
+      icon: Icons.share,
+      title: 'Share app',
+      type: SettingsItemType.navigation,
+      onTap: () {},
+    ),
+    SettingsItem(
+      icon: Icons.app_settings_alt,
+      title: 'Version',
+      subtitle: version,
+      type: SettingsItemType.info,
+    ),
+  ];
+}
+
+Widget _buildItem(SettingsItem item) {
+  switch (item.type) {
+    case SettingsItemType.navigation:
+      return Column(
+        children: [
+          ListTile(
+            leading: Icon(item.icon),
+            title: Text(item.title),
+            subtitle: item.subtitle != null ? Text(item.subtitle!) : null,
+            trailing: const Icon(Icons.chevron_right),
+            onTap: item.onTap,
+          ),
+          const Divider(),
+        ],
+      );
+
+    case SettingsItemType.toggle:
+      return Column(
+        children: [
+          ListTile(
+            leading: Icon(item.icon),
+            title: Text(item.title),
+            trailing: Switch(
+              value: item.switchValue ?? false,
+              onChanged: item.onSwitchChanged,
+            ),
+          ),
+          const Divider(),
+        ],
+      );
+
+    case SettingsItemType.info:
+      return Column(
+        children: [
+          ListTile(
+            leading: Icon(item.icon),
+            title: Text(item.title),
+            subtitle: item.subtitle != null ? Text(item.subtitle!) : null,
+            onTap: item.onTap,
+          ),
+          const Divider(),
+        ],
+      );
   }
 }
