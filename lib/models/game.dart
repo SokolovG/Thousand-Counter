@@ -1,11 +1,11 @@
-import 'player_game_state.dart';
+import 'player.dart';
 import 'package:recase/recase.dart';
 
 import 'round.dart';
 import 'package:uuid/uuid.dart';
 
 class Game {
-  List<PlayerGameState> playerStates;
+  List<Player> playerStates;
   final List<Round> rounds;
   final DateTime createdAt;
   final String id;

@@ -2,10 +2,10 @@ import '../core/constants.dart';
 import '../core/logger.dart';
 import '../core/utils/validators.dart';
 import '../models/game.dart';
-import '../models/player_game_state.dart';
+import '../models/player.dart';
 import '../models/round.dart';
-import 'rules_service.dart';
-import 'score_service.dart';
+import 'rules.dart';
+import 'score.dart';
 
 class GameService {
   final RulesService _rulesService;
@@ -38,7 +38,7 @@ class GameService {
     game.currentRound++;
   }
 
-  void addPlayer(Game game, PlayerGameState player) {
+  void addPlayer(Game game, Player player) {
     if (game.playerStates.length >= maxPlayers) {
       throw Exception("Max $maxPlayers players");
     }
@@ -46,7 +46,7 @@ class GameService {
     AppLogger.info("Player added");
   }
 
-  Game startGame(List<PlayerGameState> players) {
+  Game startGame(List<Player> players) {
     GameValidators.validatePlayerCount(players.length);
     GameValidators.validatePlayerName(
       players.map((p) => p.profile.name).toString(),
@@ -56,7 +56,7 @@ class GameService {
     return game;
   }
 
-  PlayerGameState? getWinner(Game game) {
+  Player? getWinner(Game game) {
     final qualifiedPlayers = game.playerStates
         .where((p) => p.totalPoints >= 1000)
         .toList();

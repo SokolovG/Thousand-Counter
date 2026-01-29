@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/models/player_profile.dart';
+import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
 
 class PlayersScreen extends ConsumerWidget {
   const PlayersScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    PlayerProfile sonyaProfile = PlayerProfile(name: "Sonya");
-    PlayerProfile grishaProfile = PlayerProfile(name: "Grischa");
-    final List<PlayerProfile> players = [sonyaProfile, grishaProfile];
+  Future<Widget> build(BuildContext context, WidgetRef ref) async {
+    final playerService = ref.read(playerServiceProvider);
+
+    List<PlayerProfile> players = await playerService.getAllProfiles();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Players"),

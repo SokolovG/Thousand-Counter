@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/core/logger.dart';
-import 'package:thousand_counter/models/player_game_state.dart';
-import 'package:thousand_counter/models/player_profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 
 class GameSettingsScreen extends ConsumerWidget {
@@ -20,11 +18,11 @@ class GameSettingsScreen extends ConsumerWidget {
           Text("Please choose players: "),
           ElevatedButton(
             onPressed: () {
-              PlayerProfile sonyaProfile = PlayerProfile(name: "Sonya");
-              PlayerProfile grishaProfile = PlayerProfile(name: "Grischa");
-              PlayerGameState sonya = PlayerGameState(profile: sonyaProfile);
-              PlayerGameState grisha = PlayerGameState(profile: grishaProfile);
-              gameService.startGame([sonya, grisha]);
+              // List<PlayerProfile> players = playerService.getAllProfiles()
+              // List<PlayerProfile> playersProfiles = [];
+              // Player sonya = Player(profile: sonyaProfile);
+              // Player grisha = Player(profile: grishaProfile);
+              // gameService.startGame([sonya, grisha]);
             },
             child: const Text("Start Game"),
           ),
