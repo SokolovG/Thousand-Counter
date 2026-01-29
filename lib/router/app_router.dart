@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
-import 'package:thousand_counter/presentation/screens/game.dart';
-import 'package:thousand_counter/presentation/screens/game_settings.dart';
-import 'package:thousand_counter/presentation/screens/home.dart';
-import 'package:thousand_counter/presentation/screens/players.dart';
-import 'package:thousand_counter/presentation/screens/settings.dart';
+import 'package:thousand_counter/ui/screens/game.dart';
+import 'package:thousand_counter/ui/screens/game_settings.dart';
+import 'package:thousand_counter/ui/screens/home.dart';
+import 'package:thousand_counter/ui/screens/players.dart';
+import 'package:thousand_counter/ui/screens/settings.dart';
 
 final appRouter = GoRouter(
   routes: [

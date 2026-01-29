@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/models/player_profile.dart';
-import 'package:thousand_counter/presentation/widgets/objects/player.dart';
+import 'package:thousand_counter/ui/widgets/objects/player.dart';
 
 class PlayersScreen extends ConsumerWidget {
   const PlayersScreen({super.key});
