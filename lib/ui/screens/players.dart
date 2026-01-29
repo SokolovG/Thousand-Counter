@@ -8,10 +8,9 @@ class PlayersScreen extends ConsumerWidget {
   const PlayersScreen({super.key});
 
   @override
-  Future<Widget> build(BuildContext context, WidgetRef ref) async {
-    final playerService = ref.read(playerServiceProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final playersAsync = ref.watch(playersListProvider);
 
-    List<PlayerProfile> players = await playerService.getAllProfiles();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Players"),
@@ -24,10 +23,13 @@ class PlayersScreen extends ConsumerWidget {
         ],
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: ListView.builder(
-        itemCount: players.length,
-        itemBuilder: (context, i) =>
-            PlayerWidget(name: players.elementAt(i).name),
+      body: playersAsync.when(
+        data: (players) => ListView.builder(
+          itemCount: players.length,
+          itemBuilder: (context, i) => PlayerWidget(name: players[i].name),
+        ),
+        loading: () => Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );
   }

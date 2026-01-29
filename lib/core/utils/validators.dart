@@ -8,7 +8,7 @@ class GameValidators {
     }
   }
 
-  static void validatePlayerName(String name) {
+  static void validateProfileName(String name) {
     if (name.isEmpty) {
       throw ArgumentError("Player name cannot be empty");
     }

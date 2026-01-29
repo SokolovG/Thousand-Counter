@@ -5,13 +5,13 @@ import 'round.dart';
 import 'package:uuid/uuid.dart';
 
 class Game {
-  List<Player> playerStates;
+  List<Player> players;
   final List<Round> rounds;
   final DateTime createdAt;
   final String id;
   int currentRound;
 
-  Game({required this.playerStates})
+  Game({required this.players})
     : rounds = [],
       id = Uuid().v4(),
       currentRound = 0,
@@ -19,7 +19,7 @@ class Game {
 
   @override
   String toString() {
-    final playerNames = playerStates
+    final playerNames = players
         .map((p) => p.profile.name.sentenceCase)
         .join(', ');
     return "Game with players $playerNames";

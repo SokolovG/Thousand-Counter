@@ -1,10 +1,10 @@
 import 'package:uuid/uuid.dart';
 
-class PlayerProfile {
+class Profile {
   final String id;
   final String name;
 
-  PlayerProfile({required this.name, String? id}) : id = id ?? Uuid().v4();
+  Profile({required this.name, String? id}) : id = id ?? Uuid().v4();
 
   @override
   String toString() {

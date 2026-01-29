@@ -1,7 +1,7 @@
 import 'player_profile.dart';
 
 class Player {
-  final PlayerProfile profile;
+  final Profile profile;
   int totalPoints;
   int boltsCount;
 
