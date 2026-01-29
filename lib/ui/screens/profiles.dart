@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:thousand_counter/models/player_profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
 
@@ -9,21 +8,24 @@ class PlayersScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playersAsync = ref.watch(playersListProvider);
+    final profilesAsync = ref.watch(profilesListProvider);
+    final profileService = ref.read(profileServiceProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Players"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              await profileService.addProfile("New Profile");
+            },
             icon: Icon(Icons.add_circle_outline_sharp),
           ),
           IconButton(onPressed: () {}, icon: Icon(Icons.edit_outlined)),
         ],
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: playersAsync.when(
+      body: profilesAsync.when(
         data: (players) => ListView.builder(
           itemCount: players.length,
           itemBuilder: (context, i) => PlayerWidget(name: players[i].name),

@@ -1,4 +1,4 @@
-import 'player_profile.dart';
+import 'profile.dart';
 
 class Player {
   final Profile profile;

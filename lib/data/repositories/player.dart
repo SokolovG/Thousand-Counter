@@ -1,10 +1,10 @@
 import 'package:thousand_counter/data/repositories/abstract_repositories.dart';
-import 'package:thousand_counter/models/player_profile.dart';
+import 'package:thousand_counter/models/profile.dart';
 
-class PlayerProfileRepository implements AbstractProfileRepository {
+class ProfileRepository implements AbstractProfileRepository {
   final List<Profile> _playersProfiles = [];
 
-  PlayerProfileRepository() {
+  ProfileRepository() {
     _playersProfiles.addAll([
       Profile(id: '1', name: 'Sonya'),
       Profile(id: '2', name: 'Grisha'),
@@ -17,18 +17,18 @@ class PlayerProfileRepository implements AbstractProfileRepository {
   }
 
   @override
-  Future addPlayer(Profile player) async {
+  Future addProfile(Profile player) async {
     _playersProfiles.add(player);
     return _playersProfiles;
   }
 
   @override
-  Future<void> deletePlayer(String id) async {
+  Future<void> deleteProfile(String id) async {
     _playersProfiles.removeWhere((player) => player.id == id);
   }
 
   @override
-  Future<Profile?> getPlayer(String id) async {
+  Future<Profile?> getProfile(String id) async {
     try {
       return _playersProfiles.firstWhere((player) => player.id == id);
     } catch (e) {

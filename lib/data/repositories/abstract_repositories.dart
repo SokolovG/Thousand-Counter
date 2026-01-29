@@ -1,8 +1,8 @@
-import 'package:thousand_counter/models/player_profile.dart';
+import 'package:thousand_counter/models/profile.dart';
 
 abstract class AbstractProfileRepository {
   Future<List<Profile>> getAllProfiles();
-  Future<void> addPlayer(Profile player);
-  Future<void> deletePlayer(String id);
-  Future<Profile?> getPlayer(String id);
+  Future<void> addProfile(Profile player);
+  Future<void> deleteProfile(String id);
+  Future<Profile?> getProfile(String id);
 }

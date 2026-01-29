@@ -1,3 +1,5 @@
+import 'package:thousand_counter/models/profile.dart';
+
 import '../core/constants.dart';
 import '../core/logger.dart';
 import '../core/utils/validators.dart';
@@ -18,9 +20,7 @@ class GameService {
     game.rounds.add(round);
 
     points.forEach((playerId, basePoints) {
-      final player = game.playerStates.firstWhere(
-        (p) => p.profile.id == playerId,
-      );
+      final player = game.players.firstWhere((p) => p.profile.id == playerId);
       final isBolt = _rulesService.isBolt(basePoints);
       final isMagic = _rulesService.isMagicNumber(basePoints);
 
@@ -39,25 +39,25 @@ class GameService {
   }
 
   void addPlayer(Game game, Player player) {
-    if (game.playerStates.length >= maxPlayers) {
+    if (game.players.length >= maxPlayers) {
       throw Exception("Max $maxPlayers players");
     }
-    game.playerStates.add(player);
+    game.players.add(player);
     AppLogger.info("Player added");
   }
 
-  Game startGame(List<Player> players) {
-    GameValidators.validatePlayerCount(players.length);
-    GameValidators.validatePlayerName(
-      players.map((p) => p.profile.name).toString(),
-    );
-    final game = Game(playerStates: players);
+  Game startGame(List<Profile> profiles) {
+    GameValidators.validatePlayerCount(profiles.length);
+    final players = profiles
+        .map((profile) => Player(profile: profile))
+        .toList();
+    final game = Game(players: players);
     AppLogger.info("Game created: $game");
     return game;
   }
 
   Player? getWinner(Game game) {
-    final qualifiedPlayers = game.playerStates
+    final qualifiedPlayers = game.players
         .where((p) => p.totalPoints >= 1000)
         .toList();
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/core/logger.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 
@@ -8,25 +9,30 @@ class GameSettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profilesAsync = ref.watch(profilesListProvider);
     final gameService = ref.read(gameServiceProvider);
-    AppLogger.info(gameService);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Game")),
-      body: Column(
-        children: [
-          Text("Please choose players: "),
-          ElevatedButton(
-            onPressed: () {
-              // List<PlayerProfile> players = playerService.getAllProfiles()
-              // List<PlayerProfile> playersProfiles = [];
-              // Player sonya = Player(profile: sonyaProfile);
-              // Player grisha = Player(profile: grishaProfile);
-              // gameService.startGame([sonya, grisha]);
-            },
-            child: const Text("Start Game"),
-          ),
-        ],
+      body: profilesAsync.when(
+        data: (profiles) => Column(
+          children: [
+            Text("Choose players:"),
+
+            ElevatedButton(
+              onPressed: () {
+                final selectedProfiles = [profiles[0], profiles[1]];
+                final game = gameService.startGame(selectedProfiles);
+                AppLogger.info(game);
+
+                context.push('/game');
+              },
+              child: const Text("Start Game"),
+            ),
+          ],
+        ),
+        loading: () => CircularProgressIndicator(),
+        error: (err, _) => Text('Error: $err'),
       ),
     );
   }
