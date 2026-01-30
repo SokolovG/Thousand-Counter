@@ -13,7 +13,7 @@ class ProfileService {
   }
 
   Future<void> addProfile(String name) async {
-    GameValidators.validateProfileName(name);
+    ProfileValidators.validateProfileName(name);
 
     final playerProfile = Profile(name: name);
     await _repository.addProfile(playerProfile);

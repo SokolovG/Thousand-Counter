@@ -8,6 +8,9 @@ class ProfileRepository implements AbstractProfileRepository {
     _playersProfiles.addAll([
       Profile(id: '1', name: 'Sonya'),
       Profile(id: '2', name: 'Grisha'),
+      Profile(id: '3', name: 'Mischa'),
+      Profile(id: '4', name: 'Nastya'),
+      Profile(id: '5', name: 'Marina'),
     ]);
   }
 

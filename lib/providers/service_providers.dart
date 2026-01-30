@@ -5,6 +5,7 @@ import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/services/profile.dart';
 import 'package:thousand_counter/services/rules.dart';
 import 'package:thousand_counter/services/score.dart';
+import 'package:thousand_counter/ui/screens/game_settings.dart';
 
 final rulesServiceProvider = Provider((ref) => RulesService());
 final scoreServiceProvider = Provider((ref) => ScoreService());
@@ -19,7 +20,9 @@ final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
   final playerService = ref.read(profileServiceProvider);
   return playerService.getAllProfiles();
 });
-
+final gameSetupProvider = StateNotifierProvider<GameSetupNotifier, Set<String>>(
+  (ref) => GameSetupNotifier(),
+);
 final gameServiceProvider = Provider((ref) {
   final rulesService = ref.read(rulesServiceProvider);
   final scoreService = ref.read(scoreServiceProvider);

@@ -8,12 +8,21 @@ class GameValidators {
     }
   }
 
+  static bool canAddMorePlayers(int count) => count < 4;
+  static bool canStartGame(int count) => count >= 2 && count <= 4;
+}
+
+class ProfileValidators {
   static void validateProfileName(String name) {
     if (name.isEmpty) {
       throw ArgumentError("Player name cannot be empty");
     }
     if (name.length > 30) {
       throw ArgumentError("Player name too long");
+    }
+
+    if (name.contains(RegExp(r"^[`~!@#$%^&*()-_=]"))) {
+      throw ArgumentError("Player name cant contain special symbols");
     }
   }
 }

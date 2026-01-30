@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/core/logger.dart';
+import 'package:thousand_counter/core/utils/validators.dart';
+import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
+import 'package:thousand_counter/services/game.dart';
 
-class GameSettingsScreen extends ConsumerStatefulWidget {
+class GameSettingsScreen extends ConsumerWidget {
   const GameSettingsScreen({super.key});
-
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    return _GameSettingsScreenState();
-  }
-}
-
-class _GameSettingsScreenState extends ConsumerState<GameSettingsScreen> {
-  final Set<String> _selectedProfileIds = {};
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIds = ref.watch(gameSetupProvider);
+    final notifier = ref.read(gameSetupProvider.notifier);
     final profilesAsync = ref.watch(profilesListProvider);
     final gameService = ref.read(gameServiceProvider);
 
@@ -30,12 +25,29 @@ class _GameSettingsScreenState extends ConsumerState<GameSettingsScreen> {
         data: (profiles) {
           return Column(
             children: [
-              Expanded(child: ListView()),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "Start Game (${_selectedProfileIds.length} players)",
+              Expanded(
+                child: ListView.builder(
+                  itemCount: profiles.length,
+                  itemBuilder: (context, index) {
+                    final profile = profiles[index];
+                    return CheckboxListTile(
+                      title: Text(profile.name),
+                      value: selectedIds.contains(profile.id),
+                      onChanged: (checked) {
+                        notifier.togglePlayer(profile.id);
+                      },
+                    );
+                  },
                 ),
+              ),
+              ElevatedButton(
+                onPressed: GameValidators.canStartGame(selectedIds.length)
+                    ? () {
+                        _startGame(profiles, gameService, selectedIds);
+                        context.push("/game");
+                      }
+                    : null,
+                child: Text("Start Game (${selectedIds.length} players)"),
               ),
             ],
           );
@@ -58,5 +70,35 @@ class _GameSettingsScreenState extends ConsumerState<GameSettingsScreen> {
         },
       ),
     );
+  }
+
+  void _startGame(
+    List<Profile> allProfiles,
+    GameService gameService,
+    Set<String> selectedIds,
+  ) {
+    final selectedProfiles = allProfiles
+        .where((p) => selectedIds.contains(p.id))
+        .toList();
+    final game = gameService.startGame(selectedProfiles);
+    AppLogger.info("Game started: $game");
+  }
+}
+
+class GameSetupNotifier extends StateNotifier<Set<String>> {
+  GameSetupNotifier() : super({});
+
+  void togglePlayer(String id) {
+    if (state.contains(id)) {
+      state = {...state}..remove(id);
+    } else {
+      if (GameValidators.canAddMorePlayers(state.length)) {
+        state = {...state, id};
+      }
+    }
+  }
+
+  bool canStartGame() {
+    return GameValidators.canStartGame(state.length);
   }
 }
