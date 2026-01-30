@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:thousand_counter/data/repositories/player.dart';
+import 'package:thousand_counter/data/repositories/profile.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/services/profile.dart';

@@ -1,5 +1,5 @@
 import 'package:thousand_counter/core/utils/validators.dart';
-import 'package:thousand_counter/data/repositories/player.dart';
+import 'package:thousand_counter/data/repositories/profile.dart';
 import 'package:thousand_counter/models/profile.dart';
 
 class ProfileService {
