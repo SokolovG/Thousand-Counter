@@ -18,7 +18,11 @@ class HomeScreen extends ConsumerWidget {
       icon: Icons.add_circle,
       route: "/recent_games",
     ),
-    MenuItem(title: 'Players', icon: Icons.add_circle, route: "/players"),
+    MenuItem(
+      title: 'Players',
+      icon: Icons.add_circle,
+      route: "/players_profiles",
+    ),
   ];
 
   @override

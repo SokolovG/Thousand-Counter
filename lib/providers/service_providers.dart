@@ -23,12 +23,16 @@ final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
   return playerService.getAllProfiles();
 });
 final currentGameProvider = StateProvider<Game?>((ref) => null);
-final gameSetupProvider = StateNotifierProvider<GameSetupNotifier, Set<String>>(
-  (ref) => GameSetupNotifier(),
-);
+
 final gameServiceProvider = Provider((ref) {
   final talker = ref.watch(talkerProvider);
   final rulesService = ref.read(rulesServiceProvider);
   final scoreService = ref.read(scoreServiceProvider);
   return GameService(rulesService, scoreService, talker);
 });
+
+// NOTIFIERS
+
+final gameSetupProvider = StateNotifierProvider<GameSetupNotifier, Set<String>>(
+  (ref) => GameSetupNotifier(),
+);

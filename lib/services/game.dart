@@ -10,6 +10,7 @@ import 'rules.dart';
 import 'score.dart';
 
 class GameService {
+  // ignore: unused_field
   final Talker _talker;
   final RulesService _rulesService;
   final ScoreService _scoreService;
