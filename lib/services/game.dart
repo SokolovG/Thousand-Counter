@@ -1,7 +1,7 @@
+import 'package:talker_flutter/talker_flutter.dart';
 import 'package:thousand_counter/models/profile.dart';
 
 import '../core/constants.dart';
-import '../core/logger.dart';
 import '../core/utils/validators.dart';
 import '../models/game.dart';
 import '../models/player.dart';
@@ -10,10 +10,11 @@ import 'rules.dart';
 import 'score.dart';
 
 class GameService {
+  final Talker _talker;
   final RulesService _rulesService;
   final ScoreService _scoreService;
 
-  GameService(this._rulesService, this._scoreService);
+  GameService(this._rulesService, this._scoreService, this._talker);
 
   void addRound(Game game, Map<String, int> points) {
     final round = Round(roundNumber: game.currentRound, playerScores: points);
@@ -43,16 +44,16 @@ class GameService {
       throw Exception("Max $maxPlayers players");
     }
     game.players.add(player);
-    AppLogger.info("Player added");
   }
 
   Game startGame(List<Profile> profiles) {
+    // _talker.debug("Starting game with ${profiles.length} profiles");
     GameValidators.validatePlayerCount(profiles.length);
     final players = profiles
         .map((profile) => Player(profile: profile))
         .toList();
     final game = Game(players: players);
-    AppLogger.info("Game created: $game");
+    // _talker.info("Game created successfully: $game");
     return game;
   }
 

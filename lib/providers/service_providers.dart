@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/data/repositories/profile.dart';
+import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
+import 'package:thousand_counter/providers/core_providers.dart';
 import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/services/profile.dart';
 import 'package:thousand_counter/services/rules.dart';
@@ -20,11 +22,13 @@ final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
   final playerService = ref.read(profileServiceProvider);
   return playerService.getAllProfiles();
 });
+final currentGameProvider = StateProvider<Game?>((ref) => null);
 final gameSetupProvider = StateNotifierProvider<GameSetupNotifier, Set<String>>(
   (ref) => GameSetupNotifier(),
 );
 final gameServiceProvider = Provider((ref) {
+  final talker = ref.watch(talkerProvider);
   final rulesService = ref.read(rulesServiceProvider);
   final scoreService = ref.read(scoreServiceProvider);
-  return GameService(rulesService, scoreService);
+  return GameService(rulesService, scoreService, talker);
 });

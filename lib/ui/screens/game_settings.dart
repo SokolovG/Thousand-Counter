@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thousand_counter/core/logger.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
+import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/services/game.dart';
@@ -43,7 +43,12 @@ class GameSettingsScreen extends ConsumerWidget {
               ElevatedButton(
                 onPressed: GameValidators.canStartGame(selectedIds.length)
                     ? () {
-                        _startGame(profiles, gameService, selectedIds);
+                        Game game = _startGame(
+                          profiles,
+                          gameService,
+                          selectedIds,
+                        );
+                        ref.read(currentGameProvider.notifier).state = game;
                         context.push("/game");
                       }
                     : null,
@@ -65,14 +70,14 @@ class GameSettingsScreen extends ConsumerWidget {
           );
         },
         error: (err, trace) {
-          AppLogger.error("Failed to load profiles", err, trace);
+          // _talker.error("Failed to load profiles", err, trace);
           return Text('Error: $err');
         },
       ),
     );
   }
 
-  void _startGame(
+  Game _startGame(
     List<Profile> allProfiles,
     GameService gameService,
     Set<String> selectedIds,
@@ -81,7 +86,8 @@ class GameSettingsScreen extends ConsumerWidget {
         .where((p) => selectedIds.contains(p.id))
         .toList();
     final game = gameService.startGame(selectedProfiles);
-    AppLogger.info("Game started: $game");
+    // _talker.info("Game started: $game");
+    return game;
   }
 }
 
