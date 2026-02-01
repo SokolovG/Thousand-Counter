@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/models/player.dart';
+
+class PlayerWidget extends ConsumerWidget {
+  final Player player;
+
+  const PlayerWidget({super.key, required this.player});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    player.profile.name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: theme.textTheme.bodyLarge?.fontSize,
+                    ),
+                  ),
+                  Text(
+                    "Total: ${player.totalPoints}",
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: theme.textTheme.bodyMedium?.fontSize,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Text(
+                "B: ${player.boltsCount}",
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.bolt, color: Colors.grey),
+              onPressed: () {},
+            ),
+            SizedBox(
+              width: 60,
+              child: TextField(
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(hintText: "0"),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -19,8 +19,8 @@ final profileServiceProvider = Provider((ref) {
 });
 
 final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
-  final playerService = ref.read(profileServiceProvider);
-  return playerService.getAllProfiles();
+  final profileService = ref.read(profileServiceProvider);
+  return profileService.getAllProfiles();
 });
 final currentGameProvider = StateProvider<Game?>((ref) => null);
 
