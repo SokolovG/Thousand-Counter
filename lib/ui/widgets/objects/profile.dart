@@ -31,7 +31,7 @@ class ProfileWidget extends ConsumerWidget {
     final isEditMode = ref.watch(isEditModeProvider);
 
     return Slidable(
-      key: ValueKey(profile.id),
+      key: ValueKey(isEditMode),
       groupTag: "profiles_list",
       endActionPane: ActionPane(
         extentRatio: 0.25,
