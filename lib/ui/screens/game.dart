@@ -16,6 +16,7 @@ class GameScreen extends ConsumerWidget {
     if (game == null) {
       return const Scaffold(body: Center(child: Text("No active game")));
     }
+    final players = game.players;
 
     return Scaffold(
       appBar: AppBar(
@@ -27,29 +28,25 @@ class GameScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: game.players.length,
-                itemBuilder: (context, index) {
-                  return PlayerWidget(player: game.players[index]);
-                },
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: players.length,
+              itemBuilder: (context, index) {
+                final player = game.players[index];
+                return PlayerWidget(player: player);
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => _finishRound(ref),
-                  child: const Text("Confirm Round"),
-                ),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () => _finishRound(ref),
+              child: const Text("Confirm Round"),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

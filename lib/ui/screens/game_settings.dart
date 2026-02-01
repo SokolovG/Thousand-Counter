@@ -35,11 +35,14 @@ class GameSettingsScreen extends ConsumerWidget {
         data: (profiles) {
           return Column(
             children: [
-              ProfilesCheckBoxWidget(
-                profiles: profiles,
-                selectedIds: state.selectedIds,
-                onChanged: notifier.togglePlayer,
+              Expanded(
+                child: ProfilesCheckBoxWidget(
+                  profiles: profiles,
+                  selectedIds: state.selectedIds,
+                  onChanged: notifier.togglePlayer,
+                ),
               ),
+
               if (state.errorMessage != null)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
