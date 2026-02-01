@@ -6,10 +6,7 @@ import 'package:thousand_counter/ui/widgets/objects/profle_checkbox.dart';
 
 void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
   final allProfilesAsync = ref.read(profilesListProvider);
-  final game = ref.read(currentGameProvider);
   final gameService = ref.read(gameServiceProvider);
-
-  if (game == null) return;
 
   showDialog(
     context: context,
@@ -31,20 +28,26 @@ void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
                       .map((p) => p.profile.id)
                       .toSet(),
                   onChanged: (id) {
-                    final currentProfiles = game.players
+                    final currentProfiles = activeGame.players
                         .map((p) => p.profile)
                         .toList();
+
                     List<Profile> updatedProfiles;
                     if (currentProfiles.any((p) => p.id == id)) {
+                      if (currentProfiles.length <= 2) {
+                        return; // TODO: Show alert
+                      }
                       updatedProfiles = currentProfiles
                           .where((p) => p.id != id)
                           .toList();
                     } else {
+                      if (currentProfiles.length >= 4) return;
+
                       final newProfile = profiles.firstWhere((p) => p.id == id);
                       updatedProfiles = [...currentProfiles, newProfile];
                     }
                     final updatedGame = gameService.updatePlayers(
-                      game,
+                      activeGame,
                       updatedProfiles,
                     );
                     ref.read(currentGameProvider.notifier).state = updatedGame;

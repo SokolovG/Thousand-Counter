@@ -41,7 +41,10 @@ class GameService {
   }
 
   Game updatePlayers(Game currentGame, List<Profile> newProfiles) {
-    if (!GameValidators.canAddMorePlayers(newProfiles.length)) {
+    // if (!GameValidators.canAddMorePlayers(newProfiles.length)) {
+    //   return currentGame;
+    // }
+    if (newProfiles.length > 4) {
       return currentGame;
     }
 
