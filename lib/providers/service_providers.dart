@@ -23,7 +23,7 @@ final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
   return profileService.getAllProfiles();
 });
 final currentGameProvider = StateProvider<Game?>((ref) => null);
-
+final roundScoresProvider = StateProvider<Map<String, int>>((ref) => {});
 final gameServiceProvider = Provider((ref) {
   final talker = ref.watch(talkerProvider);
   final rulesService = ref.read(rulesServiceProvider);

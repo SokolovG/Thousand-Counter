@@ -3,13 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/objects/profile.dart';
-import 'package:thousand_counter/ui/widgets/objects/player_dialogs.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/profile_edit.dart';
 
 class ProfilesScreen extends ConsumerWidget {
   const ProfilesScreen({super.key});
 
   void _showAddDialog(BuildContext context, WidgetRef ref) async {
-    final name = await showPlayerEditDialog(context);
+    final name = await showProfileEditDialog(context);
     if (name != null && name.isNotEmpty) {
       await ref.read(profileServiceProvider).addProfile(name);
       ref.invalidate(profilesListProvider);

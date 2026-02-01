@@ -40,6 +40,22 @@ class GameService {
     game.currentRound++;
   }
 
+  Game updatePlayers(Game currentGame, List<Profile> newProfiles) {
+    if (!GameValidators.canAddMorePlayers(newProfiles.length)) {
+      return currentGame;
+    }
+
+    final List<Player> updatedPlayers = newProfiles.map((profile) {
+      final existingPlayer = currentGame.players.firstWhere(
+        (p) => p.profile.id == profile.id,
+        orElse: () => Player(profile: profile),
+      );
+      return existingPlayer;
+    }).toList();
+
+    return currentGame.copyWith(players: updatedPlayers);
+  }
+
   void addPlayer(Game game, Player player) {
     if (game.players.length >= maxPlayers) {
       throw Exception("Max $maxPlayers players");

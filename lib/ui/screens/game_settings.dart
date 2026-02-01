@@ -6,6 +6,7 @@ import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/services/game.dart';
+import 'package:thousand_counter/ui/widgets/objects/profle_checkbox.dart';
 
 class GameSettingsScreen extends ConsumerWidget {
   const GameSettingsScreen({super.key});
@@ -34,20 +35,10 @@ class GameSettingsScreen extends ConsumerWidget {
         data: (profiles) {
           return Column(
             children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: profiles.length,
-                  itemBuilder: (context, index) {
-                    final profile = profiles[index];
-                    return CheckboxListTile(
-                      title: Text(profile.name),
-                      value: state.selectedIds.contains(profile.id),
-                      onChanged: (checked) {
-                        notifier.togglePlayer(profile.id);
-                      },
-                    );
-                  },
-                ),
+              ProfilesCheckBoxWidget(
+                profiles: profiles,
+                selectedIds: state.selectedIds,
+                onChanged: notifier.togglePlayer,
               ),
               if (state.errorMessage != null)
                 Padding(
