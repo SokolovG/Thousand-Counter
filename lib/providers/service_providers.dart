@@ -31,6 +31,7 @@ final gameServiceProvider = Provider((ref) {
   return GameService(rulesService, scoreService, talker);
 });
 
+final isEditModeProvider = StateProvider<bool>((ref) => false);
 // NOTIFIERS
 
 final gameSetupProvider =
