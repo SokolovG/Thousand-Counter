@@ -11,7 +11,7 @@ class GameSettingsScreen extends ConsumerWidget {
   const GameSettingsScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedIds = ref.watch(gameSetupProvider);
+    final state = ref.watch(gameSetupProvider);
     final notifier = ref.read(gameSetupProvider.notifier);
     final profilesAsync = ref.watch(profilesListProvider);
     final gameService = ref.read(gameServiceProvider);
@@ -20,6 +20,14 @@ class GameSettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text("Game settings"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            onPressed: () {
+              notifier.clearAll();
+            },
+            icon: Icon(Icons.clear_rounded),
+          ),
+        ],
       ),
       body: profilesAsync.when(
         data: (profiles) {
@@ -32,7 +40,7 @@ class GameSettingsScreen extends ConsumerWidget {
                     final profile = profiles[index];
                     return CheckboxListTile(
                       title: Text(profile.name),
-                      value: selectedIds.contains(profile.id),
+                      value: state.selectedIds.contains(profile.id),
                       onChanged: (checked) {
                         notifier.togglePlayer(profile.id);
                       },
@@ -40,19 +48,30 @@ class GameSettingsScreen extends ConsumerWidget {
                   },
                 ),
               ),
+              if (state.errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    state.errorMessage!,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ElevatedButton(
-                onPressed: GameValidators.canStartGame(selectedIds.length)
+                onPressed: state.isValid
                     ? () {
                         Game game = _startGame(
                           profiles,
                           gameService,
-                          selectedIds,
+                          state.selectedIds,
                         );
                         ref.read(currentGameProvider.notifier).state = game;
                         context.push("/game");
                       }
                     : null,
-                child: Text("Start Game (${selectedIds.length} players)"),
+                child: Text("Start Game (${state.selectedIds.length} players)"),
               ),
             ],
           );
@@ -91,20 +110,56 @@ class GameSettingsScreen extends ConsumerWidget {
   }
 }
 
-class GameSetupNotifier extends StateNotifier<Set<String>> {
-  GameSetupNotifier() : super({});
+class GameSetupState {
+  final Set<String> selectedIds;
+  final String? errorMessage;
+  bool isValid = false;
+
+  GameSetupState({
+    required this.selectedIds,
+    this.errorMessage,
+    required this.isValid,
+  });
+
+  GameSetupState copyWith({
+    Set<String>? selectedIds,
+    String? errorMessage,
+    bool? isValid,
+  }) {
+    return GameSetupState(
+      selectedIds: selectedIds ?? this.selectedIds,
+      errorMessage: errorMessage,
+      isValid: isValid ?? this.isValid,
+    );
+  }
+}
+
+class GameSetupNotifier extends StateNotifier<GameSetupState> {
+  GameSetupNotifier() : super(GameSetupState(selectedIds: {}, isValid: false));
 
   void togglePlayer(String id) {
-    if (state.contains(id)) {
-      state = {...state}..remove(id);
+    Set<String> newIds;
+    String? error;
+
+    if (state.selectedIds.contains(id)) {
+      newIds = {...state.selectedIds}..remove(id);
     } else {
-      if (GameValidators.canAddMorePlayers(state.length)) {
-        state = {...state, id};
+      if (GameValidators.canAddMorePlayers(state.selectedIds.length)) {
+        newIds = {...state.selectedIds, id};
+      } else {
+        newIds = state.selectedIds;
+        error = "Maximum 4 players!";
       }
     }
+
+    state = state.copyWith(
+      selectedIds: newIds,
+      errorMessage: error,
+      isValid: GameValidators.canStartGame(newIds.length),
+    );
   }
 
-  bool canStartGame() {
-    return GameValidators.canStartGame(state.length);
+  void clearAll() {
+    state = GameSetupState(selectedIds: {}, isValid: false);
   }
 }

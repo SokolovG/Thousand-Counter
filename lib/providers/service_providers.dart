@@ -33,6 +33,7 @@ final gameServiceProvider = Provider((ref) {
 
 // NOTIFIERS
 
-final gameSetupProvider = StateNotifierProvider<GameSetupNotifier, Set<String>>(
-  (ref) => GameSetupNotifier(),
-);
+final gameSetupProvider =
+    StateNotifierProvider<GameSetupNotifier, GameSetupState>(
+      (ref) => GameSetupNotifier(),
+    );
