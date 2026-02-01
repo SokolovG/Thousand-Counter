@@ -2,7 +2,7 @@ import 'package:uuid/uuid.dart';
 
 class Profile {
   final String id;
-  final String name;
+  String name;
 
   Profile({required this.name, String? id}) : id = id ?? Uuid().v4();
 

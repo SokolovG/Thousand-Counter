@@ -26,6 +26,14 @@ class ProfileRepository implements AbstractProfileRepository {
   }
 
   @override
+  Future updateProfile(String id, String newName) async {
+    Profile profile = _playersProfiles.firstWhere(
+      (profile) => profile.id == id,
+    );
+    profile.name = newName;
+  }
+
+  @override
   Future<void> deleteProfile(String id) async {
     _playersProfiles.removeWhere((player) => player.id == id);
   }

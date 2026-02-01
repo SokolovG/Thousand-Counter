@@ -19,6 +19,12 @@ class ProfileService {
     await _repository.addProfile(playerProfile);
   }
 
+  Future<void> updateProfile(String id, String name) async {
+    ProfileValidators.validateProfileName(name);
+
+    await _repository.updateProfile(id, name);
+  }
+
   Future<void> deleteProfile(String id) async {
     // Validate if it not finished games
     await _repository.deleteProfile(id);

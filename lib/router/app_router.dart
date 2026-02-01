@@ -10,7 +10,7 @@ final appRouter = GoRouter(
     GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
     GoRoute(
       path: '/players_profiles',
-      builder: (context, state) => const PlayersScreen(),
+      builder: (context, state) => const ProfilesScreen(),
     ),
     GoRoute(
       path: '/settings',

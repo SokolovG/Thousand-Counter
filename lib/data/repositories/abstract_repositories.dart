@@ -5,4 +5,5 @@ abstract class AbstractProfileRepository {
   Future<void> addProfile(Profile player);
   Future<void> deleteProfile(String id);
   Future<Profile?> getProfile(String id);
+  Future updateProfile(String id, String newName);
 }
