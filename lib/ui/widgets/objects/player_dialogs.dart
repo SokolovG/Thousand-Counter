@@ -25,7 +25,7 @@ Future<String?> showPlayerEditDialog(
             ),
             actions: [
               TextButton(
-                onPressed: () => Navigator.pop(context), // Вернет null
+                onPressed: () => Navigator.pop(context),
                 child: Text("Cancel"),
               ),
               TextButton(

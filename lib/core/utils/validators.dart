@@ -22,6 +22,7 @@ class ProfileValidators {
     }
 
     if (name.contains(RegExp(r'[^a-zA-Z ]'))) {
+      //TODO: add smart check - only check is special symbold in string
       throw ArgumentError("Player name cant contain special symbols");
     }
   }

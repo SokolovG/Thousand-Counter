@@ -21,12 +21,13 @@ class GameSettingsScreen extends ConsumerWidget {
         title: const Text("Game settings"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
-          IconButton(
-            onPressed: () {
-              notifier.clearAll();
-            },
-            icon: Icon(Icons.clear_rounded),
-          ),
+          if (state.selectedIds.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                notifier.clearAll();
+              },
+              icon: Icon(Icons.clear_rounded),
+            ),
         ],
       ),
       body: profilesAsync.when(

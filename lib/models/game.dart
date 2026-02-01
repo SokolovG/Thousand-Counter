@@ -10,6 +10,7 @@ class Game {
   final DateTime createdAt;
   final String id;
   int currentRound;
+  bool isFinished = false;
 
   Game({required this.players})
     : rounds = [],
