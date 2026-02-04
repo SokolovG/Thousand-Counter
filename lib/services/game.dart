@@ -17,6 +17,17 @@ class GameService {
 
   GameService(this._rulesService, this._scoreService, this._talker);
 
+  Game addBolt(String profileId, Game game) {
+    final updatedPlayers = game.players.map((player) {
+      if (player.profile.id == profileId) {
+        return player.copyWith(boltsCount: player.boltsCount + 1);
+      }
+      return player;
+    }).toList();
+
+    return game.copyWith(players: updatedPlayers);
+  }
+
   void addRound(Game game, Map<String, int> points) {
     final round = Round(roundNumber: game.currentRound, playerScores: points);
     game.rounds.add(round);

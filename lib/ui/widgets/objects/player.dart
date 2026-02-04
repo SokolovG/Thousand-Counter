@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/models/player.dart';
+import 'package:thousand_counter/providers/service_providers.dart';
 // import 'package:thousand_counter/providers/service_providers.dart';
 
 class PlayerWidget extends ConsumerWidget {
@@ -11,6 +12,7 @@ class PlayerWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final gameService = ref.read(gameServiceProvider);
     // final scores = ref.watch(roundScoresProvider);
     // final currentScore = scores[player.profile.id] ?? 0;
 
@@ -51,7 +53,15 @@ class PlayerWidget extends ConsumerWidget {
             ),
             IconButton(
               icon: Icon(Icons.bolt, color: Colors.grey),
-              onPressed: () {},
+              onPressed: () {
+                final currentGame = ref.read(currentGameProvider);
+                if (currentGame == null) return;
+                final updatedGame = gameService.addBolt(
+                  player.profile.id,
+                  currentGame,
+                );
+                ref.read(currentGameProvider.notifier).state = updatedGame;
+              },
             ),
             SizedBox(
               width: 60,
