@@ -4,11 +4,12 @@ import 'package:recase/recase.dart';
 import 'round.dart';
 
 class Game extends Entity {
-  List<Player> players;
+  final List<Player> players;
   final List<Round> rounds;
   final DateTime createdAt;
   final int currentRound;
   final bool isFinished;
+  final String name;
 
   Game({
     super.id,
@@ -17,8 +18,10 @@ class Game extends Entity {
     DateTime? createdAt,
     this.currentRound = 1,
     this.isFinished = false,
+    String? name,
   }) : rounds = rounds ?? [],
-       createdAt = createdAt ?? DateTime.now();
+       createdAt = createdAt ?? DateTime.now(),
+       name = name ?? "Game from ${DateTime.now().day}.${DateTime.now().month}";
 
   @override
   String toString() {
@@ -33,6 +36,7 @@ class Game extends Entity {
     List<Round>? rounds,
     int? currentRound,
     bool? isFinished,
+    String? name,
   }) {
     return Game(
       players: players ?? this.players,
@@ -41,6 +45,7 @@ class Game extends Entity {
       createdAt: createdAt,
       currentRound: currentRound ?? this.currentRound,
       isFinished: isFinished ?? this.isFinished,
+      name: name ?? this.name,
     );
   }
 }

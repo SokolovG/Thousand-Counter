@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
-// import 'package:thousand_counter/providers/service_providers.dart';
 
 class PlayerWidget extends ConsumerWidget {
   final Player player;
