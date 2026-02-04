@@ -9,4 +9,8 @@ class Profile extends Entity {
   String toString() {
     return "Player $name, ID: $id";
   }
+
+  Profile copyWith({required String name}) {
+    return Profile(name: name, id: id);
+  }
 }

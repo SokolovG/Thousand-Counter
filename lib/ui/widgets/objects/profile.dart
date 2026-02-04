@@ -21,7 +21,9 @@ class ProfileWidget extends ConsumerWidget {
       initialName: profile.name,
     );
     if (newName != null && newName != profile.name) {
-      await ref.read(profileServiceProvider).updateProfile(profile);
+      final updatedProfile = profile.copyWith(name: newName);
+      await ref.read(profileServiceProvider).updateProfile(updatedProfile);
+      ref.invalidate(profilesListProvider);
       Future.microtask(() => ref.invalidate(profilesListProvider));
     }
   }
@@ -50,20 +52,40 @@ class ProfileWidget extends ConsumerWidget {
 
       child: Builder(
         builder: (innerContext) {
-          return ListTile(
-            leading: isEditMode
-                ? IconButton(
-                    onPressed: () =>
-                        Slidable.of(innerContext)?.openEndActionPane(),
-                    icon: const Icon(Icons.remove_circle, color: Colors.red),
-                  )
-                : const Icon(Icons.person),
-            title: Text(profile.name),
-            onTap: isEditMode
-                ? () => Slidable.of(innerContext)?.openEndActionPane()
-                : () async {
-                    _onEdit(context, ref);
-                  },
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: ListTile(
+                leading: isEditMode
+                    ? IconButton(
+                        onPressed: () =>
+                            Slidable.of(innerContext)?.openEndActionPane(),
+                        icon: const Icon(
+                          Icons.remove_circle,
+                          color: Colors.red,
+                        ),
+                      )
+                    : const Icon(Icons.person),
+                title: Text(profile.name),
+                onTap: isEditMode
+                    ? () => Slidable.of(innerContext)?.openEndActionPane()
+                    : () async {
+                        _onEdit(context, ref);
+                      },
+              ),
+            ),
           );
         },
       ),
