@@ -7,11 +7,10 @@ import 'package:thousand_counter/ui/widgets/objects/player.dart';
 class GameScreen extends ConsumerWidget {
   const GameScreen({super.key});
 
-  void _finishRound(WidgetRef ref) {}
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final game = ref.watch(currentGameProvider);
+    final gameService = ref.read(gameServiceProvider);
 
     if (game == null) {
       return const Scaffold(body: Center(child: Text("No active game")));
@@ -42,7 +41,9 @@ class GameScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () => _finishRound(ref),
+              onPressed: () {
+                gameService.confirmRound(game, {});
+              },
               child: const Text("Confirm Round"),
             ),
           ),

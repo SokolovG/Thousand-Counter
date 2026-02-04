@@ -17,6 +17,38 @@ class GameService {
 
   GameService(this._rulesService, this._scoreService, this._talker);
 
+  Game confirmRound(Game game, Map<String, int> points) {
+    List<Player> updatedPlayers = game.players.map((p) {
+      final scoreToAdd = points[p.profile.id] ?? 0;
+      final isBolt = _rulesService.isBolt(scoreToAdd);
+      final isMagic = _rulesService.isMagicNumber(scoreToAdd);
+      int totalPlayerPoints = _scoreService.calculateRoundScore(
+        scoreToAdd,
+        isBolt,
+        isMagic,
+        p.totalPoints,
+        p.boltsCount,
+      );
+
+      return p.copyWith(
+        totalPoints: totalPlayerPoints,
+        boltsCount: (isBolt && p.boltsCount + 1 == 3)
+            ? 0
+            : (isBolt ? p.boltsCount + 1 : p.boltsCount),
+      );
+    }).toList();
+
+    Round newRound = Round(
+      roundNumber: game.rounds.length + 1,
+      playerScores: points,
+    );
+    return game.copyWith(
+      players: updatedPlayers,
+      rounds: [...game.rounds, newRound],
+      currentRound: game.currentRound + 1,
+    );
+  }
+
   Game addBolt(String profileId, Game game) {
     final updatedPlayers = game.players.map((player) {
       if (player.profile.id == profileId) {
@@ -26,29 +58,6 @@ class GameService {
     }).toList();
 
     return game.copyWith(players: updatedPlayers);
-  }
-
-  void addRound(Game game, Map<String, int> points) {
-    final round = Round(roundNumber: game.currentRound, playerScores: points);
-    game.rounds.add(round);
-
-    points.forEach((playerId, basePoints) {
-      final player = game.players.firstWhere((p) => p.profile.id == playerId);
-      final isBolt = _rulesService.isBolt(basePoints);
-      final isMagic = _rulesService.isMagicNumber(basePoints);
-
-      if (isBolt) {
-        player.boltsCount++;
-      }
-      final score = _scoreService.calculateRoundScore(
-        basePoints,
-        isBolt,
-        isMagic,
-      );
-
-      player.totalPoints += score;
-    });
-    game.currentRound++;
   }
 
   Game updatePlayers(Game currentGame, List<Profile> newProfiles) {

@@ -13,8 +13,7 @@ class PlayerWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final gameService = ref.read(gameServiceProvider);
-    // final scores = ref.watch(roundScoresProvider);
-    // final currentScore = scores[player.profile.id] ?? 0;
+    final controller = TextEditingController(text: "0");
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -66,9 +65,10 @@ class PlayerWidget extends ConsumerWidget {
             SizedBox(
               width: 60,
               child: TextField(
+                controller: controller,
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
-                decoration: InputDecoration(hintText: "0"),
+                // decoration: InputDecoration(hintText: "0"),
               ),
             ),
           ],
