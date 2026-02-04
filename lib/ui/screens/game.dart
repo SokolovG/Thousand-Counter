@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/profiles_select.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
@@ -42,7 +43,9 @@ class GameScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
-                gameService.confirmRound(game, {});
+                Map<String, int> points = ref.read(roundScoresProvider);
+                Game updatedGame = gameService.confirmRound(game, points);
+                ref.read(currentGameProvider.notifier).state = updatedGame;
               },
               child: const Text("Confirm Round"),
             ),
