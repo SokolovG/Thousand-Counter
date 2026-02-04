@@ -1,4 +1,5 @@
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 
 import '../core/constants.dart';
@@ -14,8 +15,19 @@ class GameService {
   final Talker _talker;
   final RulesService _rulesService;
   final ScoreService _scoreService;
+  final GameRepository _gameRepository;
 
-  GameService(this._rulesService, this._scoreService, this._talker);
+  GameService(
+    this._rulesService,
+    this._scoreService,
+    this._talker,
+    this._gameRepository,
+  );
+
+  Future<List<Game>> getAllGames() async {
+    final games = await _gameRepository.getAll();
+    return games;
+  }
 
   Game confirmRound(Game game, Map<String, int> points) {
     List<Player> updatedPlayers = game.players.map((p) {

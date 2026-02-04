@@ -4,7 +4,7 @@ import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/profile.dart';
 
 class GameRepository implements AbstractRepository<Game> {
-  final List<Game> _playersProfiles = [];
+  final List<Game> _games = [];
 
   GameRepository() {
     Profile profile1 = Profile(name: 'Sonya');
@@ -12,34 +12,44 @@ class GameRepository implements AbstractRepository<Game> {
     Player player1 = Player(profile: profile1);
     Player player2 = Player(profile: profile2);
     List<Player> players = [player1, player2];
-    _playersProfiles.addAll([
+    _games.addAll([
       Game(players: players, isFinished: true),
       Game(players: players, isFinished: false),
     ]);
   }
 
   @override
-  Future<void> add(Game game) {
-    throw UnimplementedError();
+  Future<List<Game>> add(Game game) async {
+    _games.add(game);
+    return _games;
   }
 
   @override
-  Future<void> delete(String id) {
-    throw UnimplementedError();
+  Future<void> delete(String id) async {
+    _games.removeWhere((game) => game.id == id);
   }
 
   @override
-  Future<Game?> get(String id) {
-    throw UnimplementedError();
+  Future<Game?> get(String id) async {
+    try {
+      Game game = _games.firstWhere((game) => game.id == id);
+      return game;
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
-  Future<List<Game>> getAll() {
-    throw UnimplementedError();
+  Future<List<Game>> getAll() async {
+    return List.from(_games);
   }
 
   @override
-  Future<dynamic> update(Game game) {
-    throw UnimplementedError();
+  Future update(Game updatedGame) async {
+    final index = _games.indexWhere((game) => game.id == game.id);
+    if (index != -1) {
+      _games[index] = updatedGame;
+    }
+    return updatedGame;
   }
 }
