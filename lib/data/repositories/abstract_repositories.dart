@@ -1,9 +1,9 @@
-import 'package:thousand_counter/models/profile.dart';
+import 'package:thousand_counter/models/base_model.dart';
 
-abstract class AbstractProfileRepository {
-  Future<List<Profile>> getAllProfiles();
-  Future<void> addProfile(Profile player);
-  Future<void> deleteProfile(String id);
-  Future<Profile?> getProfile(String id);
-  Future updateProfile(String id, String newName);
+abstract class AbstractRepository<T extends Entity> {
+  Future<List<T>> getAll();
+  Future<void> add(T entity);
+  Future<void> delete(String id);
+  Future<T?> get(String id);
+  Future update(T entity);
 }

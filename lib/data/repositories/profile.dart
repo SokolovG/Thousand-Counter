@@ -1,7 +1,7 @@
 import 'package:thousand_counter/data/repositories/abstract_repositories.dart';
 import 'package:thousand_counter/models/profile.dart';
 
-class ProfileRepository implements AbstractProfileRepository {
+class ProfileRepository implements AbstractRepository<Profile> {
   final List<Profile> _playersProfiles = [];
 
   ProfileRepository() {
@@ -15,31 +15,32 @@ class ProfileRepository implements AbstractProfileRepository {
   }
 
   @override
-  Future<List<Profile>> getAllProfiles() async {
+  Future<List<Profile>> getAll() async {
     return List.from(_playersProfiles);
   }
 
   @override
-  Future addProfile(Profile player) async {
-    _playersProfiles.add(player);
+  Future add(Profile profile) async {
+    _playersProfiles.add(profile);
     return _playersProfiles;
   }
 
   @override
-  Future updateProfile(String id, String newName) async {
-    Profile profile = _playersProfiles.firstWhere(
-      (profile) => profile.id == id,
-    );
-    profile.name = newName;
+  Future update(Profile updatedProfile) async {
+    final index = _playersProfiles.indexWhere((p) => p.id == updatedProfile.id);
+    if (index != -1) {
+      _playersProfiles[index] = updatedProfile;
+    }
+    return updatedProfile;
   }
 
   @override
-  Future<void> deleteProfile(String id) async {
+  Future<void> delete(String id) async {
     _playersProfiles.removeWhere((player) => player.id == id);
   }
 
   @override
-  Future<Profile?> getProfile(String id) async {
+  Future<Profile?> get(String id) async {
     try {
       return _playersProfiles.firstWhere((player) => player.id == id);
     } catch (e) {

@@ -21,7 +21,7 @@ class ProfileWidget extends ConsumerWidget {
       initialName: profile.name,
     );
     if (newName != null && newName != profile.name) {
-      await ref.read(profileServiceProvider).updateProfile(profile.id, newName);
+      await ref.read(profileServiceProvider).updateProfile(profile);
       Future.microtask(() => ref.invalidate(profilesListProvider));
     }
   }

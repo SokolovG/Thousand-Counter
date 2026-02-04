@@ -1,10 +1,9 @@
-import 'package:uuid/uuid.dart';
+import 'package:thousand_counter/models/base_model.dart';
 
-class Profile {
-  final String id;
+class Profile extends Entity {
   String name;
 
-  Profile({required this.name, String? id}) : id = id ?? Uuid().v4();
+  Profile({required this.name, super.id});
 
   @override
   String toString() {

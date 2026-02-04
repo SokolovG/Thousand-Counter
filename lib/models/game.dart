@@ -1,26 +1,23 @@
+import 'package:thousand_counter/models/base_model.dart';
 import 'player.dart';
 import 'package:recase/recase.dart';
-
 import 'round.dart';
-import 'package:uuid/uuid.dart';
 
-class Game {
+class Game extends Entity {
   List<Player> players;
   final List<Round> rounds;
   final DateTime createdAt;
-  final String id;
-  int currentRound;
-  bool isFinished = false;
+  final int currentRound;
+  final bool isFinished;
 
   Game({
+    super.id,
     required this.players,
     List<Round>? rounds,
-    String? id,
     DateTime? createdAt,
     this.currentRound = 0,
     this.isFinished = false,
   }) : rounds = rounds ?? [],
-       id = id ?? const Uuid().v4(),
        createdAt = createdAt ?? DateTime.now();
 
   @override

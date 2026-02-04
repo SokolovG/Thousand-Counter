@@ -8,7 +8,7 @@ class ProfileService {
   ProfileService(this._repository);
 
   Future<List<Profile>> getAllProfiles() async {
-    final players = await _repository.getAllProfiles();
+    final players = await _repository.getAll();
     return players;
   }
 
@@ -16,17 +16,16 @@ class ProfileService {
     ProfileValidators.validateProfileName(name);
 
     final playerProfile = Profile(name: name);
-    await _repository.addProfile(playerProfile);
+    await _repository.add(playerProfile);
   }
 
-  Future<void> updateProfile(String id, String name) async {
-    ProfileValidators.validateProfileName(name);
+  Future<void> updateProfile(Profile profile) async {
+    ProfileValidators.validateProfileName(profile.name);
 
-    await _repository.updateProfile(id, name);
+    await _repository.update(profile);
   }
 
   Future<void> deleteProfile(String id) async {
-    // Validate if it not finished games
-    await _repository.deleteProfile(id);
+    await _repository.delete(id);
   }
 }

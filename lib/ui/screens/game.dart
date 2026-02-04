@@ -32,6 +32,7 @@ class GameScreen extends ConsumerWidget {
         children: [
           Expanded(
             child: ListView.builder(
+              key: ValueKey(game.currentRound),
               itemCount: players.length,
               itemBuilder: (context, index) {
                 final player = game.players[index];
@@ -46,6 +47,7 @@ class GameScreen extends ConsumerWidget {
                 Map<String, int> points = ref.read(roundScoresProvider);
                 Game updatedGame = gameService.confirmRound(game, points);
                 ref.read(currentGameProvider.notifier).state = updatedGame;
+                ref.read(roundScoresProvider.notifier).state = {};
               },
               child: const Text("Confirm Round"),
             ),
