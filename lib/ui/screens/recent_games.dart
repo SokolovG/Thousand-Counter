@@ -10,11 +10,20 @@ class RecentGamesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final gamesAsync = ref.watch(gamesListProvider);
+    final isEditMode = ref.watch(isEditModeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Recent games"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(isEditModeProvider.notifier).update((state) => !state);
+            },
+            icon: Icon(isEditMode ? Icons.check : Icons.edit_outlined),
+          ),
+        ],
       ),
       body: gamesAsync.when(
         data: (games) => SlidableAutoCloseBehavior(

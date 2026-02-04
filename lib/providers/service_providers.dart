@@ -49,6 +49,6 @@ final gamesListProvider = FutureProvider<List<Game>>((ref) async {
 // NOTIFIERS
 
 final gameSetupProvider =
-    StateNotifierProvider<GameSetupNotifier, GameSetupState>(
+    StateNotifierProvider.autoDispose<GameSetupNotifier, GameSetupState>(
       (ref) => GameSetupNotifier(),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/profiles_select.dart';
@@ -21,6 +22,12 @@ class GameScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Round ${game.currentRound}"),
+        leading: IconButton(
+          icon: Icon(Icons.home),
+          onPressed: () {
+            context.go("/");
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () => showProfilesSelectDialog(context, ref),

@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/profile_edit.dart';
+import 'package:thousand_counter/ui/widgets/objects/slidable.dart';
 
 class ProfileWidget extends ConsumerWidget {
   final Profile profile;
@@ -67,23 +68,10 @@ class ProfileWidget extends ConsumerWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: ListTile(
-                leading: isEditMode
-                    ? IconButton(
-                        onPressed: () =>
-                            Slidable.of(innerContext)?.openEndActionPane(),
-                        icon: const Icon(
-                          Icons.remove_circle,
-                          color: Colors.red,
-                        ),
-                      )
-                    : const Icon(Icons.person),
-                title: Text(profile.name),
-                onTap: isEditMode
-                    ? () => Slidable.of(innerContext)?.openEndActionPane()
-                    : () async {
-                        _onEdit(context, ref);
-                      },
+              child: SlidableObject(
+                onEditCallback: _onEdit,
+                title: profile.name,
+                icon: Icon(Icons.person),
               ),
             ),
           );

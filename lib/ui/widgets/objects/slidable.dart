@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:thousand_counter/providers/service_providers.dart';
+
+class SlidableObject extends ConsumerWidget {
+  final Function onEditCallback;
+  final String title;
+  final Icon icon;
+
+  const SlidableObject({
+    super.key,
+    required this.onEditCallback,
+    required this.title,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isEditMode = ref.watch(isEditModeProvider);
+    return ListTile(
+      leading: isEditMode
+          ? IconButton(
+              onPressed: () => Slidable.of(context)?.openEndActionPane(),
+              icon: const Icon(Icons.remove_circle, color: Colors.red),
+            )
+          : icon,
+      title: Text(title),
+      onTap: isEditMode
+          ? () => Slidable.of(context)?.openEndActionPane()
+          : () async {
+              onEditCallback(context, ref);
+            },
+    );
+  }
+}
