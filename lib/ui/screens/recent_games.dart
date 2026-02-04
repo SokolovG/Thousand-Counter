@@ -17,8 +17,9 @@ class RecentGamesScreen extends ConsumerWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  final game = games[index];
+                itemCount: games.length,
+                itemBuilder: (BuildContext context, int i) {
+                  final game = games[i];
                   return GameWidget(game: game);
                 },
               ),

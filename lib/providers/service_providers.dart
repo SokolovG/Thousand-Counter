@@ -34,7 +34,9 @@ final gameServiceProvider = Provider((ref) {
 // DATA PROVIDERS
 final currentGameProvider = StateProvider<Game?>((ref) => null);
 final isEditModeProvider = StateProvider.autoDispose<bool>((ref) => false);
-final roundScoresProvider = StateProvider<Map<String, int>>((ref) => {});
+final roundScoresProvider = StateProvider.autoDispose<Map<String, int>>(
+  (ref) => {},
+); // TODO: make not global
 final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
   final profileService = ref.read(profileServiceProvider);
   return profileService.getAllProfiles();

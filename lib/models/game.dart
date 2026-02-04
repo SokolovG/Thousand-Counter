@@ -15,7 +15,7 @@ class Game extends Entity {
     required this.players,
     List<Round>? rounds,
     DateTime? createdAt,
-    this.currentRound = 0,
+    this.currentRound = 1,
     this.isFinished = false,
   }) : rounds = rounds ?? [],
        createdAt = createdAt ?? DateTime.now();

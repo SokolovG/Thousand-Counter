@@ -20,7 +20,7 @@ class GameScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Game"),
+        title: Text("Round ${game.currentRound}"),
         actions: [
           IconButton(
             onPressed: () => showProfilesSelectDialog(context, ref),

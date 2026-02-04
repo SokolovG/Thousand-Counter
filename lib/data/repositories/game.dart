@@ -46,7 +46,7 @@ class GameRepository implements AbstractRepository<Game> {
 
   @override
   Future update(Game updatedGame) async {
-    final index = _games.indexWhere((game) => game.id == game.id);
+    final index = _games.indexWhere((game) => game.id == updatedGame.id);
     if (index != -1) {
       _games[index] = updatedGame;
     }
