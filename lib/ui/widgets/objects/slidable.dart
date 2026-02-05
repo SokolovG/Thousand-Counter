@@ -4,20 +4,23 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 
 class SlidableObject extends ConsumerWidget {
-  final Function onEditCallback;
+  final Function(BuildContext, WidgetRef) onEditCallback;
   final String title;
-  final Icon icon;
+  final Widget icon;
+  final String? subtitle;
 
   const SlidableObject({
     super.key,
     required this.onEditCallback,
     required this.title,
     required this.icon,
+    this.subtitle,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(isEditModeProvider);
+
     return ListTile(
       leading: isEditMode
           ? IconButton(
@@ -26,6 +29,7 @@ class SlidableObject extends ConsumerWidget {
             )
           : icon,
       title: Text(title),
+      subtitle: subtitle != null ? Text(subtitle!) : null,
       onTap: isEditMode
           ? () => Slidable.of(context)?.openEndActionPane()
           : () async {

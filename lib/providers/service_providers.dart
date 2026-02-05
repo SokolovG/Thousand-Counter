@@ -33,10 +33,14 @@ final gameServiceProvider = Provider((ref) {
 
 // DATA PROVIDERS
 final currentGameProvider = StateProvider<Game?>((ref) => null);
+final gameByIdProvider = FutureProvider.family<Game, String>((ref, id) async {
+  final allGames = await ref.watch(gamesListProvider.future);
+  return allGames.firstWhere((game) => game.id == id);
+});
 final isEditModeProvider = StateProvider.autoDispose<bool>((ref) => false);
 final roundScoresProvider = StateProvider.autoDispose<Map<String, int>>(
   (ref) => {},
-); // TODO: make not global
+);
 final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
   final profileService = ref.read(profileServiceProvider);
   return profileService.getAllProfiles();

@@ -7,21 +7,39 @@ import 'package:thousand_counter/ui/widgets/dialogs/profiles_select.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
 
 class GameScreen extends ConsumerWidget {
-  const GameScreen({super.key});
+  final String? gameId;
+  const GameScreen({super.key, this.gameId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final game = ref.watch(currentGameProvider);
+    final currentGame = ref.watch(currentGameProvider);
     final gameService = ref.read(gameServiceProvider);
 
-    if (game == null) {
+    if (currentGame == null && gameId != null) {
+      final asyncGame = ref.watch(gameByIdProvider(gameId!));
+      return asyncGame.when(
+        data: (Game game) {
+          Future.microtask(
+            () => ref.read(currentGameProvider.notifier).state = game,
+          );
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        },
+        loading: () =>
+            const Scaffold(body: Center(child: CircularProgressIndicator())),
+        error: (e, st) => Scaffold(body: Center(child: Text("Error: $e"))),
+      );
+    }
+    if (currentGame == null) {
       return const Scaffold(body: Center(child: Text("No active game")));
     }
-    final players = game.players;
+
+    final players = currentGame.players;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Round ${game.currentRound}"),
+        title: Text("Round ${currentGame.currentRound}"),
         leading: IconButton(
           icon: Icon(Icons.home),
           onPressed: () {
@@ -29,36 +47,42 @@ class GameScreen extends ConsumerWidget {
           },
         ),
         actions: [
-          IconButton(
-            onPressed: () => showProfilesSelectDialog(context, ref),
-            icon: const Icon(Icons.groups),
-          ),
+          if (!currentGame.isFinished)
+            IconButton(
+              onPressed: () => showProfilesSelectDialog(context, ref),
+              icon: const Icon(Icons.groups),
+            ),
         ],
       ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              key: ValueKey(game.currentRound),
+              key: ValueKey(currentGame.currentRound),
               itemCount: players.length,
               itemBuilder: (context, index) {
-                final player = game.players[index];
+                final player = currentGame.players[index];
                 return PlayerWidget(player: player);
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Map<String, int> points = ref.read(roundScoresProvider);
-                Game updatedGame = gameService.confirmRound(game, points);
-                ref.read(currentGameProvider.notifier).state = updatedGame;
-                ref.read(roundScoresProvider.notifier).state = {};
-              },
-              child: const Text("Confirm Round"),
+
+          if (!currentGame.isFinished)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Map<String, int> points = ref.read(roundScoresProvider);
+                  Game updatedGame = gameService.confirmRound(
+                    currentGame,
+                    points,
+                  );
+                  ref.read(currentGameProvider.notifier).state = updatedGame;
+                  ref.read(roundScoresProvider.notifier).state = {};
+                },
+                child: const Text("Confirm Round"),
+              ),
             ),
-          ),
         ],
       ),
     );

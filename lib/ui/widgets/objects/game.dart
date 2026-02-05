@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/recent_game.dart';
+import 'package:thousand_counter/ui/widgets/objects/slidable.dart';
 
 class GameWidget extends ConsumerWidget {
   final Game game;
@@ -11,11 +14,17 @@ class GameWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isEditMode = ref.watch(isEditModeProvider);
-    final theme = Theme.of(context);
+    Widget widget = game.isFinished
+        ? Icon(Icons.emoji_events, color: Colors.amber)
+        : IconButton(
+            onPressed: () {
+              showRecentGameDialog(context, ref);
+            },
+            icon: Icon(Icons.play_circle_fill, color: Colors.blue),
+          );
 
     return Slidable(
-      key: ValueKey(isEditMode),
+      key: ValueKey(game.id),
       groupTag: "games_list",
       endActionPane: ActionPane(
         extentRatio: 0.25,
@@ -32,64 +41,32 @@ class GameWidget extends ConsumerWidget {
           ),
         ],
       ),
-      child: Builder(
-        builder: (innerContext) {
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: Padding(
-              padding: EdgeInsets.all(28),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(height: 4),
-                        Text(
-                          game.players
-                              .map((p) => "${p.profile.name}: ${p.totalPoints}")
-                              .join(' • '),
-                          style: theme.textTheme.bodySmall,
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Text(
-                              game.name,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            if (game.isFinished)
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.3),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: const Text(
-                                  "FINISHED",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-          );
-        },
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SlidableObject(
+            title: game.name,
+            subtitle: game.players
+                .map((p) => "${p.profile.name}: ${p.totalPoints}")
+                .join(' • '),
+            icon: widget,
+            onEditCallback: (context, ref) {
+              game.isFinished ? context.go("/game/${game.id}") : null;
+            },
+          ),
+        ),
       ),
     );
   }

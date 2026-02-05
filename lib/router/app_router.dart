@@ -17,7 +17,13 @@ final appRouter = GoRouter(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
     ),
-    GoRoute(path: '/game', builder: (context, state) => const GameScreen()),
+    GoRoute(
+      path: '/game/:gameId',
+      builder: (context, state) {
+        final gameId = state.pathParameters['gameId'];
+        return GameScreen(gameId: gameId);
+      },
+    ),
     GoRoute(
       path: '/recent_games',
       builder: (context, state) => const RecentGamesScreen(),
