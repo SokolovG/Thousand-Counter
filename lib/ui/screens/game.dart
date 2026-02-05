@@ -40,12 +40,19 @@ class GameScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Round ${currentGame.currentRound}"),
-        leading: IconButton(
-          icon: Icon(Icons.home),
-          onPressed: () {
-            context.go("/");
-          },
-        ),
+        leading: currentGame.isFinished
+            ? IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  context.pop(context);
+                },
+              )
+            : IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  context.go('/');
+                },
+              ),
         actions: [
           if (!currentGame.isFinished)
             IconButton(

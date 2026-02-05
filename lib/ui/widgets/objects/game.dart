@@ -16,12 +16,7 @@ class GameWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Widget widget = game.isFinished
         ? Icon(Icons.emoji_events, color: Colors.amber)
-        : IconButton(
-            onPressed: () {
-              showRecentGameDialog(context, ref);
-            },
-            icon: Icon(Icons.play_circle_fill, color: Colors.blue),
-          );
+        : Icon(Icons.play_circle_fill, color: Colors.blue);
 
     return Slidable(
       key: ValueKey(game.id),
@@ -63,7 +58,9 @@ class GameWidget extends ConsumerWidget {
                 .join(' • '),
             icon: widget,
             onEditCallback: (context, ref) {
-              game.isFinished ? context.go("/game/${game.id}") : null;
+              game.isFinished
+                  ? showRecentGameDialog(context, ref)
+                  : context.go("/game/${game.id}");
             },
           ),
         ),

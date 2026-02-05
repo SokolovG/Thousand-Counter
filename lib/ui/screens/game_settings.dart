@@ -65,7 +65,7 @@ class GameSettingsScreen extends ConsumerWidget {
                         );
                         gameRepo.add(game);
                         ref.read(currentGameProvider.notifier).state = game;
-                        context.push("/game");
+                        context.push("/game/${game.id}");
                       }
                     : null,
                 child: Text("Start Game (${state.selectedIds.length} players)"),
