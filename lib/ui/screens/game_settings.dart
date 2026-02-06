@@ -16,7 +16,6 @@ class GameSettingsScreen extends ConsumerWidget {
     final notifier = ref.read(gameSetupProvider.notifier);
     final profilesAsync = ref.watch(profilesListProvider);
     final gameService = ref.read(gameServiceProvider);
-    final gameRepo = ref.read(gameRepositoryProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -63,7 +62,7 @@ class GameSettingsScreen extends ConsumerWidget {
                           gameService,
                           state.selectedIds,
                         );
-                        gameRepo.add(game);
+                        gameService.addGame(game);
                         ref.read(currentGameProvider.notifier).state = game;
                         context.push("/game/${game.id}");
                       }

@@ -61,6 +61,11 @@ class GameService {
     );
   }
 
+  Future<Game> addGame(Game game) async {
+    game = await _gameRepository.add(game);
+    return game;
+  }
+
   Game addBolt(String profileId, Game game) {
     final updatedPlayers = game.players.map((player) {
       if (player.profile.id == profileId) {

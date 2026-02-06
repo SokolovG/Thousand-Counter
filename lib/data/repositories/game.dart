@@ -19,9 +19,9 @@ class GameRepository implements AbstractRepository<Game> {
   }
 
   @override
-  Future<List<Game>> add(Game game) async {
+  Future<Game> add(Game game) async {
     _games.add(game);
-    return _games;
+    return game;
   }
 
   @override

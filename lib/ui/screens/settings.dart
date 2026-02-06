@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/ui/models/settings_item.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/rules.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -21,6 +22,7 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         children: _buildSettingsItems(
           ref,
+          context,
           notifications,
           singleMode,
           sounds,
@@ -33,6 +35,7 @@ class SettingsScreen extends ConsumerWidget {
 
 List<SettingsItem> _buildSettingsItems(
   WidgetRef ref,
+  BuildContext context,
   bool notifications,
   bool singleMode,
   bool sounds,
@@ -76,7 +79,9 @@ List<SettingsItem> _buildSettingsItems(
       icon: Icons.help_outline,
       title: 'Game rules',
       type: SettingsItemType.navigation,
-      onTap: () {},
+      onTap: () {
+        return rulesDialog(context, ref);
+      },
     ),
     SettingsItem(
       icon: Icons.language,
@@ -85,12 +90,12 @@ List<SettingsItem> _buildSettingsItems(
       type: SettingsItemType.navigation,
       onTap: () {},
     ),
-    SettingsItem(
-      icon: Icons.share,
-      title: 'Share app',
-      type: SettingsItemType.navigation,
-      onTap: () {},
-    ),
+    // SettingsItem(
+    //   icon: Icons.share,
+    //   title: 'Share app',
+    //   type: SettingsItemType.navigation,
+    //   onTap: () {},
+    // ),
     SettingsItem(
       icon: Icons.app_settings_alt,
       title: 'Version',

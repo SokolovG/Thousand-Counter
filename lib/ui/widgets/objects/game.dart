@@ -14,12 +14,13 @@ class GameWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isEditMode = ref.watch(isEditModeProvider);
     Widget widget = game.isFinished
         ? Icon(Icons.emoji_events, color: Colors.amber)
         : Icon(Icons.play_circle_fill, color: Colors.blue);
 
     return Slidable(
-      key: ValueKey(game.id),
+      key: ValueKey(isEditMode),
       groupTag: "games_list",
       endActionPane: ActionPane(
         extentRatio: 0.25,
