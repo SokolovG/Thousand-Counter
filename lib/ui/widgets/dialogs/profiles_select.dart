@@ -15,7 +15,7 @@ void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            title: const Text("Who is playing?"),
+            title: Center(child: const Text("Who is playing?")),
             content: SizedBox(
               width: double.maxFinite,
               height: 350,

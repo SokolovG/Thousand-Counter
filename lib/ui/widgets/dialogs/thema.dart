@@ -6,7 +6,7 @@ void themaDialog(BuildContext context, WidgetRef ref) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Thema"),
+        title: Center(child: Text("Thema")),
         content: SizedBox(child: Text("Choose thema:")),
       );
     },

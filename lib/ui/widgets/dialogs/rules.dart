@@ -7,7 +7,7 @@ void rulesDialog(BuildContext context, WidgetRef ref) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Rules"),
+        title: Center(child: Text("Rules")),
         content: SizedBox(child: Text(gameRules)),
       );
     },

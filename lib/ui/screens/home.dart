@@ -8,21 +8,9 @@ class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   static const _menuItems = [
-    MenuItem(
-      title: 'Create new game',
-      icon: Icons.add_circle,
-      route: "/game_settings",
-    ),
-    MenuItem(
-      title: 'Recent games',
-      icon: Icons.add_circle,
-      route: "/recent_games",
-    ),
-    MenuItem(
-      title: 'Players',
-      icon: Icons.add_circle,
-      route: "/players_profiles",
-    ),
+    MenuItem(title: 'Create new game', route: "/game_settings"),
+    MenuItem(title: 'Recent games', route: "/recent_games"),
+    MenuItem(title: 'Players', route: "/players_profiles"),
   ];
 
   @override

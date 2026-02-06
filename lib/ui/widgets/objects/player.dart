@@ -12,7 +12,9 @@ class PlayerWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final gameService = ref.read(gameServiceProvider);
+    // final gameService = ref.read(gameServiceProvider);
+    Map<String, bool> allStates = ref.watch(minusPressedProvider);
+    bool isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -49,18 +51,31 @@ class PlayerWidget extends ConsumerWidget {
                 style: const TextStyle(fontWeight: FontWeight.w500),
               ),
             ),
-            IconButton(
-              icon: Icon(Icons.bolt, color: Colors.grey),
-              onPressed: () {
-                final currentGame = ref.read(currentGameProvider);
-                if (currentGame == null) return;
-                final updatedGame = gameService.addBolt(
-                  player.profile.id,
-                  currentGame,
-                );
-                ref.read(currentGameProvider.notifier).state = updatedGame;
-              },
-            ),
+            isThisPlayerMinusPressed
+                ? IconButton(
+                    icon: Icon(Icons.remove, color: Colors.black, size: 25.0),
+                    onPressed: () {
+                      Map<String, bool> current = ref
+                          .read(minusPressedProvider.notifier)
+                          .state;
+                      ref.read(minusPressedProvider.notifier).state = {
+                        ...current,
+                        player.profile.id: false,
+                      };
+                    },
+                  )
+                : IconButton(
+                    icon: Icon(Icons.remove, color: Colors.grey),
+                    onPressed: () {
+                      Map<String, bool> current = ref
+                          .read(minusPressedProvider.notifier)
+                          .state;
+                      ref.read(minusPressedProvider.notifier).state = {
+                        ...current,
+                        player.profile.id: true,
+                      };
+                    },
+                  ),
             SizedBox(
               width: 60,
               child: TextField(

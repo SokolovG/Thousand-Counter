@@ -6,7 +6,7 @@ void languageDialog(BuildContext context, WidgetRef ref) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Language"),
+        title: Center(child: Text("Language")),
         content: SizedBox(child: Text("Choose language:")),
       );
     },

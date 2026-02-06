@@ -76,18 +76,23 @@ class GameScreen extends ConsumerWidget {
 
           if (!currentGame.isFinished)
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Map<String, int> points = ref.read(roundScoresProvider);
-                  Game updatedGame = gameService.confirmRound(
-                    currentGame,
-                    points,
-                  );
-                  ref.read(currentGameProvider.notifier).state = updatedGame;
-                  ref.read(roundScoresProvider.notifier).state = {};
-                },
-                child: const Text("Confirm Round"),
+              padding: const EdgeInsets.all(24.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Map<String, int> points = ref.read(roundScoresProvider);
+                    ref.read(minusPressedProvider).clear();
+                    Game updatedGame = gameService.confirmRound(
+                      currentGame,
+                      points,
+                    );
+                    ref.read(currentGameProvider.notifier).state = updatedGame;
+                    ref.read(roundScoresProvider.notifier).state = {};
+                  },
+                  child: const Text("Confirm Round"),
+                ),
               ),
             ),
         ],

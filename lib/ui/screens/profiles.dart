@@ -23,7 +23,7 @@ class ProfilesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Players profiles"),
+        title: Center(child: const Text("Players profiles")),
         actions: [
           if (!isEditMode)
             IconButton(
