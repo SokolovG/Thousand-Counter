@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
@@ -29,6 +30,17 @@ class GameSettingsScreen extends ConsumerWidget {
               },
               icon: Icon(Icons.clear_rounded),
             ),
+          if (state.selectedIds.isEmpty)
+            IconButton(
+              onPressed: () {
+                final Set<String> ids = profilesAsync.value!
+                    .map((p) => p.id)
+                    .toSet();
+
+                notifier.selectAll(ids);
+              },
+              icon: Icon(Icons.select_all),
+            ),
         ],
       ),
       body: profilesAsync.when(
@@ -54,20 +66,29 @@ class GameSettingsScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-              ElevatedButton(
-                onPressed: state.isValid
-                    ? () {
-                        Game game = _startGame(
-                          profiles,
-                          gameService,
-                          state.selectedIds,
-                        );
-                        gameService.addGame(game);
-                        ref.read(currentGameProvider.notifier).state = game;
-                        context.push("/game/${game.id}");
-                      }
-                    : null,
-                child: Text("Start Game (${state.selectedIds.length} players)"),
+              Padding(
+                padding: EdgeInsetsGeometry.all(24),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: ElevatedButton(
+                    onPressed: state.isValid
+                        ? () {
+                            Game game = _startGame(
+                              profiles,
+                              gameService,
+                              state.selectedIds,
+                            );
+                            gameService.addGame(game);
+                            ref.read(currentGameProvider.notifier).state = game;
+                            context.push("/game/${game.id}");
+                          }
+                        : null,
+                    child: Text(
+                      "Start Game (${state.selectedIds.length} players)",
+                    ),
+                  ),
+                ),
               ),
             ],
           );
@@ -132,6 +153,23 @@ class GameSetupState {
 
 class GameSetupNotifier extends StateNotifier<GameSetupState> {
   GameSetupNotifier() : super(GameSetupState(selectedIds: {}, isValid: false));
+
+  void selectAll(Set<String> ids) {
+    Set<String> newIds;
+    String? error;
+    if (GameValidators.canAddMorePlayers(ids.length)) {
+      newIds = {...ids};
+    } else {
+      var listIds = ids.toList().take(maxPlayers);
+      newIds = listIds.toSet();
+    }
+
+    state = state.copyWith(
+      selectedIds: newIds,
+      errorMessage: error,
+      isValid: GameValidators.canStartGame(newIds.length),
+    );
+  }
 
   void togglePlayer(String id) {
     Set<String> newIds;

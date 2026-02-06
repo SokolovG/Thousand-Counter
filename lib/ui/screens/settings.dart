@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/ui/models/settings_item.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/language.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/rules.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/thema.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -49,7 +51,9 @@ List<SettingsItem> _buildSettingsItems(
       title: 'Theme',
       subtitle: 'Default',
       type: SettingsItemType.navigation,
-      onTap: () {},
+      onTap: () {
+        return themaDialog(context, ref);
+      },
     ),
     SettingsItem(
       icon: Icons.notifications,
@@ -88,7 +92,15 @@ List<SettingsItem> _buildSettingsItems(
       title: 'Language',
       subtitle: language,
       type: SettingsItemType.navigation,
-      onTap: () {},
+      onTap: () {
+        return languageDialog(context, ref);
+      },
+    ),
+    SettingsItem(
+      icon: Icons.person,
+      title: 'Author',
+      subtitle: "Grigoriy Sokolov",
+      type: SettingsItemType.info,
     ),
     // SettingsItem(
     //   icon: Icons.share,
