@@ -34,6 +34,9 @@ class GameService {
       final scoreToAdd = points[p.profile.id] ?? 0;
       final isBolt = _rulesService.isBolt(scoreToAdd);
       final isMagic = _rulesService.isMagicNumber(scoreToAdd);
+      isBolt ? p.boltsCount + 1 : null;
+      final isThreeBolts = _rulesService.hasThreeBoltsFromPlayer(p);
+      final isThreeBarrels = _rulesService.hasThreeBarrelsFromPlayer(p);
       int totalPlayerPoints = _scoreService.calculateRoundScore(
         scoreToAdd,
         isBolt,
@@ -44,9 +47,8 @@ class GameService {
 
       return p.copyWith(
         totalPoints: totalPlayerPoints,
-        boltsCount: (isBolt && p.boltsCount + 1 == 3)
-            ? 0
-            : (isBolt ? p.boltsCount + 1 : p.boltsCount),
+        boltsCount: isThreeBolts ? 0 : p.boltsCount,
+        barrelsCount: isThreeBarrels ? 0 : p.barrelCount,
       );
     }).toList();
 
@@ -116,7 +118,7 @@ class GameService {
 
   Player? getWinner(Game game) {
     final qualifiedPlayers = game.players
-        .where((p) => p.totalPoints >= 1000)
+        .where((p) => p.totalPoints >= maxPoints)
         .toList();
 
     if (qualifiedPlayers.isEmpty) return null;

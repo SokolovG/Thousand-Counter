@@ -1,6 +1,9 @@
 const int maxPlayers = 4;
+const int maxPoints = 1000;
 const int negativeKillNumber = -555;
 const int positiveKillNumber = 555;
 const int maxBoltsNumber = 3;
-const int barrelNumber = 820;
+const int maxBarrelsNumber = 3;
+const int barrelNumber = 880;
 const String gameRules = "";
+const int barrelPenalty = 120;

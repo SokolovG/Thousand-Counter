@@ -12,9 +12,10 @@ class PlayerWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    // final gameService = ref.read(gameServiceProvider);
     Map<String, bool> allStates = ref.watch(minusPressedProvider);
     bool isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
+    Map<String, bool> allBarrels = ref.watch(barrelProvider);
+    bool isPlayerOnBarrel = allBarrels[player.profile.id] ?? false;
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -44,6 +45,11 @@ class PlayerWidget extends ConsumerWidget {
                 ],
               ),
             ),
+            if (isPlayerOnBarrel)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(Icons.oil_barrel_sharp),
+              ),
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: Text(
@@ -81,7 +87,7 @@ class PlayerWidget extends ConsumerWidget {
               child: TextField(
                 keyboardType: TextInputType.number,
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d+$')),
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d{0,3}$')),
                 ],
                 textAlign: TextAlign.center,
                 onChanged: (value) {

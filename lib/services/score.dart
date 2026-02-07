@@ -1,4 +1,10 @@
+import 'package:thousand_counter/core/constants.dart';
+import 'package:thousand_counter/services/rules.dart';
+
 class ScoreService {
+  final RulesService _rulesService;
+  ScoreService(this._rulesService);
+
   int calculateRoundScore(
     int basePoints,
     bool isBolt,
@@ -11,8 +17,8 @@ class ScoreService {
     }
 
     if (isBolt) {
-      if (boltsCount + 1 == 3) {
-        return currentTotal - 120;
+      if (_rulesService.hasThreeBoltsFromInt(boltsCount + 1)) {
+        return currentTotal - barrelPenalty;
       }
       return currentTotal;
     }

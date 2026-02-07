@@ -16,7 +16,10 @@ final gameRepositoryProvider = Provider((ref) => GameRepository());
 
 // SERVICE PROVIDERS
 final rulesServiceProvider = Provider((ref) => RulesService());
-final scoreServiceProvider = Provider((ref) => ScoreService());
+final scoreServiceProvider = Provider((ref) {
+  final rulesService = ref.read(rulesServiceProvider);
+  return ScoreService(rulesService);
+});
 
 final profileServiceProvider = Provider((ref) {
   final repo = ref.watch(profileRepositoryProvider);
@@ -48,6 +51,9 @@ final gamesListProvider = FutureProvider<List<Game>>((ref) async {
   return gameService.getAllGames();
 });
 final minusPressedProvider = StateProvider.autoDispose<Map<String, bool>>(
+  (ref) => <String, bool>{},
+);
+final barrelProvider = StateProvider.autoDispose<Map<String, bool>>(
   (ref) => <String, bool>{},
 );
 
