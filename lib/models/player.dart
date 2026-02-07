@@ -4,13 +4,15 @@ class Player {
   final Profile profile;
   final int totalPoints;
   final int boltsCount;
-  final int barrelCount;
+  final bool isOnBarrel;
+  final int barrelAttempts;
 
   Player({
     required this.profile,
     this.totalPoints = 0,
     this.boltsCount = 0,
-    this.barrelCount = 0,
+    this.isOnBarrel = false,
+    this.barrelAttempts = 0,
   });
 
   Player copyWith({
@@ -18,12 +20,14 @@ class Player {
     Profile? profile,
     int? totalPoints,
     int? barrelsCount,
+    bool? isOnBarrel,
   }) {
     return Player(
       profile: profile ?? this.profile,
       totalPoints: totalPoints ?? this.totalPoints,
       boltsCount: boltsCount ?? this.boltsCount,
-      barrelCount: barrelsCount ?? barrelCount,
+      barrelAttempts: barrelsCount ?? barrelAttempts,
+      isOnBarrel: isOnBarrel ?? this.isOnBarrel,
     );
   }
 }

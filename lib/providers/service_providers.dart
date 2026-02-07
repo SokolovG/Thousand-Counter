@@ -50,7 +50,7 @@ final gamesListProvider = FutureProvider<List<Game>>((ref) async {
   final gameService = ref.read(gameServiceProvider);
   return gameService.getAllGames();
 });
-final minusPressedProvider = StateProvider.autoDispose<Map<String, bool>>(
+final minusPressedProvider = StateProvider<Map<String, bool>>(
   (ref) => <String, bool>{},
 );
 final barrelProvider = StateProvider.autoDispose<Map<String, bool>>(

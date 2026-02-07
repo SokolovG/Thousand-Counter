@@ -36,7 +36,7 @@ class GameService {
       final isBolt = _rulesService.isBolt(scoreToAdd);
       final isMagic = _rulesService.isMagicNumber(p.totalPoints + scoreToAdd);
       isBolt ? p.boltsCount + 1 : null;
-      final isBarrel = _rulesService.isBarrel(p.totalPoints + scoreToAdd);
+      final isOnBarrel = _rulesService.isBarrel(p.totalPoints + scoreToAdd);
       final isThreeBolts = _rulesService.hasThreeBoltsFromPlayer(p);
       final isThreeBarrels = _rulesService.hasThreeBarrelsFromInt(
         p.totalPoints + scoreToAdd,
@@ -44,11 +44,11 @@ class GameService {
       int totalPlayerPoints = _scoreService.calculateRoundScore(
         scoreToAdd,
         isBolt,
-        isBarrel,
+        isOnBarrel,
         isMagic,
         p.totalPoints,
         p.boltsCount,
-        p.barrelCount,
+        p.barrelAttempts,
       );
 
       return p.copyWith(
@@ -61,8 +61,8 @@ class GameService {
         barrelsCount: isThreeBarrels
             ? 0
             : isBarrel
-            ? p.barrelCount + 1
-            : p.barrelCount,
+            ? p.barrelAttempts + 1
+            : p.barrelAttempts,
       );
     }).toList();
 

@@ -42,7 +42,7 @@ class GameScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Round ${currentGame.currentRound}"),
-        leading: currentGame.isFinished && previousScreen != "game_settings"
+        leading: previousScreen == "recent_games"
             ? IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {

@@ -67,7 +67,7 @@ class GameSettingsScreen extends ConsumerWidget {
                   ),
                 ),
               Padding(
-                padding: EdgeInsetsGeometry.all(24),
+                padding: EdgeInsets.all(24),
                 child: SizedBox(
                   width: double.infinity,
                   height: 60,
