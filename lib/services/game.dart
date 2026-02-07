@@ -66,20 +66,21 @@ class GameService {
       }
 
       final isBolt = _rulesService.isBolt(scoreToAdd);
+      int newBoltsCount = isBolt ? p.boltsCount + 1 : p.boltsCount;
       final isMagic = _rulesService.isMagicNumber(newTotal);
-      isBolt ? p.boltsCount + 1 : null;
 
-      final isThreeBolts = _rulesService.hasThreeBoltsFromPlayer(p);
+      final isThreeBolts = _rulesService.hasThreeBoltsFromInt(newBoltsCount);
+
+      if (isBolt && isThreeBolts) {
+        newTotalPoints = newTotal - boltPenalty;
+        newBoltsCount = 0;
+      }
 
       return p.copyWith(
         totalPoints: isMagic ? 0 : newTotalPoints,
         isOnBarrel: newIsOnBarrel,
         barrelAttempts: newBarrelAttempts,
-        boltsCount: isThreeBolts
-            ? 0
-            : isBolt
-            ? p.boltsCount + 1
-            : p.boltsCount,
+        boltsCount: newBoltsCount,
       );
     }).toList();
 
@@ -103,6 +104,7 @@ class GameService {
         players: updatedPlayers,
         rounds: [...game.rounds, newRound],
         currentRound: game.currentRound + 1,
+        currentPlayerIndex: (game.currentPlayerIndex + 1) % game.players.length,
       );
     }
     return game;

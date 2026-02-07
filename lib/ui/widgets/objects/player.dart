@@ -7,8 +7,9 @@ import 'package:thousand_counter/providers/service_providers.dart';
 
 class PlayerWidget extends ConsumerWidget {
   final Player player;
+  final Color color;
 
-  const PlayerWidget({super.key, required this.player});
+  const PlayerWidget({super.key, required this.player, required this.color});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,6 +20,7 @@ class PlayerWidget extends ConsumerWidget {
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      color: color,
       child: Padding(
         padding: EdgeInsets.all(8),
         child: Row(

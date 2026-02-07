@@ -71,7 +71,11 @@ class GameScreen extends ConsumerWidget {
               itemCount: players.length,
               itemBuilder: (context, index) {
                 final player = currentGame.players[index];
-                return PlayerWidget(player: player);
+                final isCurrentPlayer = index == currentGame.currentPlayerIndex;
+                final color = isCurrentPlayer
+                    ? Colors.lightGreen
+                    : Colors.white;
+                return PlayerWidget(player: player, color: color);
               },
             ),
           ),
