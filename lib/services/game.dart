@@ -10,6 +10,7 @@ import '../models/round.dart';
 import 'rules.dart';
 import 'score.dart';
 
+// ADD barrel!!!
 class GameService {
   // ignore: unused_field
   final Talker _talker;
@@ -35,14 +36,19 @@ class GameService {
       final isBolt = _rulesService.isBolt(scoreToAdd);
       final isMagic = _rulesService.isMagicNumber(p.totalPoints + scoreToAdd);
       isBolt ? p.boltsCount + 1 : null;
+      final isBarrel = _rulesService.isBarrel(p.totalPoints + scoreToAdd);
       final isThreeBolts = _rulesService.hasThreeBoltsFromPlayer(p);
-      final isThreeBarrels = _rulesService.hasThreeBarrelsFromPlayer(p);
+      final isThreeBarrels = _rulesService.hasThreeBarrelsFromInt(
+        p.totalPoints + scoreToAdd,
+      );
       int totalPlayerPoints = _scoreService.calculateRoundScore(
         scoreToAdd,
         isBolt,
+        isBarrel,
         isMagic,
         p.totalPoints,
         p.boltsCount,
+        p.barrelCount,
       );
 
       return p.copyWith(
@@ -52,7 +58,11 @@ class GameService {
             : isBolt
             ? p.boltsCount + 1
             : p.boltsCount,
-        barrelsCount: isThreeBarrels ? 0 : p.barrelCount,
+        barrelsCount: isThreeBarrels
+            ? 0
+            : isBarrel
+            ? p.barrelCount + 1
+            : p.barrelCount,
       );
     }).toList();
 

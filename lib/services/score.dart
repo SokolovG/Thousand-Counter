@@ -8,9 +8,11 @@ class ScoreService {
   int calculateRoundScore(
     int basePoints,
     bool isBolt,
+    bool isBarrel,
     bool isMagic,
     int currentTotal,
     int boltsCount,
+    int barrelCount,
   ) {
     if (isMagic) {
       return 0;
@@ -18,7 +20,13 @@ class ScoreService {
 
     if (isBolt) {
       if (_rulesService.hasThreeBoltsFromInt(boltsCount + 1)) {
-        return currentTotal - barrelPenalty;
+        return currentTotal - boltPenalty;
+      }
+
+      if (isBarrel) {
+        if (_rulesService.hasThreeBarrelsFromInt(barrelCount + 1)) {
+          return currentTotal - barrelPenalty;
+        }
       }
       return currentTotal;
     }

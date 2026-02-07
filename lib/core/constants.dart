@@ -6,4 +6,5 @@ const int maxBoltsNumber = 3;
 const int maxBarrelsNumber = 3;
 const int barrelNumber = 880;
 const String gameRules = "";
+const int boltPenalty = 120;
 const int barrelPenalty = 120;
