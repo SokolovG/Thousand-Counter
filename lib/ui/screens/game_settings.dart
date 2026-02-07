@@ -81,7 +81,9 @@ class GameSettingsScreen extends ConsumerWidget {
                             );
                             gameService.addGame(game);
                             ref.read(currentGameProvider.notifier).state = game;
-                            context.push("/game/${game.id}");
+                            context.push(
+                              "/game/${game.id}?previousScreen=game_settings",
+                            );
                           }
                         : null,
                     child: Text(

@@ -14,6 +14,8 @@ class GameScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentGame = ref.watch(currentGameProvider);
     final gameService = ref.read(gameServiceProvider);
+    final queryParams = GoRouterState.of(context).uri.queryParameters;
+    final previousScreen = queryParams['previousScreen'];
 
     if (currentGame == null && gameId != null) {
       final asyncGame = ref.watch(gameByIdProvider(gameId!));
@@ -40,7 +42,7 @@ class GameScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Round ${currentGame.currentRound}"),
-        leading: currentGame.isFinished
+        leading: currentGame.isFinished && previousScreen != "game_settings"
             ? IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {

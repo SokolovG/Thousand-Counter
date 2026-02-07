@@ -10,6 +10,7 @@ class Game extends Entity {
   final int currentRound;
   final bool isFinished;
   final String name;
+  final Player? winner;
 
   Game({
     super.id,
@@ -19,6 +20,7 @@ class Game extends Entity {
     this.currentRound = 1,
     this.isFinished = false,
     String? name,
+    this.winner,
   }) : rounds = rounds ?? [],
        createdAt = createdAt ?? DateTime.now(),
        name = name ?? "Game from ${DateTime.now().day}.${DateTime.now().month}";
@@ -37,6 +39,7 @@ class Game extends Entity {
     int? currentRound,
     bool? isFinished,
     String? name,
+    Player? winner,
   }) {
     return Game(
       players: players ?? this.players,
@@ -46,6 +49,7 @@ class Game extends Entity {
       currentRound: currentRound ?? this.currentRound,
       isFinished: isFinished ?? this.isFinished,
       name: name ?? this.name,
+      winner: winner ?? this.winner,
     );
   }
 }

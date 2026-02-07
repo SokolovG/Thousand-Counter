@@ -33,7 +33,7 @@ class GameService {
     List<Player> updatedPlayers = game.players.map((p) {
       final scoreToAdd = points[p.profile.id] ?? 0;
       final isBolt = _rulesService.isBolt(scoreToAdd);
-      final isMagic = _rulesService.isMagicNumber(scoreToAdd);
+      final isMagic = _rulesService.isMagicNumber(p.totalPoints + scoreToAdd);
       isBolt ? p.boltsCount + 1 : null;
       final isThreeBolts = _rulesService.hasThreeBoltsFromPlayer(p);
       final isThreeBarrels = _rulesService.hasThreeBarrelsFromPlayer(p);
@@ -46,8 +46,12 @@ class GameService {
       );
 
       return p.copyWith(
-        totalPoints: totalPlayerPoints,
-        boltsCount: isThreeBolts ? 0 : p.boltsCount,
+        totalPoints: isMagic ? 0 : totalPlayerPoints,
+        boltsCount: isThreeBolts
+            ? 0
+            : isBolt
+            ? p.boltsCount + 1
+            : p.boltsCount,
         barrelsCount: isThreeBarrels ? 0 : p.barrelCount,
       );
     }).toList();
@@ -56,11 +60,22 @@ class GameService {
       roundNumber: game.rounds.length + 1,
       playerScores: points,
     );
-    return game.copyWith(
+    game = game.copyWith(
       players: updatedPlayers,
       rounds: [...game.rounds, newRound],
       currentRound: game.currentRound + 1,
     );
+    Player? winner = getWinner(game);
+    if (winner != null) {
+      game = game.copyWith(
+        players: updatedPlayers,
+        rounds: [...game.rounds, newRound],
+        currentRound: game.currentRound + 1,
+        winner: winner,
+        isFinished: true,
+      );
+    }
+    return game;
   }
 
   Future<Game> addGame(Game game) async {
