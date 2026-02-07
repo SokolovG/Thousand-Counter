@@ -8,22 +8,14 @@ import '../models/game.dart';
 import '../models/player.dart';
 import '../models/round.dart';
 import 'rules.dart';
-import 'score.dart';
 
-// ADD barrel!!!
 class GameService {
   // ignore: unused_field
   final Talker _talker;
   final RulesService _rulesService;
-  final ScoreService _scoreService;
   final GameRepository _gameRepository;
 
-  GameService(
-    this._rulesService,
-    this._scoreService,
-    this._talker,
-    this._gameRepository,
-  );
+  GameService(this._rulesService, this._talker, this._gameRepository);
 
   Future<List<Game>> getAllGames() async {
     final games = await _gameRepository.getAll();
@@ -31,38 +23,65 @@ class GameService {
   }
 
   Game confirmRound(Game game, Map<String, int> points) {
+    Player? currentBarrelPlayer = game.players
+        .where((p) => p.isOnBarrel)
+        .firstOrNull;
+
+    Player? newBarrelPlayer = game.players.where((p) {
+      final scoreToAdd = points[p.profile.id] ?? 0;
+      final newTotal = p.totalPoints + scoreToAdd;
+      return newTotal >= barrelNumber && !p.isOnBarrel;
+    }).firstOrNull;
+
     List<Player> updatedPlayers = game.players.map((p) {
       final scoreToAdd = points[p.profile.id] ?? 0;
+      final newTotal = p.totalPoints + scoreToAdd;
+
+      bool newIsOnBarrel = p.isOnBarrel;
+      int newBarrelAttempts = p.barrelAttempts;
+      int newTotalPoints = p.totalPoints;
+
+      if (newTotal >= barrelNumber && !p.isOnBarrel) {
+        newIsOnBarrel = true;
+        newBarrelAttempts = 0;
+        newTotalPoints = barrelNumber;
+      } else if (p.isOnBarrel) {
+        newBarrelAttempts = p.barrelAttempts + 1;
+
+        if (newTotal >= maxPoints) {
+          newTotalPoints = maxPoints;
+        } else if (newBarrelAttempts >= 3) {
+          newIsOnBarrel = false;
+          newBarrelAttempts = 0;
+          newTotalPoints = p.totalPoints - 120;
+        } else {
+          newTotalPoints = newTotal;
+        }
+      } else if (p == currentBarrelPlayer &&
+          newBarrelPlayer != null &&
+          newBarrelPlayer != p) {
+        newIsOnBarrel = false;
+        newBarrelAttempts = 0;
+        newTotalPoints = p.totalPoints - 120;
+      } else {
+        newTotalPoints = newTotal;
+      }
+
       final isBolt = _rulesService.isBolt(scoreToAdd);
-      final isMagic = _rulesService.isMagicNumber(p.totalPoints + scoreToAdd);
+      final isMagic = _rulesService.isMagicNumber(newTotal);
       isBolt ? p.boltsCount + 1 : null;
-      final isOnBarrel = _rulesService.isBarrel(p.totalPoints + scoreToAdd);
+
       final isThreeBolts = _rulesService.hasThreeBoltsFromPlayer(p);
-      final isThreeBarrels = _rulesService.hasThreeBarrelsFromInt(
-        p.totalPoints + scoreToAdd,
-      );
-      int totalPlayerPoints = _scoreService.calculateRoundScore(
-        scoreToAdd,
-        isBolt,
-        isOnBarrel,
-        isMagic,
-        p.totalPoints,
-        p.boltsCount,
-        p.barrelAttempts,
-      );
 
       return p.copyWith(
-        totalPoints: isMagic ? 0 : totalPlayerPoints,
+        totalPoints: isMagic ? 0 : newTotalPoints,
+        isOnBarrel: newIsOnBarrel,
+        barrelAttempts: newBarrelAttempts,
         boltsCount: isThreeBolts
             ? 0
             : isBolt
             ? p.boltsCount + 1
             : p.boltsCount,
-        barrelsCount: isThreeBarrels
-            ? 0
-            : isBarrel
-            ? p.barrelAttempts + 1
-            : p.barrelAttempts,
       );
     }).toList();
 

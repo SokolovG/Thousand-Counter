@@ -20,13 +20,14 @@ class Player {
     Profile? profile,
     int? totalPoints,
     int? barrelsCount,
+    int? barrelAttempts,
     bool? isOnBarrel,
   }) {
     return Player(
       profile: profile ?? this.profile,
       totalPoints: totalPoints ?? this.totalPoints,
       boltsCount: boltsCount ?? this.boltsCount,
-      barrelAttempts: barrelsCount ?? barrelAttempts,
+      barrelAttempts: barrelAttempts ?? this.barrelAttempts,
       isOnBarrel: isOnBarrel ?? this.isOnBarrel,
     );
   }

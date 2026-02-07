@@ -6,10 +6,6 @@ class RulesService {
 
   bool isBarrel(int totalPoints) => totalPoints >= barrelNumber;
 
-  bool hasThreeBarrelsFromPlayer(Player player) =>
-      player.barrelAttempts >= maxBarrelsNumber;
-  bool hasThreeBarrelsFromInt(int count) => count >= maxBarrelsNumber;
-
   bool isMagicNumber(int points) =>
       points == negativeKillNumber || points == positiveKillNumber;
 

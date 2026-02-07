@@ -16,10 +16,6 @@ final gameRepositoryProvider = Provider((ref) => GameRepository());
 
 // SERVICE PROVIDERS
 final rulesServiceProvider = Provider((ref) => RulesService());
-final scoreServiceProvider = Provider((ref) {
-  final rulesService = ref.read(rulesServiceProvider);
-  return ScoreService(rulesService);
-});
 
 final profileServiceProvider = Provider((ref) {
   final repo = ref.watch(profileRepositoryProvider);
@@ -29,9 +25,8 @@ final profileServiceProvider = Provider((ref) {
 final gameServiceProvider = Provider((ref) {
   final talker = ref.watch(talkerProvider);
   final rulesService = ref.read(rulesServiceProvider);
-  final scoreService = ref.read(scoreServiceProvider);
   final gameRepo = ref.read(gameRepositoryProvider);
-  return GameService(rulesService, scoreService, talker, gameRepo);
+  return GameService(rulesService, talker, gameRepo);
 });
 
 // DATA PROVIDERS
