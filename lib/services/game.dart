@@ -22,8 +22,11 @@ class GameService {
     return games;
   }
 
+  Game split(Game game, int points) {
+    return game;
+  }
+
   Game confirmRound(Game game, Map<String, int> points) {
-    // TODO: add barrel counter + check barrel during counting
     Player? newBarrelPlayer = game.players.where((p) {
       final scoreToAdd = points[p.profile.id] ?? 0;
       final newTotal = p.totalPoints + scoreToAdd;
@@ -89,24 +92,19 @@ class GameService {
       playerScores: points,
     );
 
-    _gameRepository.update(game);
+    game = game.copyWith(
+      players: updatedPlayers,
+      rounds: [...game.rounds, newRound],
+      currentRound: game.currentRound + 1,
+      currentPlayerIndex: (game.currentPlayerIndex + 1) % game.players.length,
+    );
     Player? winner = getWinner(game);
+
     if (winner != null) {
-      game = game.copyWith(
-        players: updatedPlayers,
-        rounds: [...game.rounds, newRound],
-        currentRound: game.currentRound + 1,
-        winner: winner,
-        isFinished: true,
-      );
-    } else {
-      game = game.copyWith(
-        players: updatedPlayers,
-        rounds: [...game.rounds, newRound],
-        currentRound: game.currentRound + 1,
-        currentPlayerIndex: (game.currentPlayerIndex + 1) % game.players.length,
-      );
+      game = game.copyWith(winner: winner, isFinished: true);
     }
+
+    _gameRepository.update(game);
     return game;
   }
 

@@ -79,10 +79,29 @@ class GameScreen extends ConsumerWidget {
               },
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+            child: SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton(
+                onPressed: () {
+                  // TODO:!
+                  gameService.split(currentGame, 0);
+                },
+                child: const Text("Split"),
+              ),
+            ),
+          ),
 
           if (!currentGame.isFinished)
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.only(
+                right: 24.0,
+                left: 24.0,
+                top: 16.0,
+                bottom: 24.0,
+              ),
               child: SizedBox(
                 width: double.infinity,
                 height: 60,
