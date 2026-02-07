@@ -23,10 +23,7 @@ class GameService {
   }
 
   Game confirmRound(Game game, Map<String, int> points) {
-    Player? currentBarrelPlayer = game.players
-        .where((p) => p.isOnBarrel)
-        .firstOrNull;
-
+    // TODO: add barrel counter + check barrel during counting
     Player? newBarrelPlayer = game.players.where((p) {
       final scoreToAdd = points[p.profile.id] ?? 0;
       final newTotal = p.totalPoints + scoreToAdd;
@@ -46,23 +43,24 @@ class GameService {
         newBarrelAttempts = 0;
         newTotalPoints = barrelNumber;
       } else if (p.isOnBarrel) {
-        newBarrelAttempts = p.barrelAttempts + 1;
-
-        if (newTotal >= maxPoints) {
-          newTotalPoints = maxPoints;
-        } else if (newBarrelAttempts >= 3) {
+        if (newBarrelPlayer != null &&
+            newBarrelPlayer.profile.id != p.profile.id) {
           newIsOnBarrel = false;
           newBarrelAttempts = 0;
           newTotalPoints = p.totalPoints - 120;
         } else {
-          newTotalPoints = newTotal;
+          newBarrelAttempts = p.barrelAttempts + 1;
+
+          if (newTotal >= maxPoints) {
+            newTotalPoints = maxPoints;
+          } else if (newBarrelAttempts >= 3) {
+            newIsOnBarrel = false;
+            newBarrelAttempts = 0;
+            newTotalPoints = p.totalPoints - 120;
+          } else {
+            newTotalPoints = newTotal;
+          }
         }
-      } else if (p == currentBarrelPlayer &&
-          newBarrelPlayer != null &&
-          newBarrelPlayer != p) {
-        newIsOnBarrel = false;
-        newBarrelAttempts = 0;
-        newTotalPoints = p.totalPoints - 120;
       } else {
         newTotalPoints = newTotal;
       }
@@ -89,11 +87,8 @@ class GameService {
       roundNumber: game.rounds.length + 1,
       playerScores: points,
     );
-    game = game.copyWith(
-      players: updatedPlayers,
-      rounds: [...game.rounds, newRound],
-      currentRound: game.currentRound + 1,
-    );
+
+    _gameRepository.update(game);
     Player? winner = getWinner(game);
     if (winner != null) {
       game = game.copyWith(
@@ -102,6 +97,12 @@ class GameService {
         currentRound: game.currentRound + 1,
         winner: winner,
         isFinished: true,
+      );
+    } else {
+      game = game.copyWith(
+        players: updatedPlayers,
+        rounds: [...game.rounds, newRound],
+        currentRound: game.currentRound + 1,
       );
     }
     return game;

@@ -7,7 +7,6 @@ import 'package:thousand_counter/providers/core_providers.dart';
 import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/services/profile.dart';
 import 'package:thousand_counter/services/rules.dart';
-import 'package:thousand_counter/services/score.dart';
 import 'package:thousand_counter/ui/screens/game_settings.dart';
 
 // REPORISTORIES PROVIDERS
@@ -48,10 +47,6 @@ final gamesListProvider = FutureProvider<List<Game>>((ref) async {
 final minusPressedProvider = StateProvider<Map<String, bool>>(
   (ref) => <String, bool>{},
 );
-final barrelProvider = StateProvider.autoDispose<Map<String, bool>>(
-  (ref) => <String, bool>{},
-);
-
 // NOTIFIERS
 
 final gameSetupProvider =

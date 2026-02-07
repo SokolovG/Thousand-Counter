@@ -102,6 +102,7 @@ class GameScreen extends ConsumerWidget {
                     );
                     ref.read(currentGameProvider.notifier).state = updatedGame;
                     ref.read(roundScoresProvider.notifier).state = {};
+                    ref.invalidate(gamesListProvider);
                   },
                   child: const Text("Confirm Round"),
                 ),

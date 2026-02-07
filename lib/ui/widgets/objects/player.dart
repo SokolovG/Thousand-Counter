@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 
@@ -14,8 +15,7 @@ class PlayerWidget extends ConsumerWidget {
     final theme = Theme.of(context);
     Map<String, bool> allStates = ref.watch(minusPressedProvider);
     bool isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
-    Map<String, bool> allBarrels = ref.watch(barrelProvider);
-    bool isPlayerOnBarrel = allBarrels[player.profile.id] ?? false;
+    bool isPlayerOnBarrel = player.isOnBarrel;
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -45,6 +45,12 @@ class PlayerWidget extends ConsumerWidget {
                 ],
               ),
             ),
+            if (player.totalPoints >= maxPoints)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(Icons.emoji_events, color: Colors.amber),
+              ),
+
             if (isPlayerOnBarrel)
               Padding(
                 padding: const EdgeInsets.only(right: 8),
