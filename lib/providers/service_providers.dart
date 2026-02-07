@@ -38,9 +38,7 @@ final gameByIdProvider = FutureProvider.family<Game, String>((ref, id) async {
   return allGames.firstWhere((game) => game.id == id);
 });
 final isEditModeProvider = StateProvider.autoDispose<bool>((ref) => false);
-final roundScoresProvider = StateProvider.autoDispose<Map<String, int>>(
-  (ref) => {},
-);
+final roundScoresProvider = StateProvider<Map<String, int>>((ref) => {});
 final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
   final profileService = ref.read(profileServiceProvider);
   return profileService.getAllProfiles();

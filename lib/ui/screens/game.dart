@@ -83,10 +83,20 @@ class GameScreen extends ConsumerWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Map<String, int> points = ref.read(roundScoresProvider);
-                    ref.read(minusPressedProvider).clear();
+                    Map<String, bool> minuses = ref.read(minusPressedProvider);
+
+                    Map<String, int> finalPoints = points.map((
+                      playerId,
+                      score,
+                    ) {
+                      bool isMinus = minuses[playerId] ?? false;
+                      return MapEntry(playerId, isMinus ? -score : score);
+                    });
+
+                    ref.read(minusPressedProvider.notifier).state = {};
                     Game updatedGame = gameService.confirmRound(
                       currentGame,
-                      points,
+                      finalPoints,
                     );
                     ref.read(currentGameProvider.notifier).state = updatedGame;
                     ref.read(roundScoresProvider.notifier).state = {};
