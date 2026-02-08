@@ -1,0 +1,15 @@
+{
+    "@@locale": "ru",
+    "appTitle": "Счётчик Тысячи",
+    "@appTitle": {
+        "description": "Название приложения"
+    },
+    "startGame": "Начать игру",
+    "@startGame": {
+        "description": "Кнопка начала новой игры"
+    },
+    "settings": "Настройки",
+    "@settings": {
+        "description": "Заголовок экрана настроек"
+    }
+}

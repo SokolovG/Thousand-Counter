@@ -55,22 +55,22 @@ List<SettingsItem> _buildSettingsItems(
         return themaDialog(context, ref);
       },
     ),
-    SettingsItem(
-      icon: Icons.notifications,
-      title: "Notifications",
-      type: SettingsItemType.toggle,
-      switchValue: notifications,
-      onSwitchChanged: (val) =>
-          ref.read(notificationsProvider.notifier).state = val,
-    ),
-    SettingsItem(
-      icon: Icons.people_alt,
-      title: "Single mode",
-      type: SettingsItemType.toggle,
-      switchValue: singleMode,
-      onSwitchChanged: (val) =>
-          ref.read(singleModeProvider.notifier).state = val,
-    ),
+    // SettingsItem(
+    //   icon: Icons.notifications,
+    //   title: "Notifications",
+    //   type: SettingsItemType.toggle,
+    //   switchValue: notifications,
+    //   onSwitchChanged: (val) =>
+    //       ref.read(notificationsProvider.notifier).state = val,
+    // ),
+    // SettingsItem(
+    //   icon: Icons.people_alt,
+    //   title: "Single mode",
+    //   type: SettingsItemType.toggle,
+    //   switchValue: singleMode,
+    //   onSwitchChanged: (val) =>
+    //       ref.read(singleModeProvider.notifier).state = val,
+    // ),
     SettingsItem(
       icon: Icons.volume_up,
       title: "Sounds",

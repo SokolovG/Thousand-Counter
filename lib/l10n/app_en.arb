@@ -1,0 +1,15 @@
+{
+    "@@locale": "en",
+    "appTitle": "Thousand Counter",
+    "@appTitle": {
+        "description": "The title of the application"
+    },
+    "startGame": "Start Game",
+    "@startGame": {
+        "description": "Button to start a new game"
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "Settings screen title"
+    }
+}
