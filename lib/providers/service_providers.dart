@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/data/repositories/profile.dart';
@@ -47,6 +49,13 @@ final gamesListProvider = FutureProvider<List<Game>>((ref) async {
 final minusPressedProvider = StateProvider<Map<String, bool>>(
   (ref) => <String, bool>{},
 );
+
+final localeProvider = StateProvider<Locale>((ref) {
+  // final saved = SharedPreferences.getInstance()...
+  // TODO: db
+  // return saved ?? const Locale('en');
+  return const Locale('en');
+});
 // NOTIFIERS
 
 final gameSetupProvider =
