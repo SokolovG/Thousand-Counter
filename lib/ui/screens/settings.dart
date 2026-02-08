@@ -5,6 +5,7 @@ import 'package:thousand_counter/providers/settings_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/language.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/rules.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/thema.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -16,9 +17,11 @@ class SettingsScreen extends ConsumerWidget {
     bool sounds = ref.watch(soundsModeProvider);
     String language = "English";
 
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: Text(l10n.settings),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: ListView(
@@ -29,6 +32,7 @@ class SettingsScreen extends ConsumerWidget {
           singleMode,
           sounds,
           language,
+          l10n,
         ).map((item) => _buildItem(item)).toList(),
       ),
     );
@@ -42,14 +46,15 @@ List<SettingsItem> _buildSettingsItems(
   bool singleMode,
   bool sounds,
   String language,
+  AppLocalizations l10n,
 ) {
   const version = "1.0.0";
 
   return [
     SettingsItem(
       icon: Icons.palette,
-      title: 'Theme',
-      subtitle: 'Default',
+      title: l10n.theme,
+      subtitle: l10n.defaultTheme,
       type: SettingsItemType.navigation,
       onTap: () {
         return themaDialog(context, ref);
@@ -73,7 +78,7 @@ List<SettingsItem> _buildSettingsItems(
     // ),
     SettingsItem(
       icon: Icons.volume_up,
-      title: "Sounds",
+      title: l10n.sounds,
       type: SettingsItemType.toggle,
       switchValue: sounds,
       onSwitchChanged: (val) =>
@@ -81,7 +86,7 @@ List<SettingsItem> _buildSettingsItems(
     ),
     SettingsItem(
       icon: Icons.help_outline,
-      title: 'Game rules',
+      title: l10n.gameRules,
       type: SettingsItemType.navigation,
       onTap: () {
         return rulesDialog(context, ref);
@@ -89,7 +94,7 @@ List<SettingsItem> _buildSettingsItems(
     ),
     SettingsItem(
       icon: Icons.language,
-      title: 'Language',
+      title: l10n.language,
       subtitle: language,
       type: SettingsItemType.navigation,
       onTap: () {
@@ -98,7 +103,7 @@ List<SettingsItem> _buildSettingsItems(
     ),
     SettingsItem(
       icon: Icons.person,
-      title: 'Author',
+      title: l10n.author,
       subtitle: "Grigoriy Sokolov",
       type: SettingsItemType.info,
     ),
@@ -110,7 +115,7 @@ List<SettingsItem> _buildSettingsItems(
     // ),
     SettingsItem(
       icon: Icons.app_settings_alt,
-      title: 'Version',
+      title: l10n.version,
       subtitle: version,
       type: SettingsItemType.info,
     ),

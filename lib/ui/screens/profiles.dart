@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/objects/profile.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/profile_edit.dart';
@@ -20,10 +21,11 @@ class ProfilesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profilesAsync = ref.watch(profilesListProvider);
     final isEditMode = ref.watch(isEditModeProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text("Players profiles")),
+        title: Center(child: Text(l10n.playersProfiles)),
         actions: [
           if (!isEditMode)
             IconButton(
@@ -50,7 +52,7 @@ class ProfilesScreen extends ConsumerWidget {
           ),
         ),
         loading: () => Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(child: Text(l10n.errorGeneric(err))),
       ),
     );
   }

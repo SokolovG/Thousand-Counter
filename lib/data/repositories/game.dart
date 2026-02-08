@@ -13,8 +13,8 @@ class GameRepository implements AbstractRepository<Game> {
     Player player2 = Player(profile: profile2);
     List<Player> players = [player1, player2];
     _games.addAll([
-      Game(players: players, isFinished: true),
-      Game(players: players, isFinished: false),
+      Game(players: players, isFinished: true, name: "Completed Game"),
+      Game(players: players, isFinished: false, name: "Active Game"),
     ]);
   }
 

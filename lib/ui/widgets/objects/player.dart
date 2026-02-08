@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/core/constants.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/player_game_history.dart';
@@ -18,6 +19,7 @@ class PlayerWidget extends ConsumerWidget {
     Map<String, bool> allStates = ref.watch(minusPressedProvider);
     bool isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
     bool isPlayerOnBarrel = player.isOnBarrel;
+    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -43,7 +45,7 @@ class PlayerWidget extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      "Total: ${player.totalPoints}",
+                      l10n.totalPoints(player.totalPoints),
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: theme.textTheme.bodyMedium?.fontSize,
@@ -87,7 +89,7 @@ class PlayerWidget extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Text(
-                  "B: ${player.boltsCount}",
+                  l10n.bolts(player.boltsCount),
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ),

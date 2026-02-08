@@ -115,6 +115,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// Language settings title
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Label for language selection
+  ///
+  /// In en, this message translates to:
+  /// **'Choose language:'**
+  String get chooseLanguage;
+
+  /// Rules dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Rules'**
+  String get rules;
+
+  /// Game label
+  ///
+  /// In en, this message translates to:
+  /// **'Game'**
+  String get game;
+
+  /// Cancel button label
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Save button label
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Hint text for player name input
+  ///
+  /// In en, this message translates to:
+  /// **'Enter player name'**
+  String get enterPlayerName;
+
+  /// Title for player selection dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Who is playing?'**
+  String get whoIsPlaying;
+
+  /// Generic error message with placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String errorGeneric(Object error);
+
+  /// Theme settings title
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// Label for theme selection
+  ///
+  /// In en, this message translates to:
+  /// **'Choose theme:'**
+  String get chooseTheme;
+
+  /// Title for player history dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Player game history:'**
+  String get playerGameHistory;
+
+  /// Title for game settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Game settings'**
+  String get gameSettings;
+
+  /// Loading indicator text
+  ///
+  /// In en, this message translates to:
+  /// **'Loading profiles...'**
+  String get loadingProfiles;
+
+  /// Title for recent games section
+  ///
+  /// In en, this message translates to:
+  /// **'Recent games'**
+  String get recentGames;
+
+  /// Message when no game is active
+  ///
+  /// In en, this message translates to:
+  /// **'No active game'**
+  String get noActiveGame;
+
+  /// Round number label
+  ///
+  /// In en, this message translates to:
+  /// **'Round {number}'**
+  String round(Object number);
+
+  /// Split points action
+  ///
+  /// In en, this message translates to:
+  /// **'Split'**
+  String get split;
+
+  /// Button to confirm round scores
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Round'**
+  String get confirmRound;
+
+  /// Title for profiles screen
+  ///
+  /// In en, this message translates to:
+  /// **'Players profiles'**
+  String get playersProfiles;
+
+  /// Button to create a new game
+  ///
+  /// In en, this message translates to:
+  /// **'Create new game'**
+  String get createNewGame;
+
+  /// Players section title
+  ///
+  /// In en, this message translates to:
+  /// **'Players'**
+  String get players;
+
+  /// Default theme name
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultTheme;
+
+  /// Sounds settings option
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds'**
+  String get sounds;
+
+  /// Game rules settings option
+  ///
+  /// In en, this message translates to:
+  /// **'Game rules'**
+  String get gameRules;
+
+  /// Author settings option
+  ///
+  /// In en, this message translates to:
+  /// **'Author'**
+  String get author;
+
+  /// Share app settings option
+  ///
+  /// In en, this message translates to:
+  /// **'Share app'**
+  String get shareApp;
+
+  /// Version label
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// Delete action label
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Title for adding a new player
+  ///
+  /// In en, this message translates to:
+  /// **'Add new player'**
+  String get addNewPlayer;
+
+  /// Title for editing a player
+  ///
+  /// In en, this message translates to:
+  /// **'Edit player'**
+  String get editPlayer;
+
+  /// Error message for minimum players
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum 2 players!'**
+  String get minPlayersError;
+
+  /// Error message for maximum players
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum 4 players!'**
+  String get maxPlayersError;
+
+  /// Total points display
+  ///
+  /// In en, this message translates to:
+  /// **'Total: {points}'**
+  String totalPoints(Object points);
+
+  /// Bolts count display
+  ///
+  /// In en, this message translates to:
+  /// **'B: {count}'**
+  String bolts(Object count);
+
+  /// Default name for a new game
+  ///
+  /// In en, this message translates to:
+  /// **'Game from {date}'**
+  String defaultGameName(Object date);
+
+  /// Description of the game content
+  ///
+  /// In en, this message translates to:
+  /// **'Game with players {players}'**
+  String gameDescription(Object players);
 }
 
 class _AppLocalizationsDelegate

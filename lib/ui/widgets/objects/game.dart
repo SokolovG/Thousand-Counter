@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/recent_game.dart';
@@ -33,7 +34,7 @@ class GameWidget extends ConsumerWidget {
             },
             backgroundColor: Colors.red,
             icon: Icons.delete,
-            label: "Delete",
+            label: AppLocalizations.of(context)!.delete,
           ),
         ],
       ),
@@ -44,7 +45,7 @@ class GameWidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),

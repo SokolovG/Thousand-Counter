@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 
 void showRecentGameDialog(BuildContext context, WidgetRef ref) {
   showDialog(
@@ -7,7 +8,8 @@ void showRecentGameDialog(BuildContext context, WidgetRef ref) {
     builder: (context) {
       return StatefulBuilder(
         builder: (context, setState) {
-          return AlertDialog(title: const Text("Game"));
+          return AlertDialog(
+              title: Text(AppLocalizations.of(context)!.game));
         },
       );
     },

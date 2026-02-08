@@ -150,13 +150,13 @@ class GameService {
     game.players.add(player);
   }
 
-  Game startGame(List<Profile> profiles) {
+  Game startGame(List<Profile> profiles, {String? name}) {
     // _talker.debug("Starting game with ${profiles.length} profiles");
     GameValidators.validatePlayerCount(profiles.length);
     final players = profiles
         .map((profile) => Player(profile: profile))
         .toList();
-    final game = Game(players: players);
+    final game = Game(players: players, name: name);
     // _talker.info("Game created successfully: $game");
     return game;
   }

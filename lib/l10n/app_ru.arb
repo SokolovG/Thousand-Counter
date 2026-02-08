@@ -11,5 +11,171 @@
     "settings": "Настройки",
     "@settings": {
         "description": "Заголовок экрана настроек"
+    },
+    "language": "Язык",
+    "@language": {
+        "description": "Language settings title"
+    },
+    "chooseLanguage": "Выберите язык:",
+    "@chooseLanguage": {
+        "description": "Label for language selection"
+    },
+    "rules": "Правила",
+    "@rules": {
+        "description": "Rules dialog title"
+    },
+    "game": "Игра",
+    "@game": {
+        "description": "Game label"
+    },
+    "cancel": "Отмена",
+    "@cancel": {
+        "description": "Cancel button label"
+    },
+    "save": "Сохранить",
+    "@save": {
+        "description": "Save button label"
+    },
+    "enterPlayerName": "Введите имя игрока",
+    "@enterPlayerName": {
+        "description": "Hint text for player name input"
+    },
+    "whoIsPlaying": "Кто играет?",
+    "@whoIsPlaying": {
+        "description": "Title for player selection dialog"
+    },
+    "errorGeneric": "Ошибка: {error}",
+    "@errorGeneric": {
+        "description": "Generic error message with placeholder",
+        "placeholders": {
+            "error": {}
+        }
+    },
+    "theme": "Тема",
+    "@theme": {
+        "description": "Theme settings title"
+    },
+    "chooseTheme": "Выберите тему:",
+    "@chooseTheme": {
+        "description": "Label for theme selection"
+    },
+    "playerGameHistory": "История игр игрока:",
+    "@playerGameHistory": {
+        "description": "Title for player history dialog"
+    },
+    "gameSettings": "Настройки игры",
+    "@gameSettings": {
+        "description": "Title for game settings screen"
+    },
+    "loadingProfiles": "Загрузка профилей...",
+    "@loadingProfiles": {
+        "description": "Loading indicator text"
+    },
+    "recentGames": "Недавние игры",
+    "@recentGames": {
+        "description": "Title for recent games section"
+    },
+    "noActiveGame": "Нет активной игры",
+    "@noActiveGame": {
+        "description": "Message when no game is active"
+    },
+    "round": "Раунд {number}",
+    "@round": {
+        "description": "Round number label",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "split": "Расписать",
+    "@split": {
+        "description": "Split points action"
+    },
+    "confirmRound": "Подтвердить раунд",
+    "@confirmRound": {
+        "description": "Button to confirm round scores"
+    },
+    "playersProfiles": "Профили игроков",
+    "@playersProfiles": {
+        "description": "Title for profiles screen"
+    },
+    "createNewGame": "Новая игра",
+    "@createNewGame": {
+        "description": "Button to create a new game"
+    },
+    "players": "Игроки",
+    "@players": {
+        "description": "Players section title"
+    },
+    "defaultTheme": "По умолчанию",
+    "@defaultTheme": {
+        "description": "Default theme name"
+    },
+    "sounds": "Звуки",
+    "@sounds": {
+        "description": "Sounds settings option"
+    },
+    "gameRules": "Правила игры",
+    "@gameRules": {
+        "description": "Game rules settings option"
+    },
+    "author": "Автор",
+    "@author": {
+        "description": "Author settings option"
+    },
+    "shareApp": "Поделиться",
+    "@shareApp": {
+        "description": "Share app settings option"
+    },
+    "version": "Версия",
+    "@version": {
+        "description": "Version label"
+    },
+    "delete": "Удалить",
+    "@delete": {
+        "description": "Delete action label"
+    },
+    "addNewPlayer": "Добавить игрока",
+    "@addNewPlayer": {
+        "description": "Title for adding a new player"
+    },
+    "editPlayer": "Редактировать игрока",
+    "@editPlayer": {
+        "description": "Title for editing a player"
+    },
+    "minPlayersError": "Минимум 2 игрока!",
+    "@minPlayersError": {
+        "description": "Error message for minimum players"
+    },
+    "maxPlayersError": "Максимум 4 игрока!",
+    "@maxPlayersError": {
+        "description": "Error message for maximum players"
+    },
+    "totalPoints": "Всего: {points}",
+    "@totalPoints": {
+        "description": "Total points display",
+        "placeholders": {
+            "points": {}
+        }
+    },
+    "bolts": "Б: {count}",
+    "@bolts": {
+        "description": "Bolts count display",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "defaultGameName": "Игра от {date}",
+    "@defaultGameName": {
+        "description": "Default name for a new game",
+        "placeholders": {
+            "date": {}
+        }
+    },
+    "gameDescription": "Игра с игроками {players}",
+    "@gameDescription": {
+        "description": "Description of the game content",
+        "placeholders": {
+            "players": {}
+        }
     }
 }

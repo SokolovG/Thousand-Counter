@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/objects/game.dart';
 
@@ -9,12 +10,13 @@ class RecentGamesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gamesAsync = ref.watch(gamesListProvider);
-    final isEditMode = ref.watch(isEditModeProvider);
+    var gamesAsync = ref.watch(gamesListProvider);
+    var isEditMode = ref.watch(isEditModeProvider);
+    var l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Recent games"),
+        title: Text(l10n.recentGames),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
@@ -42,7 +44,7 @@ class RecentGamesScreen extends ConsumerWidget {
           ),
         ),
 
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(child: Text(l10n.errorGeneric(err))),
         loading: () => Center(child: CircularProgressIndicator()),
       ),
     );

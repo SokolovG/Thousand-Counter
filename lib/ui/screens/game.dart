@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/profiles_select.dart';
@@ -16,6 +17,7 @@ class GameScreen extends ConsumerWidget {
     final gameService = ref.read(gameServiceProvider);
     final queryParams = GoRouterState.of(context).uri.queryParameters;
     final previousScreen = queryParams['previousScreen'];
+    final l10n = AppLocalizations.of(context)!;
 
     if (currentGame == null && gameId != null) {
       final asyncGame = ref.watch(gameByIdProvider(gameId!));
@@ -30,18 +32,19 @@ class GameScreen extends ConsumerWidget {
         },
         loading: () =>
             const Scaffold(body: Center(child: CircularProgressIndicator())),
-        error: (e, st) => Scaffold(body: Center(child: Text("Error: $e"))),
+        error: (e, st) =>
+            Scaffold(body: Center(child: Text(l10n.errorGeneric(e)))),
       );
     }
     if (currentGame == null) {
-      return const Scaffold(body: Center(child: Text("No active game")));
+      return Scaffold(body: Center(child: Text(l10n.noActiveGame)));
     }
 
     final players = currentGame.players;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Round ${currentGame.currentRound}"),
+        title: Text(l10n.round(currentGame.currentRound)),
         leading: previousScreen == "recent_games"
             ? IconButton(
                 icon: Icon(Icons.arrow_back_ios),
@@ -89,7 +92,7 @@ class GameScreen extends ConsumerWidget {
                   // TODO:!
                   gameService.split(currentGame, 0);
                 },
-                child: const Text("Split"),
+                child: Text(l10n.split),
               ),
             ),
           ),
@@ -127,7 +130,7 @@ class GameScreen extends ConsumerWidget {
                     ref.read(roundScoresProvider.notifier).state = {};
                     ref.invalidate(gamesListProvider);
                   },
-                  child: const Text("Confirm Round"),
+                  child: Text(l10n.confirmRound),
                 ),
               ),
             ),

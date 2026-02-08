@@ -1,6 +1,5 @@
 import 'package:thousand_counter/models/base_model.dart';
 import 'player.dart';
-import 'package:recase/recase.dart';
 import 'round.dart';
 
 class Game extends Entity {
@@ -25,14 +24,12 @@ class Game extends Entity {
     this.currentPlayerIndex = 0,
   }) : rounds = rounds ?? [],
        createdAt = createdAt ?? DateTime.now(),
-       name = name ?? "Game from ${DateTime.now().day}.${DateTime.now().month}";
+       name = name ?? "";
 
   @override
+  @override
   String toString() {
-    final playerNames = players
-        .map((p) => p.profile.name.sentenceCase)
-        .join(', ');
-    return "Game with players $playerNames";
+    return "Game(id: $id, players: ${players.length})"; 
   }
 
   Game copyWith({

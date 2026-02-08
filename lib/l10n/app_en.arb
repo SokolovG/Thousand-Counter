@@ -11,5 +11,171 @@
     "settings": "Settings",
     "@settings": {
         "description": "Settings screen title"
+    },
+    "language": "Language",
+    "@language": {
+        "description": "Language settings title"
+    },
+    "chooseLanguage": "Choose language:",
+    "@chooseLanguage": {
+        "description": "Label for language selection"
+    },
+    "rules": "Rules",
+    "@rules": {
+        "description": "Rules dialog title"
+    },
+    "game": "Game",
+    "@game": {
+        "description": "Game label"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+        "description": "Cancel button label"
+    },
+    "save": "Save",
+    "@save": {
+        "description": "Save button label"
+    },
+    "enterPlayerName": "Enter player name",
+    "@enterPlayerName": {
+        "description": "Hint text for player name input"
+    },
+    "whoIsPlaying": "Who is playing?",
+    "@whoIsPlaying": {
+        "description": "Title for player selection dialog"
+    },
+    "errorGeneric": "Error: {error}",
+    "@errorGeneric": {
+        "description": "Generic error message with placeholder",
+        "placeholders": {
+            "error": {}
+        }
+    },
+    "theme": "Theme",
+    "@theme": {
+        "description": "Theme settings title"
+    },
+    "chooseTheme": "Choose theme:",
+    "@chooseTheme": {
+        "description": "Label for theme selection"
+    },
+    "playerGameHistory": "Player game history:",
+    "@playerGameHistory": {
+        "description": "Title for player history dialog"
+    },
+    "gameSettings": "Game settings",
+    "@gameSettings": {
+        "description": "Title for game settings screen"
+    },
+    "loadingProfiles": "Loading profiles...",
+    "@loadingProfiles": {
+        "description": "Loading indicator text"
+    },
+    "recentGames": "Recent games",
+    "@recentGames": {
+        "description": "Title for recent games section"
+    },
+    "noActiveGame": "No active game",
+    "@noActiveGame": {
+        "description": "Message when no game is active"
+    },
+    "round": "Round {number}",
+    "@round": {
+        "description": "Round number label",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "split": "Split",
+    "@split": {
+        "description": "Split points action"
+    },
+    "confirmRound": "Confirm Round",
+    "@confirmRound": {
+        "description": "Button to confirm round scores"
+    },
+    "playersProfiles": "Players profiles",
+    "@playersProfiles": {
+        "description": "Title for profiles screen"
+    },
+    "createNewGame": "Create new game",
+    "@createNewGame": {
+        "description": "Button to create a new game"
+    },
+    "players": "Players",
+    "@players": {
+        "description": "Players section title"
+    },
+    "defaultTheme": "Default",
+    "@defaultTheme": {
+        "description": "Default theme name"
+    },
+    "sounds": "Sounds",
+    "@sounds": {
+        "description": "Sounds settings option"
+    },
+    "gameRules": "Game rules",
+    "@gameRules": {
+        "description": "Game rules settings option"
+    },
+    "author": "Author",
+    "@author": {
+        "description": "Author settings option"
+    },
+    "shareApp": "Share app",
+    "@shareApp": {
+        "description": "Share app settings option"
+    },
+    "version": "Version",
+    "@version": {
+        "description": "Version label"
+    },
+    "delete": "Delete",
+    "@delete": {
+        "description": "Delete action label"
+    },
+    "addNewPlayer": "Add new player",
+    "@addNewPlayer": {
+        "description": "Title for adding a new player"
+    },
+    "editPlayer": "Edit player",
+    "@editPlayer": {
+        "description": "Title for editing a player"
+    },
+    "minPlayersError": "Minimum 2 players!",
+    "@minPlayersError": {
+        "description": "Error message for minimum players"
+    },
+    "maxPlayersError": "Maximum 4 players!",
+    "@maxPlayersError": {
+        "description": "Error message for maximum players"
+    },
+    "totalPoints": "Total: {points}",
+    "@totalPoints": {
+        "description": "Total points display",
+        "placeholders": {
+            "points": {}
+        }
+    },
+    "bolts": "B: {count}",
+    "@bolts": {
+        "description": "Bolts count display",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "defaultGameName": "Game from {date}",
+    "@defaultGameName": {
+        "description": "Default name for a new game",
+        "placeholders": {
+            "date": {}
+        }
+    },
+    "gameDescription": "Game with players {players}",
+    "@gameDescription": {
+        "description": "Description of the game content",
+        "placeholders": {
+            "players": {}
+        }
     }
 }

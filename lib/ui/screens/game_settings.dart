@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
@@ -17,10 +18,11 @@ class GameSettingsScreen extends ConsumerWidget {
     final notifier = ref.read(gameSetupProvider.notifier);
     final profilesAsync = ref.watch(profilesListProvider);
     final gameService = ref.read(gameServiceProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Game settings"),
+        title: Text(l10n.gameSettings),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           if (state.selectedIds.isNotEmpty)
@@ -75,6 +77,7 @@ class GameSettingsScreen extends ConsumerWidget {
                     onPressed: state.isValid
                         ? () {
                             Game game = _startGame(
+                              context,
                               profiles,
                               gameService,
                               state.selectedIds,
@@ -87,7 +90,7 @@ class GameSettingsScreen extends ConsumerWidget {
                           }
                         : null,
                     child: Text(
-                      "Start Game (${state.selectedIds.length} players)",
+                      "${l10n.startGame} (${state.selectedIds.length})",
                     ),
                   ),
                 ),
@@ -102,20 +105,21 @@ class GameSettingsScreen extends ConsumerWidget {
               children: [
                 CircularProgressIndicator(),
                 SizedBox(height: 16),
-                Text("Loading profiles..."),
+                Text(l10n.loadingProfiles),
               ],
             ),
           );
         },
         error: (err, trace) {
           // _talker.error("Failed to load profiles", err, trace);
-          return Text('Error: $err');
+          return Text(l10n.errorGeneric(err));
         },
       ),
     );
   }
 
   Game _startGame(
+    BuildContext context,
     List<Profile> allProfiles,
     GameService gameService,
     Set<String> selectedIds,
@@ -123,7 +127,12 @@ class GameSettingsScreen extends ConsumerWidget {
     final selectedProfiles = allProfiles
         .where((p) => selectedIds.contains(p.id))
         .toList();
-    final game = gameService.startGame(selectedProfiles);
+
+    final dateStr = "${DateTime.now().day}.${DateTime.now().month}";
+    final l10n = AppLocalizations.of(context)!;
+    final name = l10n.defaultGameName(dateStr);
+
+    final game = gameService.startGame(selectedProfiles, name: name);
     // _talker.info("Game started: $game");
     return game;
   }
