@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:thousand_counter/ui/models/settings_item.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
+import 'package:thousand_counter/ui/models/settings_item.dart';
+import 'package:thousand_counter/ui/utils.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/language.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/rules.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/thema.dart';
@@ -12,7 +13,6 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool notifications = ref.watch(notificationsProvider);
     String language = "English";
 
     final l10n = AppLocalizations.of(context)!;
@@ -26,7 +26,6 @@ class SettingsScreen extends ConsumerWidget {
         children: _buildSettingsItems(
           ref,
           context,
-          notifications,
           language,
           l10n,
         ).map((item) => _buildItem(item)).toList(),
@@ -38,17 +37,21 @@ class SettingsScreen extends ConsumerWidget {
 List<SettingsItem> _buildSettingsItems(
   WidgetRef ref,
   BuildContext context,
-  bool notifications,
   String language,
   AppLocalizations l10n,
 ) {
   const version = "1.0.0";
+  final currentTheme = ref.watch(themeModeProvider);
+  final currentLocale = ref.watch(localeProvider);
+
+  final themeLabel = getThemeLabel(currentTheme, l10n);
+  final localeLabel = getLocaleLabel(currentLocale);
 
   return [
     SettingsItem(
       icon: Icons.palette,
       title: l10n.theme,
-      subtitle: l10n.defaultTheme,
+      subtitle: themeLabel,
       type: SettingsItemType.navigation,
       onTap: () {
         return themaDialog(context, ref);
@@ -65,7 +68,7 @@ List<SettingsItem> _buildSettingsItems(
     SettingsItem(
       icon: Icons.language,
       title: l10n.language,
-      subtitle: language,
+      subtitle: localeLabel,
       type: SettingsItemType.navigation,
       onTap: () {
         return languageDialog(context, ref);

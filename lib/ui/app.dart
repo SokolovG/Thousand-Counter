@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/ui/theme/theme.dart';
 import 'package:thousand_counter/router/app_router.dart';
@@ -12,6 +13,7 @@ class ThousandCounterApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
+    final locale = ref.watch(localeProvider);
 
     return MaterialApp.router(
       localizationsDelegates: [
@@ -20,11 +22,12 @@ class ThousandCounterApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [Locale('en'), Locale('ru')],
+      supportedLocales: supportedLocales,
       routerConfig: appRouter,
       onGenerateTitle: (BuildContext context) {
         return AppLocalizations.of(context)!.appTitle;
       },
+      locale: locale,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeMode,
