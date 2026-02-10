@@ -5,7 +5,7 @@ import 'package:thousand_counter/providers/service_providers.dart';
 
 void languageDialog(BuildContext context, WidgetRef ref) {
   final currentLocale = ref.watch(localeProvider);
-
+  // TODO: handle languages properly in the app
   showDialog(
     context: context,
     builder: (BuildContext context) {

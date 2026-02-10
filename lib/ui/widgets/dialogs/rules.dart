@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 
 void rulesDialog(BuildContext context, WidgetRef ref) {
@@ -9,7 +8,9 @@ void rulesDialog(BuildContext context, WidgetRef ref) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Center(child: Text(AppLocalizations.of(context)!.rules)),
-        content: SizedBox(child: Text(gameRules)),
+        content: SingleChildScrollView(
+          child: Text(AppLocalizations.of(context)!.rulesContent),
+        ),
       );
     },
   );
