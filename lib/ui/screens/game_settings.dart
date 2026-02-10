@@ -8,6 +8,7 @@ import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/services/game.dart';
+import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/widgets/objects/profle_checkbox.dart';
 
 class GameSettingsScreen extends ConsumerWidget {
@@ -19,6 +20,7 @@ class GameSettingsScreen extends ConsumerWidget {
     final profilesAsync = ref.watch(profilesListProvider);
     final gameService = ref.read(gameServiceProvider);
     final l10n = AppLocalizations.of(context)!;
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +41,7 @@ class GameSettingsScreen extends ConsumerWidget {
                     .map((p) => p.id)
                     .toSet();
 
-                notifier.selectAll(ids);
+                notifier.selectAll(ids, l10n.maxPlayersError);
               },
               icon: Icon(Icons.select_all),
             ),
@@ -53,7 +55,9 @@ class GameSettingsScreen extends ConsumerWidget {
                 child: ProfilesCheckBoxWidget(
                   profiles: profiles,
                   selectedIds: state.selectedIds,
-                  onChanged: notifier.togglePlayer,
+                  onChanged: (id) {
+                    notifier.togglePlayer(id, l10n.maxPlayersError);
+                  },
                 ),
               ),
 
@@ -62,8 +66,8 @@ class GameSettingsScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     state.errorMessage!,
-                    style: const TextStyle(
-                      color: Colors.red,
+                    style: TextStyle(
+                      color: appColors.alert,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -165,7 +169,7 @@ class GameSetupState {
 class GameSetupNotifier extends StateNotifier<GameSetupState> {
   GameSetupNotifier() : super(GameSetupState(selectedIds: {}, isValid: false));
 
-  void selectAll(Set<String> ids) {
+  void selectAll(Set<String> ids, String errorText) {
     Set<String> newIds;
     String? error;
     if (GameValidators.canAddMorePlayers(ids.length)) {
@@ -182,7 +186,7 @@ class GameSetupNotifier extends StateNotifier<GameSetupState> {
     );
   }
 
-  void togglePlayer(String id) {
+  void togglePlayer(String id, String errorText) {
     Set<String> newIds;
     String? error;
 
@@ -193,7 +197,7 @@ class GameSetupNotifier extends StateNotifier<GameSetupState> {
         newIds = {...state.selectedIds, id};
       } else {
         newIds = state.selectedIds;
-        error = "Maximum 4 players!";
+        error = errorText;
       }
     }
 

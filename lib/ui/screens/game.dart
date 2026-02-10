@@ -84,30 +84,10 @@ class GameScreen extends ConsumerWidget {
               },
             ),
           ),
-          if (!currentGame.isFinished)
-            Padding(
-              padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-              child: SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // TODO:!
-                    gameService.split(currentGame, 0);
-                  },
-                  child: Text(l10n.split),
-                ),
-              ),
-            ),
 
           if (!currentGame.isFinished)
             Padding(
-              padding: const EdgeInsets.only(
-                right: 24.0,
-                left: 24.0,
-                top: 16.0,
-                bottom: 24.0,
-              ),
+              padding: const EdgeInsets.only(left: 24.0, right: 24.0),
               child: SizedBox(
                 width: double.infinity,
                 height: 60,
@@ -134,6 +114,26 @@ class GameScreen extends ConsumerWidget {
                     ref.invalidate(gamesListProvider);
                   },
                   child: Text(l10n.confirmRound),
+                ),
+              ),
+            ),
+          if (!currentGame.isFinished)
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 24.0,
+                left: 24.0,
+                top: 16.0,
+                bottom: 24.0,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // TODO:!
+                    gameService.split(currentGame, 0);
+                  },
+                  child: Text(l10n.split),
                 ),
               ),
             ),

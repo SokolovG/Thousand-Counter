@@ -41,29 +41,31 @@ class GameService {
       int newBarrelAttempts = p.barrelAttempts;
       int newTotalPoints = p.totalPoints;
 
-      if (newTotal >= barrelNumber && !p.isOnBarrel) {
-        newIsOnBarrel = true;
-        newBarrelAttempts = 0;
-        newTotalPoints = barrelNumber;
-      } else if (p.isOnBarrel) {
-        if (newBarrelPlayer != null &&
+      if (p.isOnBarrel) {
+        if (newTotal >= 1000) {
+          newTotalPoints = newTotal;
+          newIsOnBarrel = false;
+          newBarrelAttempts = 0;
+        } else if (newBarrelPlayer != null &&
             newBarrelPlayer.profile.id != p.profile.id) {
           newIsOnBarrel = false;
           newBarrelAttempts = 0;
-          newTotalPoints = p.totalPoints - 120;
+          newTotalPoints = barrelNumber - 120;
         } else {
           newBarrelAttempts = p.barrelAttempts + 1;
 
-          if (newTotal >= maxPoints) {
-            newTotalPoints = maxPoints;
-          } else if (newBarrelAttempts >= 3) {
+          if (newBarrelAttempts >= 3) {
             newIsOnBarrel = false;
             newBarrelAttempts = 0;
-            newTotalPoints = p.totalPoints - 120;
+            newTotalPoints = barrelNumber - 120;
           } else {
-            newTotalPoints = newTotal;
+            newTotalPoints = barrelNumber;
           }
         }
+      } else if (newTotal >= barrelNumber) {
+        newIsOnBarrel = true;
+        newBarrelAttempts = 0;
+        newTotalPoints = barrelNumber;
       } else {
         newTotalPoints = newTotal;
       }
