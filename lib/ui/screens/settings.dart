@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
 import 'package:thousand_counter/ui/models/settings_item.dart';
 import 'package:thousand_counter/ui/utils.dart';
@@ -7,6 +8,7 @@ import 'package:thousand_counter/ui/widgets/dialogs/language.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/rules.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/thema.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -40,7 +42,6 @@ List<SettingsItem> _buildSettingsItems(
   String language,
   AppLocalizations l10n,
 ) {
-  const version = "1.0.0";
   final currentTheme = ref.watch(themeModeProvider);
   final currentLocale = ref.watch(localeProvider);
 
@@ -77,13 +78,30 @@ List<SettingsItem> _buildSettingsItems(
     SettingsItem(
       icon: Icons.person,
       title: l10n.author,
-      subtitle: "Grigoriy Sokolov",
+      subtitle: l10n.authorName,
       type: SettingsItemType.info,
+      onTap: () async {
+        final uri = Uri.parse(githubUrl);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      },
+    ),
+    SettingsItem(
+      icon: Icons.code,
+      title: l10n.sourceCode,
+      type: SettingsItemType.info,
+      onTap: () async {
+        final uri = Uri.parse(authorGithub);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      },
     ),
     SettingsItem(
       icon: Icons.app_settings_alt,
       title: l10n.version,
-      subtitle: version,
+      subtitle: appVersion,
       type: SettingsItemType.info,
     ),
 
