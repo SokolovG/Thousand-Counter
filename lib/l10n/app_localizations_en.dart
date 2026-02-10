@@ -53,6 +53,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chooseTheme => 'Choose theme:';
 
   @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
   String get playerGameHistory => 'Player game history:';
 
   @override

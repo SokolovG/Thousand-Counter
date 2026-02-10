@@ -59,6 +59,18 @@
     "@chooseTheme": {
         "description": "Label for theme selection"
     },
+    "themeLight": "Светлая",
+    "@themeLight": {
+        "description": "Light theme option"
+    },
+    "themeDark": "Тёмная",
+    "@themeDark": {
+        "description": "Dark theme option"
+    },
+    "themeSystem": "Системная",
+    "@themeSystem": {
+        "description": "System theme option"
+    },
     "playerGameHistory": "История игр игрока:",
     "@playerGameHistory": {
         "description": "Title for player history dialog"

@@ -53,6 +53,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get chooseTheme => 'Выберите тему:';
 
   @override
+  String get themeLight => 'Светлая';
+
+  @override
+  String get themeDark => 'Тёмная';
+
+  @override
+  String get themeSystem => 'Системная';
+
+  @override
   String get playerGameHistory => 'История игр игрока:';
 
   @override

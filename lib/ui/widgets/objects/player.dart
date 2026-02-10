@@ -6,6 +6,7 @@ import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/player_game_history.dart';
+import 'package:thousand_counter/ui/theme/extension.dart';
 
 class PlayerWidget extends ConsumerWidget {
   final Player player;
@@ -16,6 +17,8 @@ class PlayerWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
+    
     Map<String, bool> allStates = ref.watch(minusPressedProvider);
     bool isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
     bool isPlayerOnBarrel = player.isOnBarrel;
@@ -39,16 +42,12 @@ class PlayerWidget extends ConsumerWidget {
                   children: [
                     Text(
                       player.profile.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: theme.textTheme.bodyLarge?.fontSize,
-                      ),
+                      style: theme.textTheme.bodyLarge,
                     ),
                     Text(
                       l10n.totalPoints(player.totalPoints),
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: theme.textTheme.bodyMedium?.fontSize,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],
@@ -57,7 +56,7 @@ class PlayerWidget extends ConsumerWidget {
               if (player.totalPoints >= maxPoints)
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: Icon(Icons.emoji_events, color: Colors.amber),
+                  child: Icon(Icons.emoji_events, color: appColors.goldCrown),
                 ),
 
               if (isPlayerOnBarrel && player.totalPoints < maxPoints)
@@ -69,8 +68,8 @@ class PlayerWidget extends ConsumerWidget {
                       Icon(
                         Icons.oil_barrel_sharp,
                         color: player.barrelAttempts >= 2
-                            ? Colors.red
-                            : Colors.orange,
+                            ? appColors.alert
+                            : appColors.barrelColor,
                       ),
                       SizedBox(width: 4),
                       Text(
@@ -78,8 +77,8 @@ class PlayerWidget extends ConsumerWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: player.barrelAttempts >= 2
-                              ? Colors.red
-                              : Colors.black,
+                              ? appColors.alert
+                              : (appColors.barrelText ?? theme.colorScheme.onSurface),
                         ),
                       ),
                     ],
@@ -95,7 +94,7 @@ class PlayerWidget extends ConsumerWidget {
               ),
               isThisPlayerMinusPressed
                   ? IconButton(
-                      icon: Icon(Icons.remove, color: Colors.black, size: 25.0),
+                      icon: Icon(Icons.remove, color: theme.colorScheme.onSurface, size: 25.0),
                       onPressed: () {
                         Map<String, bool> current = ref
                             .read(minusPressedProvider.notifier)
@@ -107,7 +106,7 @@ class PlayerWidget extends ConsumerWidget {
                       },
                     )
                   : IconButton(
-                      icon: Icon(Icons.remove, color: Colors.grey),
+                      icon: Icon(Icons.remove, color: theme.colorScheme.onSurfaceVariant),
                       onPressed: () {
                         Map<String, bool> current = ref
                             .read(minusPressedProvider.notifier)

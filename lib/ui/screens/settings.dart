@@ -13,8 +13,6 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool notifications = ref.watch(notificationsProvider);
-    bool singleMode = ref.watch(singleModeProvider);
-    bool sounds = ref.watch(soundsModeProvider);
     String language = "English";
 
     final l10n = AppLocalizations.of(context)!;
@@ -29,8 +27,6 @@ class SettingsScreen extends ConsumerWidget {
           ref,
           context,
           notifications,
-          singleMode,
-          sounds,
           language,
           l10n,
         ).map((item) => _buildItem(item)).toList(),
@@ -43,8 +39,6 @@ List<SettingsItem> _buildSettingsItems(
   WidgetRef ref,
   BuildContext context,
   bool notifications,
-  bool singleMode,
-  bool sounds,
   String language,
   AppLocalizations l10n,
 ) {
@@ -59,30 +53,6 @@ List<SettingsItem> _buildSettingsItems(
       onTap: () {
         return themaDialog(context, ref);
       },
-    ),
-    // SettingsItem(
-    //   icon: Icons.notifications,
-    //   title: "Notifications",
-    //   type: SettingsItemType.toggle,
-    //   switchValue: notifications,
-    //   onSwitchChanged: (val) =>
-    //       ref.read(notificationsProvider.notifier).state = val,
-    // ),
-    // SettingsItem(
-    //   icon: Icons.people_alt,
-    //   title: "Single mode",
-    //   type: SettingsItemType.toggle,
-    //   switchValue: singleMode,
-    //   onSwitchChanged: (val) =>
-    //       ref.read(singleModeProvider.notifier).state = val,
-    // ),
-    SettingsItem(
-      icon: Icons.volume_up,
-      title: l10n.sounds,
-      type: SettingsItemType.toggle,
-      switchValue: sounds,
-      onSwitchChanged: (val) =>
-          ref.read(soundsModeProvider.notifier).state = val,
     ),
     SettingsItem(
       icon: Icons.help_outline,
@@ -107,18 +77,43 @@ List<SettingsItem> _buildSettingsItems(
       subtitle: "Grigoriy Sokolov",
       type: SettingsItemType.info,
     ),
-    // SettingsItem(
-    //   icon: Icons.share,
-    //   title: 'Share app',
-    //   type: SettingsItemType.navigation,
-    //   onTap: () {},
-    // ),
     SettingsItem(
       icon: Icons.app_settings_alt,
       title: l10n.version,
       subtitle: version,
       type: SettingsItemType.info,
     ),
+
+    // SettingsItem(
+    //   icon: Icons.share,
+    //   title: 'Share app',
+    //   type: SettingsItemType.navigation,
+    //   onTap: () {},
+    // ),
+    // SettingsItem(
+    //   icon: Icons.notifications,
+    //   title: "Notifications",
+    //   type: SettingsItemType.toggle,
+    //   switchValue: notifications,
+    //   onSwitchChanged: (val) =>
+    //       ref.read(notificationsProvider.notifier).state = val,
+    // ),
+    // SettingsItem(
+    //   icon: Icons.people_alt,
+    //   title: "Single mode",
+    //   type: SettingsItemType.toggle,
+    //   switchValue: singleMode,
+    //   onSwitchChanged: (val) =>
+    //       ref.read(singleModeProvider.notifier).state = val,
+    // ),
+    // SettingsItem(
+    //   icon: Icons.volume_up,
+    //   title: l10n.sounds,
+    //   type: SettingsItemType.toggle,
+    //   switchValue: sounds,
+    //   onSwitchChanged: (val) =>
+    //       ref.read(soundsModeProvider.notifier).state = val,
+    // ),
   ];
 }
 

@@ -182,6 +182,24 @@ abstract class AppLocalizations {
   /// **'Choose theme:'**
   String get chooseTheme;
 
+  /// Light theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// Dark theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// System theme option
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
   /// Title for player history dialog
   ///
   /// In en, this message translates to:
