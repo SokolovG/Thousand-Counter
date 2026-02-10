@@ -80,7 +80,13 @@ class GameScreen extends ConsumerWidget {
                 final color = isCurrentPlayer
                     ? Theme.of(context).colorScheme.primaryContainer
                     : (appColors.cardBackground ?? Colors.white);
-                return PlayerWidget(player: player, color: color);
+                return PlayerWidget(
+                  player: player,
+                  color: color,
+                  hintText: currentGame.currentPlayerIndex == index
+                      ? "100"
+                      : "0",
+                );
               },
             ),
           ),
@@ -130,8 +136,7 @@ class GameScreen extends ConsumerWidget {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    // TODO:!
-                    gameService.split(currentGame, 0);
+                    gameService.split(currentGame, 100);
                   },
                   child: Text(l10n.split),
                 ),

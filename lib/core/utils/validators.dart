@@ -21,9 +21,8 @@ class ProfileValidators {
       throw ArgumentError("Player name too long");
     }
 
-    if (name.contains(RegExp(r'[^a-zA-Z ]'))) {
-      //TODO: add smart check - only check is special symbold in string
-      throw ArgumentError("Player name cant contain special symbols");
+    if (name.contains(RegExp(r'[^\p{L} ]', unicode: true))) {
+      throw ArgumentError("Имя может содержать только буквы");
     }
   }
 }

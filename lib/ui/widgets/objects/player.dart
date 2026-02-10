@@ -5,20 +5,27 @@ import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
+import 'package:thousand_counter/ui/theme/colors.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/player_game_history.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
 class PlayerWidget extends ConsumerWidget {
   final Player player;
   final Color color;
+  final String? hintText;
 
-  const PlayerWidget({super.key, required this.player, required this.color});
+  const PlayerWidget({
+    super.key,
+    required this.player,
+    required this.color,
+    this.hintText = "0",
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    
+
     Map<String, bool> allStates = ref.watch(minusPressedProvider);
     bool isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
     bool isPlayerOnBarrel = player.isOnBarrel;
@@ -40,10 +47,7 @@ class PlayerWidget extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      player.profile.name,
-                      style: theme.textTheme.bodyLarge,
-                    ),
+                    Text(player.profile.name, style: theme.textTheme.bodyLarge),
                     Text(
                       l10n.totalPoints(player.totalPoints),
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -78,7 +82,8 @@ class PlayerWidget extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                           color: player.barrelAttempts >= 2
                               ? appColors.alert
-                              : (appColors.barrelText ?? theme.colorScheme.onSurface),
+                              : (appColors.barrelText ??
+                                    theme.colorScheme.onSurface),
                         ),
                       ),
                     ],
@@ -94,7 +99,11 @@ class PlayerWidget extends ConsumerWidget {
               ),
               isThisPlayerMinusPressed
                   ? IconButton(
-                      icon: Icon(Icons.remove, color: theme.colorScheme.onSurface, size: 25.0),
+                      icon: Icon(
+                        Icons.remove,
+                        color: AppPalette.darkGrey,
+                        size: 25.0,
+                      ),
                       onPressed: () {
                         Map<String, bool> current = ref
                             .read(minusPressedProvider.notifier)
@@ -106,7 +115,7 @@ class PlayerWidget extends ConsumerWidget {
                       },
                     )
                   : IconButton(
-                      icon: Icon(Icons.remove, color: theme.colorScheme.onSurfaceVariant),
+                      icon: Icon(Icons.remove, color: AppPalette.lightGrey),
                       onPressed: () {
                         Map<String, bool> current = ref
                             .read(minusPressedProvider.notifier)
@@ -131,7 +140,7 @@ class PlayerWidget extends ConsumerWidget {
                       player.profile.id: int.tryParse(value) ?? 0,
                     };
                   },
-                  decoration: InputDecoration(hintText: "0"),
+                  decoration: InputDecoration(hintText: hintText),
                 ),
               ),
             ],

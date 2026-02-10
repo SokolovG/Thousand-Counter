@@ -22,8 +22,27 @@ class GameService {
     return games;
   }
 
-  Game split(Game game, int points) {
-    return game;
+  Game split(Game game, int bid) {
+    final playerIndex = game.currentPlayerIndex;
+    final updatedPlayers = List<Player>.from(game.players);
+    final activePlayer = updatedPlayers[playerIndex];
+    updatedPlayers[playerIndex] = activePlayer.copyWith(
+      totalPoints: activePlayer.totalPoints - bid,
+    );
+
+    final pointsToOthers = (bid / 2).round();
+    for (int i = 0; i < updatedPlayers.length; i++) {
+      if (i == playerIndex) continue;
+
+      updatedPlayers[i] = updatedPlayers[i].copyWith(
+        totalPoints: updatedPlayers[i].totalPoints + pointsToOthers,
+      );
+    }
+    return game.copyWith(
+      players: updatedPlayers,
+      currentRound: game.currentRound + 1,
+      currentPlayerIndex: (game.currentPlayerIndex + 1) % game.players.length,
+    );
   }
 
   Game confirmRound(Game game, Map<String, int> points) {
