@@ -21,21 +21,21 @@ class GameScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
 
     if (currentGame == null && gameId != null) {
-      final asyncGame = ref.watch(gameByIdProvider(gameId!));
-      return asyncGame.when(
-        data: (Game? game) {
-          Future.microtask(
-            () => ref.read(currentGameProvider.notifier).state = game,
+      return ref
+          .watch(gameByIdProvider(gameId!))
+          .when(
+            data: (Game? game) {
+              Future.microtask(
+                () => ref.read(currentGameProvider.notifier).state = game,
+              );
+              return const Center(child: CircularProgressIndicator());
+            },
+            loading: () => const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+            error: (e, st) =>
+                Scaffold(body: Center(child: Text(l10n.errorGeneric(e)))),
           );
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        },
-        loading: () =>
-            const Scaffold(body: Center(child: CircularProgressIndicator())),
-        error: (e, st) =>
-            Scaffold(body: Center(child: Text(l10n.errorGeneric(e)))),
-      );
     }
     if (currentGame == null) {
       return Scaffold(body: Center(child: Text(l10n.noActiveGame)));
@@ -83,7 +83,6 @@ class GameScreen extends ConsumerWidget {
                 return PlayerWidget(
                   player: player,
                   color: color,
-                  gameId: gameId,
                   hintText: currentGame.currentPlayerIndex == index
                       ? "100"
                       : "0",
