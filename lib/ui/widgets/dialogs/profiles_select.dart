@@ -40,43 +40,42 @@ void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
                                 .map((p) => p.profile.id)
                                 .toSet(),
                             onChanged: (id) {
-                              final currentProfiles = activeGame.players
-                                  .map((p) => p.profile)
+                              final currentSelectedIds = activeGame.players
+                                  .map((p) => p.profile.id)
+                                  .toSet();
+
+                              if (currentSelectedIds.contains(id)) {
+                                if (currentSelectedIds.length <= minPlayers) {
+                                  setState(
+                                    () => errorText = l10n.minPlayersError,
+                                  );
+                                  return;
+                                }
+                                currentSelectedIds.remove(id);
+                              } else {
+                                if (currentSelectedIds.length >= maxPlayers) {
+                                  setState(
+                                    () => errorText = l10n.maxPlayersError,
+                                  );
+                                  return;
+                                }
+                                currentSelectedIds.add(id);
+                              }
+
+                              final List<Profile> sortedProfiles = profiles
+                                  .where(
+                                    (p) => currentSelectedIds.contains(p.id),
+                                  )
                                   .toList();
 
-                              List<Profile> updatedProfiles;
-                              if (currentProfiles.any((p) => p.id == id)) {
-                                if (currentProfiles.length < minPlayers) {
-                                  setState(() {
-                                    errorText = l10n.minPlayersError;
-                                  });
-                                  return;
-                                }
-                                updatedProfiles = currentProfiles
-                                    .where((p) => p.id != id)
-                                    .toList();
-                              } else {
-                                if (currentProfiles.length >= maxPlayers) {
-                                  setState(() {
-                                    errorText = l10n.maxPlayersError;
-                                  });
-                                  return;
-                                }
-
-                                final newProfile = profiles.firstWhere(
-                                  (p) => p.id == id,
-                                );
-                                updatedProfiles = [
-                                  ...currentProfiles,
-                                  newProfile,
-                                ];
-                              }
                               final updatedGame = gameService.updatePlayers(
                                 activeGame,
-                                updatedProfiles,
+                                sortedProfiles,
                               );
+
                               ref.read(currentGameProvider.notifier).state =
                                   updatedGame;
+                              setState(() => errorText = "");
                             },
                           ),
                           error: (err, stack) => Text(l10n.errorGeneric(err)),

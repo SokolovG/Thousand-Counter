@@ -151,22 +151,30 @@ class GameService {
   }
 
   Game updatePlayers(Game currentGame, List<Profile> newProfiles) {
-    // if (!GameValidators.canAddMorePlayers(newProfiles.length)) {
-    //   return currentGame;
-    // }
     if (newProfiles.length > maxPlayers) {
       return currentGame;
     }
 
+    final String activeId =
+        currentGame.players[currentGame.currentPlayerIndex].profile.id;
+
     final List<Player> updatedPlayers = newProfiles.map((profile) {
-      final existingPlayer = currentGame.players.firstWhere(
+      return currentGame.players.firstWhere(
         (p) => p.profile.id == profile.id,
         orElse: () => Player(profile: profile),
       );
-      return existingPlayer;
     }).toList();
 
-    return currentGame.copyWith(players: updatedPlayers);
+    int newIndex = updatedPlayers.indexWhere((p) => p.profile.id == activeId);
+
+    if (newIndex == -1) {
+      newIndex = currentGame.currentPlayerIndex % updatedPlayers.length;
+    }
+
+    return currentGame.copyWith(
+      players: updatedPlayers,
+      currentPlayerIndex: newIndex,
+    );
   }
 
   void addPlayer(Game game, Player player) {
