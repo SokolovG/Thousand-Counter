@@ -47,6 +47,9 @@ final gamesListProvider = FutureProvider<List<Game>>((ref) async {
 final minusPressedProvider = StateProvider<Map<String, bool>>(
   (ref) => <String, bool>{},
 );
+final activeBidderIdProvider = StateProvider<String?>((ref) => null);
+
+final currentBidProvider = StateProvider<int>((ref) => 100);
 
 // NOTIFIERS
 

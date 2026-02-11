@@ -27,10 +27,9 @@ class GameService {
     return game;
   }
 
-  Game split(Game game, int bid) {
-    final playerIndex = game.currentPlayerIndex;
+  Game split(Game game, int bid, int bidderIndex) {
     final updatedPlayers = List<Player>.from(game.players);
-    final activePlayer = updatedPlayers[playerIndex];
+    final activePlayer = updatedPlayers[bidderIndex];
 
     int activePlayerPoints = activePlayer.totalPoints;
     int activePlayerAttempts = activePlayer.barrelAttempts;
@@ -50,7 +49,7 @@ class GameService {
       activePlayerPoints = activePlayer.totalPoints - bid;
     }
 
-    updatedPlayers[playerIndex] = activePlayer.copyWith(
+    updatedPlayers[bidderIndex] = activePlayer.copyWith(
       totalPoints: activePlayerPoints,
       barrelAttempts: activePlayerAttempts,
       isOnBarrel: activePlayerOnBarrel,
@@ -58,7 +57,7 @@ class GameService {
 
     final pointsToOthers = (bid / 2).round();
 
-    int dealerIndex = (playerIndex - 1) % updatedPlayers.length;
+    int dealerIndex = (game.currentPlayerIndex - 1) % updatedPlayers.length;
     if (dealerIndex < 0) dealerIndex = updatedPlayers.length - 1;
 
     for (int i = 0; i < updatedPlayers.length; i++) {
@@ -66,8 +65,8 @@ class GameService {
       bool pOnBarrel = updatedPlayers[i].isOnBarrel;
       int pAttempts = updatedPlayers[i].barrelAttempts;
 
-      if (i == playerIndex) continue;
-      if (updatedPlayers.length == 4 && i == dealerIndex) continue;
+      if (i == bidderIndex) continue;
+      if (updatedPlayers.length == maxPlayers && i == dealerIndex) continue;
 
       if (pOnBarrel) {
         pPoints = updatedPlayers[i].totalPoints;
@@ -88,15 +87,27 @@ class GameService {
     );
   }
 
-  Game confirmRound(Game game, Map<String, int> points) {
+  Game confirmRound({
+    required Game game,
+    required Map<String, int> points,
+    required String bidderId,
+    required int bid,
+  }) {
+    final processedPoints = Map<String, int>.from(points);
+    final bidderScore = processedPoints[bidderId] ?? 0;
+
+    if (bidderScore < bid) {
+      processedPoints[bidderId] = -bid;
+    }
+
     Player? newBarrelPlayer = game.players.where((p) {
-      final scoreToAdd = points[p.profile.id] ?? 0;
+      final scoreToAdd = processedPoints[p.profile.id] ?? 0;
       final newTotal = p.totalPoints + scoreToAdd;
       return newTotal >= barrelNumber && !p.isOnBarrel;
     }).firstOrNull;
 
     List<Player> updatedPlayers = game.players.map((p) {
-      final scoreToAdd = points[p.profile.id] ?? 0;
+      final scoreToAdd = processedPoints[p.profile.id] ?? 0;
       final newTotal = p.totalPoints + scoreToAdd;
 
       bool newIsOnBarrel = p.isOnBarrel;
@@ -104,6 +115,7 @@ class GameService {
       int newTotalPoints = p.totalPoints;
 
       if (p.isOnBarrel) {
+        // Логика победы с бочки
         if (newTotal >= maxPoints) {
           newTotalPoints = newTotal;
           newIsOnBarrel = false;
@@ -115,7 +127,6 @@ class GameService {
           newTotalPoints = barrelNumber - barrelPenalty;
         } else {
           newBarrelAttempts = p.barrelAttempts + 1;
-
           if (newBarrelAttempts >= maxBarrelsNumber) {
             newIsOnBarrel = false;
             newBarrelAttempts = 0;
@@ -134,12 +145,12 @@ class GameService {
 
       final isBolt = _rulesService.isBolt(scoreToAdd);
       int newBoltsCount = isBolt ? p.boltsCount + 1 : p.boltsCount;
-      final isMagic = _rulesService.isMagicNumber(newTotal);
+
+      final isMagic = _rulesService.isMagicNumber(newTotalPoints);
 
       final isThreeBolts = _rulesService.hasThreeBoltsFromInt(newBoltsCount);
-
       if (isBolt && isThreeBolts) {
-        newTotalPoints = newTotal - boltPenalty;
+        newTotalPoints -= boltPenalty;
         newBoltsCount = 0;
       }
 
@@ -162,8 +173,8 @@ class GameService {
       currentRound: game.currentRound + 1,
       currentPlayerIndex: (game.currentPlayerIndex + 1) % game.players.length,
     );
-    Player? winner = getWinner(game);
 
+    Player? winner = getWinner(game);
     if (winner != null) {
       game = game.copyWith(winner: winner, isFinished: true);
     }

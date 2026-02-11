@@ -12,23 +12,25 @@ import 'package:thousand_counter/ui/theme/extension.dart';
 class PlayerWidget extends ConsumerWidget {
   final Player player;
   final Color color;
-  final String? hintText;
 
-  const PlayerWidget({
-    super.key,
-    required this.player,
-    required this.color,
-    this.hintText = "0",
-  });
+  const PlayerWidget({super.key, required this.player, required this.color});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
+    final activeBidderId = ref.watch(activeBidderIdProvider);
+    final currentGame = ref.watch(currentGameProvider);
+
+    final bool isBidder = activeBidderId != null
+        ? activeBidderId == player.profile.id
+        : currentGame?.players[currentGame.currentPlayerIndex].profile.id ==
+              player.profile.id;
 
     Map<String, bool> allStates = ref.watch(minusPressedProvider);
     bool isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
     bool isPlayerOnBarrel = player.isOnBarrel;
+    final effectiveHintText = isBidder ? "100" : "0";
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
@@ -57,6 +59,19 @@ class PlayerWidget extends ConsumerWidget {
                   ],
                 ),
               ),
+              if (currentGame != null && !currentGame.isFinished)
+                IconButton(
+                  icon: Icon(
+                    isBidder ? Icons.gavel : Icons.gavel_outlined,
+                    color: isBidder
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.outlineVariant,
+                  ),
+                  onPressed: () {
+                    ref.read(activeBidderIdProvider.notifier).state =
+                        player.profile.id;
+                  },
+                ),
               if (player.totalPoints >= maxPoints)
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
@@ -140,7 +155,7 @@ class PlayerWidget extends ConsumerWidget {
                       player.profile.id: int.tryParse(value) ?? 0,
                     };
                   },
-                  decoration: InputDecoration(hintText: hintText),
+                  decoration: InputDecoration(hintText: effectiveHintText),
                 ),
               ),
             ],

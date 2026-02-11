@@ -80,13 +80,8 @@ class GameScreen extends ConsumerWidget {
                 final color = isCurrentPlayer
                     ? Theme.of(context).colorScheme.primaryContainer
                     : (appColors.cardBackground ?? Colors.white);
-                return PlayerWidget(
-                  player: player,
-                  color: color,
-                  hintText: currentGame.currentPlayerIndex == index
-                      ? "100"
-                      : "0",
-                );
+
+                return PlayerWidget(player: player, color: color);
               },
             ),
           ),
@@ -102,20 +97,32 @@ class GameScreen extends ConsumerWidget {
                     Map<String, int> points = ref.read(roundScoresProvider);
                     Map<String, bool> minuses = ref.read(minusPressedProvider);
 
-                    Map<String, int> finalPoints = points.map((
-                      playerId,
-                      score,
-                    ) {
-                      bool isMinus = minuses[playerId] ?? false;
-                      return MapEntry(playerId, isMinus ? -score : score);
-                    });
+                    Map<String, int> finalPoints = {};
+                    for (var player in players) {
+                      String id = player.profile.id;
+                      int score = points[id] ?? 0;
+
+                      bool isMinus = minuses[id] ?? false;
+                      finalPoints[id] = isMinus ? -score : score;
+                    }
+
+                    final activeBidderId =
+                        ref.read(activeBidderIdProvider) ??
+                        players[currentGame.currentPlayerIndex].profile.id;
+
+                    int bid = points[activeBidderId] ?? 100;
+                    if (bid == 0) bid = 100;
+
+                    Game updatedGame = gameService.confirmRound(
+                      game: currentGame,
+                      points: finalPoints,
+                      bidderId: activeBidderId,
+                      bid: bid,
+                    );
 
                     ref.read(minusPressedProvider.notifier).state = {};
-                    Game updatedGame = gameService.confirmRound(
-                      currentGame,
-                      finalPoints,
-                    );
                     ref.read(currentGameProvider.notifier).state = updatedGame;
+                    ref.read(activeBidderIdProvider.notifier).state = null;
                     ref.read(roundScoresProvider.notifier).state = {};
                     ref.invalidate(gamesListProvider);
                   },
@@ -137,16 +144,27 @@ class GameScreen extends ConsumerWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     final scores = ref.read(roundScoresProvider);
-                    final currentPlayerId = currentGame
-                        .players[currentGame.currentPlayerIndex]
-                        .profile
-                        .id;
+                    final activeBidderId =
+                        ref.read(activeBidderIdProvider) ??
+                        currentGame
+                            .players[currentGame.currentPlayerIndex]
+                            .profile
+                            .id;
 
-                    int bid = scores[currentPlayerId] ?? 100;
+                    int bid = scores[activeBidderId] ?? 100;
                     if (bid == 0) bid = 100;
 
-                    Game updatedGame = gameService.split(currentGame, bid);
+                    final bidderIndex = currentGame.players.indexWhere(
+                      (p) => p.profile.id == activeBidderId,
+                    );
+
+                    Game updatedGame = gameService.split(
+                      currentGame,
+                      bid,
+                      bidderIndex,
+                    );
                     ref.read(currentGameProvider.notifier).state = updatedGame;
+                    ref.read(activeBidderIdProvider.notifier).state = null;
                     ref.read(roundScoresProvider.notifier).state = {};
                   },
                   child: Text(l10n.split),

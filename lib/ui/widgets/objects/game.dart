@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
-import 'package:thousand_counter/ui/widgets/dialogs/recent_game.dart';
 import 'package:thousand_counter/ui/widgets/objects/slidable.dart';
 
 class GameWidget extends ConsumerWidget {
@@ -60,9 +59,7 @@ class GameWidget extends ConsumerWidget {
                 .join(' • '),
             icon: widget,
             onEditCallback: (context, ref) {
-              game.isFinished
-                  ? showRecentGameDialog(context, ref)
-                  : context.go("/game/${game.id}");
+              context.push("/game/${game.id}?previousScreen=recent_games");
             },
           ),
         ),
