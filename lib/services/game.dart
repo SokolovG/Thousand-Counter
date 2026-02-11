@@ -22,6 +22,11 @@ class GameService {
     return games;
   }
 
+  Future<Game?> getGameById(String id) async {
+    final Game? game = await _gameRepository.get(id);
+    return game;
+  }
+
   Game split(Game game, int bid) {
     final playerIndex = game.currentPlayerIndex;
     final updatedPlayers = List<Player>.from(game.players);
@@ -99,7 +104,7 @@ class GameService {
       int newTotalPoints = p.totalPoints;
 
       if (p.isOnBarrel) {
-        if (newTotal >= 1000) {
+        if (newTotal >= maxPoints) {
           newTotalPoints = newTotal;
           newIsOnBarrel = false;
           newBarrelAttempts = 0;
@@ -107,14 +112,14 @@ class GameService {
             newBarrelPlayer.profile.id != p.profile.id) {
           newIsOnBarrel = false;
           newBarrelAttempts = 0;
-          newTotalPoints = barrelNumber - 120;
+          newTotalPoints = barrelNumber - barrelPenalty;
         } else {
           newBarrelAttempts = p.barrelAttempts + 1;
 
-          if (newBarrelAttempts >= 3) {
+          if (newBarrelAttempts >= maxBarrelsNumber) {
             newIsOnBarrel = false;
             newBarrelAttempts = 0;
-            newTotalPoints = barrelNumber - 120;
+            newTotalPoints = barrelNumber - barrelPenalty;
           } else {
             newTotalPoints = barrelNumber;
           }

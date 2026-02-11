@@ -13,11 +13,13 @@ class PlayerWidget extends ConsumerWidget {
   final Player player;
   final Color color;
   final String? hintText;
+  final String? gameId;
 
   const PlayerWidget({
     super.key,
     required this.player,
     required this.color,
+    this.gameId,
     this.hintText = "0",
   });
 
@@ -36,7 +38,7 @@ class PlayerWidget extends ConsumerWidget {
       color: color,
       child: InkWell(
         onTap: () {
-          playerGameHistoryDialog(context, ref);
+          playerGameHistoryDialog(context, ref, gameId);
         },
         child: Padding(
           padding: EdgeInsets.all(8),

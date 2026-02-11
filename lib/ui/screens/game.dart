@@ -23,7 +23,7 @@ class GameScreen extends ConsumerWidget {
     if (currentGame == null && gameId != null) {
       final asyncGame = ref.watch(gameByIdProvider(gameId!));
       return asyncGame.when(
-        data: (Game game) {
+        data: (Game? game) {
           Future.microtask(
             () => ref.read(currentGameProvider.notifier).state = game,
           );
@@ -83,6 +83,7 @@ class GameScreen extends ConsumerWidget {
                 return PlayerWidget(
                   player: player,
                   color: color,
+                  gameId: gameId,
                   hintText: currentGame.currentPlayerIndex == index
                       ? "100"
                       : "0",
