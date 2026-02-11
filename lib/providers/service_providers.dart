@@ -50,7 +50,7 @@ final minusPressedProvider = StateProvider<Map<String, bool>>(
 final activeBidderIdProvider = StateProvider<String?>((ref) => null);
 
 final currentBidProvider = StateProvider<int>((ref) => 100);
-
+final splitAvailableProvider = StateProvider<bool>((ref) => false);
 // NOTIFIERS
 
 final gameSetupProvider =

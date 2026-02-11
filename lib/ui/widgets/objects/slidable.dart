@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
+import 'package:thousand_counter/ui/theme/extension.dart';
 
 class SlidableObject extends ConsumerWidget {
   final Function(BuildContext, WidgetRef) onEditCallback;
@@ -20,12 +21,13 @@ class SlidableObject extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(isEditModeProvider);
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return ListTile(
       leading: isEditMode
           ? IconButton(
               onPressed: () => Slidable.of(context)?.openEndActionPane(),
-              icon: const Icon(Icons.remove_circle, color: Colors.red),
+              icon: Icon(Icons.remove_circle, color: appColors.iconDelete),
             )
           : icon,
       title: Text(title),

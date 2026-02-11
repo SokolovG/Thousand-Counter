@@ -6,7 +6,7 @@ class AppTheme {
   static final light = ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: const Color.fromARGB(255, 235, 235, 164),
-    primarySwatch: Colors.pink,
+    primaryColor: AppPalette.red,
     extensions: [
       AppColors(
         barrelColor: AppPalette.red,
@@ -14,6 +14,12 @@ class AppTheme {
         goldCrown: AppPalette.gold,
         cardBackground: AppPalette.white,
         alert: AppPalette.red,
+        shadow: AppPalette.black5,
+        iconActive: AppPalette.blue,
+        iconDelete: AppPalette.red,
+        textPrimary: AppPalette.black,
+        textSecondary: AppPalette.darkGrey,
+        iconSecondary: AppPalette.lightGrey,
       ),
     ],
   );
@@ -27,9 +33,15 @@ class AppTheme {
       AppColors(
         barrelColor: AppPalette.orange,
         barrelText: AppPalette.white,
-        goldCrown: Colors.yellowAccent,
-        cardBackground: Colors.black45,
-        alert: Colors.redAccent,
+        goldCrown: AppPalette.gold,
+        cardBackground: AppPalette.darkGrey,
+        alert: AppPalette.red,
+        shadow: AppPalette.black5,
+        iconActive: AppPalette.blue,
+        iconDelete: AppPalette.red,
+        textPrimary: AppPalette.white,
+        textSecondary: AppPalette.lightGrey,
+        iconSecondary: AppPalette.lightGrey,
       ),
     ],
   );

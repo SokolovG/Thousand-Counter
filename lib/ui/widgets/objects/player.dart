@@ -5,7 +5,6 @@ import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
-import 'package:thousand_counter/ui/theme/colors.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/player_game_history.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
@@ -97,8 +96,7 @@ class PlayerWidget extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                           color: player.barrelAttempts >= 2
                               ? appColors.alert
-                              : (appColors.barrelText ??
-                                    theme.colorScheme.onSurface),
+                              : appColors.barrelText,
                         ),
                       ),
                     ],
@@ -116,7 +114,7 @@ class PlayerWidget extends ConsumerWidget {
                   ? IconButton(
                       icon: Icon(
                         Icons.remove,
-                        color: AppPalette.darkGrey,
+                        color: appColors.textSecondary,
                         size: 25.0,
                       ),
                       onPressed: () {
@@ -130,7 +128,7 @@ class PlayerWidget extends ConsumerWidget {
                       },
                     )
                   : IconButton(
-                      icon: Icon(Icons.remove, color: AppPalette.lightGrey),
+                      icon: Icon(Icons.remove, color: appColors.iconSecondary),
                       onPressed: () {
                         Map<String, bool> current = ref
                             .read(minusPressedProvider.notifier)

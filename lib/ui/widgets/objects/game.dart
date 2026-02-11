@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
+import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/widgets/objects/slidable.dart';
 
 class GameWidget extends ConsumerWidget {
@@ -15,9 +16,10 @@ class GameWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(isEditModeProvider);
+    final appColors = Theme.of(context).extension<AppColors>()!;
     Widget widget = game.isFinished
-        ? Icon(Icons.emoji_events, color: Colors.amber)
-        : Icon(Icons.play_circle_fill, color: Colors.blue);
+        ? Icon(Icons.emoji_events, color: appColors.goldCrown)
+        : Icon(Icons.play_circle_fill, color: appColors.iconActive);
 
     return Slidable(
       key: ValueKey(isEditMode),
@@ -31,7 +33,7 @@ class GameWidget extends ConsumerWidget {
               await ref.read(gameRepositoryProvider).delete(game.id);
               ref.invalidate(gamesListProvider);
             },
-            backgroundColor: Colors.red,
+            backgroundColor: appColors.iconDelete,
             icon: Icons.delete,
             label: AppLocalizations.of(context)!.delete,
           ),
@@ -40,11 +42,11 @@ class GameWidget extends ConsumerWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: appColors.cardBackground,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
+              color: appColors.shadow,
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
