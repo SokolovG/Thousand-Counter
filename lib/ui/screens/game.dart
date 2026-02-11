@@ -19,6 +19,7 @@ class GameScreen extends ConsumerWidget {
     final queryParams = GoRouterState.of(context).uri.queryParameters;
     final previousScreen = queryParams['previousScreen'];
     final l10n = AppLocalizations.of(context)!;
+    final isSplitEnabled = ref.watch(splitAvailableProvider);
 
     if (currentGame == null && gameId != null) {
       return ref
@@ -142,31 +143,35 @@ class GameScreen extends ConsumerWidget {
                 width: double.infinity,
                 height: 60,
                 child: ElevatedButton(
-                  onPressed: () {
-                    final scores = ref.read(roundScoresProvider);
-                    final activeBidderId =
-                        ref.read(activeBidderIdProvider) ??
-                        currentGame
-                            .players[currentGame.currentPlayerIndex]
-                            .profile
-                            .id;
+                  onPressed: isSplitEnabled
+                      ? () {
+                          final scores = ref.read(roundScoresProvider);
+                          final activeBidderId =
+                              ref.read(activeBidderIdProvider) ??
+                              currentGame
+                                  .players[currentGame.currentPlayerIndex]
+                                  .profile
+                                  .id;
 
-                    int bid = scores[activeBidderId] ?? 100;
-                    if (bid == 0) bid = 100;
+                          int bid = scores[activeBidderId] ?? 100;
+                          if (bid == 0) bid = 100;
 
-                    final bidderIndex = currentGame.players.indexWhere(
-                      (p) => p.profile.id == activeBidderId,
-                    );
+                          final bidderIndex = currentGame.players.indexWhere(
+                            (p) => p.profile.id == activeBidderId,
+                          );
 
-                    Game updatedGame = gameService.split(
-                      currentGame,
-                      bid,
-                      bidderIndex,
-                    );
-                    ref.read(currentGameProvider.notifier).state = updatedGame;
-                    ref.read(activeBidderIdProvider.notifier).state = null;
-                    ref.read(roundScoresProvider.notifier).state = {};
-                  },
+                          Game updatedGame = gameService.split(
+                            currentGame,
+                            bid,
+                            bidderIndex,
+                          );
+                          ref.read(currentGameProvider.notifier).state =
+                              updatedGame;
+                          ref.read(activeBidderIdProvider.notifier).state =
+                              null;
+                          ref.read(roundScoresProvider.notifier).state = {};
+                        }
+                      : null,
                   child: Text(l10n.split),
                 ),
               ),

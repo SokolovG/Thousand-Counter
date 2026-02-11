@@ -50,7 +50,21 @@ final minusPressedProvider = StateProvider<Map<String, bool>>(
 final activeBidderIdProvider = StateProvider<String?>((ref) => null);
 
 final currentBidProvider = StateProvider<int>((ref) => 100);
-final splitAvailableProvider = StateProvider<bool>((ref) => false);
+final splitAvailableProvider = Provider<bool>((ref) {
+  final roundScores = ref.watch(roundScoresProvider);
+  final activeBidderId = ref.watch(activeBidderIdProvider);
+  final currentGame = ref.watch(currentGameProvider);
+
+  if (currentGame == null) return false;
+
+  final bidderId =
+      activeBidderId ??
+      currentGame.players[currentGame.currentPlayerIndex].profile.id;
+
+  final score = roundScores[bidderId] ?? 100;
+
+  return score >= 100;
+});
 // NOTIFIERS
 
 final gameSetupProvider =
