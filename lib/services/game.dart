@@ -26,8 +26,29 @@ class GameService {
     final playerIndex = game.currentPlayerIndex;
     final updatedPlayers = List<Player>.from(game.players);
     final activePlayer = updatedPlayers[playerIndex];
+
+    int activePlayerPoints = activePlayer.totalPoints;
+    int activePlayerAttempts = activePlayer.barrelAttempts;
+    bool activePlayerOnBarrel = activePlayer.isOnBarrel;
+
+    if (activePlayer.isOnBarrel) {
+      activePlayerAttempts += 1;
+
+      if (activePlayerAttempts >= maxBarrelsNumber) {
+        activePlayerOnBarrel = false;
+        activePlayerAttempts = 0;
+        activePlayerPoints = barrelNumber - barrelPenalty;
+      } else {
+        activePlayerPoints = activePlayer.totalPoints;
+      }
+    } else {
+      activePlayerPoints = activePlayer.totalPoints - bid;
+    }
+
     updatedPlayers[playerIndex] = activePlayer.copyWith(
-      totalPoints: activePlayer.totalPoints - bid,
+      totalPoints: activePlayerPoints,
+      barrelAttempts: activePlayerAttempts,
+      isOnBarrel: activePlayerOnBarrel,
     );
 
     final pointsToOthers = (bid / 2).round();
@@ -36,11 +57,23 @@ class GameService {
     if (dealerIndex < 0) dealerIndex = updatedPlayers.length - 1;
 
     for (int i = 0; i < updatedPlayers.length; i++) {
+      int pPoints = updatedPlayers[i].totalPoints;
+      bool pOnBarrel = updatedPlayers[i].isOnBarrel;
+      int pAttempts = updatedPlayers[i].barrelAttempts;
+
       if (i == playerIndex) continue;
       if (updatedPlayers.length == 4 && i == dealerIndex) continue;
 
+      if (pOnBarrel) {
+        pPoints = updatedPlayers[i].totalPoints;
+      } else {
+        pPoints = pPoints + pointsToOthers;
+      }
+
       updatedPlayers[i] = updatedPlayers[i].copyWith(
-        totalPoints: updatedPlayers[i].totalPoints + pointsToOthers,
+        totalPoints: pPoints,
+        barrelAttempts: pAttempts,
+        isOnBarrel: pOnBarrel,
       );
     }
     return game.copyWith(
