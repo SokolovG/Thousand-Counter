@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+const int maxNameLength = 30;
 const int maxPlayers = 4;
+const int minPlayers = 3;
 const int maxPoints = 1000;
 const int negativeKillNumber = -555;
 const int positiveKillNumber = 555;

@@ -136,7 +136,18 @@ class GameScreen extends ConsumerWidget {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    gameService.split(currentGame, 100);
+                    final scores = ref.read(roundScoresProvider);
+                    final currentPlayerId = currentGame
+                        .players[currentGame.currentPlayerIndex]
+                        .profile
+                        .id;
+
+                    int bid = scores[currentPlayerId] ?? 100;
+                    if (bid == 0) bid = 100;
+
+                    Game updatedGame = gameService.split(currentGame, bid);
+                    ref.read(currentGameProvider.notifier).state = updatedGame;
+                    ref.read(roundScoresProvider.notifier).state = {};
                   },
                   child: Text(l10n.split),
                 ),

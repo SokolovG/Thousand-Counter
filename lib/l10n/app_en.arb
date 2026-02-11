@@ -158,7 +158,7 @@
     "@editPlayer": {
         "description": "Title for editing a player"
     },
-    "minPlayersError": "Minimum 2 players!",
+    "minPlayersError": "Minimum 3 players!",
     "@minPlayersError": {
         "description": "Error message for minimum players"
     },

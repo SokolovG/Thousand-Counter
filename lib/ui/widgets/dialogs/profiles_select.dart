@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
@@ -45,7 +46,7 @@ void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
 
                               List<Profile> updatedProfiles;
                               if (currentProfiles.any((p) => p.id == id)) {
-                                if (currentProfiles.length <= 2) {
+                                if (currentProfiles.length < minPlayers) {
                                   setState(() {
                                     errorText = l10n.minPlayersError;
                                   });
@@ -55,7 +56,7 @@ void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
                                     .where((p) => p.id != id)
                                     .toList();
                               } else {
-                                if (currentProfiles.length >= 4) {
+                                if (currentProfiles.length >= maxPlayers) {
                                   setState(() {
                                     errorText = l10n.maxPlayersError;
                                   });

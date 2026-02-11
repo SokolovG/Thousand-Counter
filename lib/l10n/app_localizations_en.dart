@@ -127,7 +127,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editPlayer => 'Edit player';
 
   @override
-  String get minPlayersError => 'Minimum 2 players!';
+  String get minPlayersError => 'Minimum 3 players!';
 
   @override
   String get maxPlayersError => 'Maximum 4 players!';

@@ -1,15 +1,18 @@
+import 'package:thousand_counter/core/constants.dart';
+
 class GameValidators {
   static void validatePlayerCount(int count) {
-    if (count < 2) {
-      throw ArgumentError("Game must have at least 2 players");
+    if (count < minPlayers) {
+      throw ArgumentError("Game must have at least 3 players");
     }
-    if (count > 4) {
+    if (count > maxPlayers) {
       throw ArgumentError("Game cannot have more than 4 players");
     }
   }
 
-  static bool canAddMorePlayers(int count) => count < 4;
-  static bool canStartGame(int count) => count >= 2 && count <= 4;
+  static bool canAddMorePlayers(int count) => count < maxPlayers;
+  static bool canStartGame(int count) =>
+      count >= minPlayers && count <= maxPlayers;
 }
 
 class ProfileValidators {
@@ -17,7 +20,7 @@ class ProfileValidators {
     if (name.isEmpty) {
       throw ArgumentError("Player name cannot be empty");
     }
-    if (name.length > 30) {
+    if (name.length > maxNameLength) {
       throw ArgumentError("Player name too long");
     }
 

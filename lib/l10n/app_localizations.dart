@@ -329,7 +329,7 @@ abstract class AppLocalizations {
   /// Error message for minimum players
   ///
   /// In en, this message translates to:
-  /// **'Minimum 2 players!'**
+  /// **'Minimum 3 players!'**
   String get minPlayersError;
 
   /// Error message for maximum players

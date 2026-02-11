@@ -127,7 +127,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editPlayer => 'Редактировать игрока';
 
   @override
-  String get minPlayersError => 'Минимум 2 игрока!';
+  String get minPlayersError => 'Минимум 3 игрока!';
 
   @override
   String get maxPlayersError => 'Максимум 4 игрока!';

@@ -31,8 +31,13 @@ class GameService {
     );
 
     final pointsToOthers = (bid / 2).round();
+
+    int dealerIndex = (playerIndex - 1) % updatedPlayers.length;
+    if (dealerIndex < 0) dealerIndex = updatedPlayers.length - 1;
+
     for (int i = 0; i < updatedPlayers.length; i++) {
       if (i == playerIndex) continue;
+      if (updatedPlayers.length == 4 && i == dealerIndex) continue;
 
       updatedPlayers[i] = updatedPlayers[i].copyWith(
         totalPoints: updatedPlayers[i].totalPoints + pointsToOthers,
@@ -149,7 +154,7 @@ class GameService {
     // if (!GameValidators.canAddMorePlayers(newProfiles.length)) {
     //   return currentGame;
     // }
-    if (newProfiles.length > 4) {
+    if (newProfiles.length > maxPlayers) {
       return currentGame;
     }
 
@@ -165,7 +170,7 @@ class GameService {
   }
 
   void addPlayer(Game game, Player player) {
-    if (game.players.length >= maxPlayers) {
+    if (game.players.length > maxPlayers) {
       throw Exception("Max $maxPlayers players");
     }
     game.players.add(player);
