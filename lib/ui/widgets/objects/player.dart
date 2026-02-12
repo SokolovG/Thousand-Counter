@@ -37,7 +37,7 @@ class PlayerWidget extends ConsumerWidget {
       color: color,
       child: InkWell(
         onTap: () {
-          playerGameHistoryDialog(context, ref);
+          playerGameHistoryDialog(context, ref, player);
         },
         child: Padding(
           padding: EdgeInsets.all(8),

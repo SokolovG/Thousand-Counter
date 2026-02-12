@@ -30,6 +30,7 @@ class GameService {
   Game split(Game game, int bid, int bidderIndex) {
     final updatedPlayers = List<Player>.from(game.players);
     final activePlayer = updatedPlayers[bidderIndex];
+    Map<String, int> roundResultsForHistory = {};
 
     int activePlayerPoints = activePlayer.totalPoints;
     int activePlayerAttempts = activePlayer.barrelAttempts;
@@ -73,6 +74,8 @@ class GameService {
       } else {
         pPoints = pPoints + pointsToOthers;
       }
+      int delta = pPoints - updatedPlayers[i].totalPoints;
+      roundResultsForHistory[updatedPlayers[i].profile.id] = delta;
 
       updatedPlayers[i] = updatedPlayers[i].copyWith(
         totalPoints: pPoints,
@@ -80,7 +83,16 @@ class GameService {
         isOnBarrel: pOnBarrel,
       );
     }
+    roundResultsForHistory[activePlayer.profile.id] =
+        activePlayerPoints - activePlayer.totalPoints;
+
+    Round newRound = Round(
+      roundNumber: game.rounds.length + 1,
+      playerScores: roundResultsForHistory,
+    );
+
     return game.copyWith(
+      rounds: [...game.rounds, newRound],
       players: updatedPlayers,
       currentRound: game.currentRound + 1,
       currentPlayerIndex: (game.currentPlayerIndex + 1) % game.players.length,
@@ -95,6 +107,7 @@ class GameService {
   }) {
     final processedPoints = Map<String, int>.from(points);
     final bidderScore = processedPoints[bidderId] ?? 0;
+    Map<String, int> roundResultsForHistory = {};
 
     if (bidderScore < bid) {
       processedPoints[bidderId] = -bid;
@@ -154,6 +167,9 @@ class GameService {
         newBoltsCount = 0;
       }
 
+      int delta = (isMagic ? 0 : newTotalPoints) - p.totalPoints;
+      roundResultsForHistory[p.profile.id] = delta;
+
       return p.copyWith(
         totalPoints: isMagic ? 0 : newTotalPoints,
         isOnBarrel: newIsOnBarrel,
@@ -164,7 +180,7 @@ class GameService {
 
     Round newRound = Round(
       roundNumber: game.rounds.length + 1,
-      playerScores: points,
+      playerScores: roundResultsForHistory,
     );
 
     game = game.copyWith(
