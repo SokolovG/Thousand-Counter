@@ -5,6 +5,7 @@ import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/profiles_select.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/rounds_history.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
@@ -46,7 +47,7 @@ class GameScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.round(currentGame.currentRound)),
+        title: Center(child: Text(l10n.round(currentGame.currentRound))),
         leading: previousScreen == "recent_games"
             ? IconButton(
                 icon: Icon(Icons.arrow_back_ios),
@@ -66,6 +67,10 @@ class GameScreen extends ConsumerWidget {
               onPressed: () => showProfilesSelectDialog(context, ref),
               icon: const Icon(Icons.groups),
             ),
+          IconButton(
+            onPressed: () => roundsHistoryDialog(context, ref, currentGame),
+            icon: Icon(Icons.history),
+          ),
         ],
       ),
       body: Column(
