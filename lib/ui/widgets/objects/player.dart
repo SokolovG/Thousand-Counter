@@ -31,7 +31,7 @@ class PlayerWidget extends ConsumerWidget {
     bool isPlayerOnBarrel = player.isOnBarrel;
     final effectiveHintText = isBidder ? "100" : "0";
     final l10n = AppLocalizations.of(context)!;
-
+    // TODO: add colors for round history? fill winner round with color
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       color: color,

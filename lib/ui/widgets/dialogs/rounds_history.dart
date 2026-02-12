@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/models/game.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/round.dart';
 
 void roundsHistoryDialog(
   BuildContext context,
   WidgetRef ref,
   Game currentGame,
+  Color roundColor,
 ) {
   showDialog(
     context: context,
@@ -27,10 +29,17 @@ void roundsHistoryDialog(
                   ),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        roundialog(
+                          context,
+                          ref,
+                          currentGame.rounds[index],
+                          currentGame,
+                        );
+                      },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.blueAccent,
+                          color: roundColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Center(child: Text("${index + 1}")),
