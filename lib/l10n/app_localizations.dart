@@ -230,10 +230,10 @@ abstract class AppLocalizations {
   /// **'No active game'**
   String get noActiveGame;
 
-  /// Round number label
+  /// Current round number label
   ///
   /// In en, this message translates to:
-  /// **'Round {number}'**
+  /// **'Current round: {number}'**
   String round(Object number);
 
   /// Split points action
@@ -373,6 +373,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Source code'**
   String get sourceCode;
+
+  /// Title for rounds history
+  ///
+  /// In en, this message translates to:
+  /// **'Rounds history'**
+  String get roundsHistory;
+
+  /// Message when rounds number is 0
+  ///
+  /// In en, this message translates to:
+  /// **'The history is still empty. Play the first round!'**
+  String get emptyRoundsHistory;
+
+  /// Title for the one round details
+  ///
+  /// In en, this message translates to:
+  /// **'Round details'**
+  String get roundDetails;
 }
 
 class _AppLocalizationsDelegate

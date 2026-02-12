@@ -78,7 +78,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String round(Object number) {
-    return 'Раунд $number';
+    return 'Текущий раунд: $number';
   }
 
   @override
@@ -158,4 +158,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get sourceCode => 'Исходный код';
+
+  @override
+  String get roundsHistory => 'История раундов';
+
+  @override
+  String get emptyRoundsHistory => 'История еще пуста. Сыграйте первый раунд!';
+
+  @override
+  String get roundDetails => 'Детали раунда';
 }

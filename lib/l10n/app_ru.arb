@@ -91,9 +91,9 @@
     "@noActiveGame": {
         "description": "Message when no game is active"
     },
-    "round": "Раунд {number}",
+    "round": "Текущий раунд: {number}",
     "@round": {
-        "description": "Round number label",
+        "description": "Current round number label",
         "placeholders": {
             "number": {}
         }
@@ -201,5 +201,17 @@
     "sourceCode": "Исходный код",
     "@sourceCode": {
         "description": "App source code"
+    },
+    "roundsHistory": "История раундов",
+    "@roundsHistory": {
+        "description": "Title for rounds history"
+    },
+    "emptyRoundsHistory": "История еще пуста. Сыграйте первый раунд!",
+    "@emptyRoundsHistory": {
+        "description": "Message when rounds number is 0"
+    },
+    "roundDetails": "Детали раунда",
+    "@roundDetails": {
+        "description": "Title for the one round details"
     }
 }
