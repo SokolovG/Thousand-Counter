@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/ui/models/menu_item.dart';
-import 'package:thousand_counter/ui/widgets/buttons/menu_button.dart';
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -15,9 +15,13 @@ class HomeScreen extends ConsumerWidget {
         route: "/game_settings?previousScreen=home",
       ),
       MenuItem(
-          title: l10n.recentGames, route: "/recent_games?previousScreen=home"),
+        title: l10n.recentGames,
+        route: "/recent_games?previousScreen=home",
+      ),
       MenuItem(
-          title: l10n.players, route: "/players_profiles?previousScreen=home"),
+        title: l10n.players,
+        route: "/players_profiles?previousScreen=home",
+      ),
     ];
   }
 
@@ -41,9 +45,11 @@ class HomeScreen extends ConsumerWidget {
               .map(
                 (item) => Padding(
                   padding: const EdgeInsets.only(bottom: 40),
-                  child: MenuButton(
-                    text: item.title,
-                    icon: item.icon,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(250, 70),
+                    ),
+                    child: Text(item.title),
                     onPressed: () => context.push(item.route),
                   ),
                 ),

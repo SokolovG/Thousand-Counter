@@ -3,7 +3,6 @@ import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/data/repositories/profile.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
-import 'package:thousand_counter/providers/core_providers.dart';
 import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/services/profile.dart';
 import 'package:thousand_counter/services/rules.dart';
