@@ -16,7 +16,7 @@ Widget buildEventIcons(List<SpecialGameEvent>? events) {
           return const Icon(Icons.flash_on, color: Colors.amber, size: 18);
         case SpecialGameEvent.magicNumber:
           return const Icon(
-            Icons.local_shipping,
+            Icons.auto_fix_high,
             color: Colors.orange,
             size: 18,
           );

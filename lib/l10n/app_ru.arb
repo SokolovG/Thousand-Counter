@@ -206,7 +206,7 @@
     "@roundsHistory": {
         "description": "Title for rounds history"
     },
-    "emptyRoundsHistory": "История еще пуста. Сыграйте первый раунд!",
+    "emptyRoundsHistory": "История еще пуста.\n Сыграйте первый раунд!",
     "@emptyRoundsHistory": {
         "description": "Message when rounds number is 0"
     },

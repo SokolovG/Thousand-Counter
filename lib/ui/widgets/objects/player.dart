@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
+import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/player_game_history.dart';
@@ -36,7 +37,11 @@ class PlayerWidget extends ConsumerWidget {
       color: color,
       child: InkWell(
         onTap: () {
-          playerGameHistoryDialog(context, ref, player);
+          if (currentGame != null) {
+            final stats = currentGame.getStatsForPlayer(player.profile.id);
+
+            playerGameHistoryDialog(context, ref, player, stats);
+          }
         },
         child: Padding(
           padding: EdgeInsets.all(8),

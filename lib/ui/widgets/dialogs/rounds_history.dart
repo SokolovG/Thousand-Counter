@@ -56,7 +56,7 @@ void roundsHistoryDialog(
                 )
               : Padding(
                   padding: EdgeInsets.all(24.0),
-                  child: Text(l10n.emptyRoundsHistory),
+                  child: Center(child: Text(l10n.emptyRoundsHistory)),
                 ),
         ],
       );

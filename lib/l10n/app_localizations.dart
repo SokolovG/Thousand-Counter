@@ -383,7 +383,7 @@ abstract class AppLocalizations {
   /// Message when rounds number is 0
   ///
   /// In en, this message translates to:
-  /// **'The history is still empty. Play the first round!'**
+  /// **'The history is still empty.\nPlay the first round!'**
   String get emptyRoundsHistory;
 
   /// Title for the round details

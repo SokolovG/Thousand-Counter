@@ -164,7 +164,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyRoundsHistory =>
-      'The history is still empty. Play the first round!';
+      'The history is still empty.\nPlay the first round!';
 
   @override
   String roundNumber(Object roundNumber) {

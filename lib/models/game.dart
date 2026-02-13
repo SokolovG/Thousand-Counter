@@ -1,4 +1,6 @@
+import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/models/base_model.dart';
+import 'package:thousand_counter/models/player_stats.dart';
 import 'player.dart';
 import 'round.dart';
 
@@ -29,7 +31,7 @@ class Game extends Entity {
   @override
   @override
   String toString() {
-    return "Game(id: $id, players: ${players.length})"; 
+    return "Game(id: $id, players: ${players.length})";
   }
 
   Game copyWith({
@@ -51,6 +53,42 @@ class Game extends Entity {
       name: name ?? this.name,
       winner: winner ?? this.winner,
       currentPlayerIndex: currentPlayerIndex,
+    );
+  }
+}
+
+extension GameStats on Game {
+  PlayerStats getStatsForPlayer(String playerId) {
+    final player = players.firstWhere((p) => p.profile.id == playerId);
+    return rounds.fold<PlayerStats>(
+      PlayerStats(
+        currentBolts: player.boltsCount,
+        currentBarrels: player.barrelAttempts,
+        totalBolts: 0,
+        totalBarrels: 0,
+        totalMagicNumbers: 0,
+        wasOnBarrel: false,
+      ),
+      (stats, round) {
+        final events = round.specialEvents[playerId] ?? [];
+        final hasBarrelIcon =
+            round.specialEvents[playerId]?.contains(SpecialGameEvent.barrel) ??
+            false;
+        bool usedAttempt = stats.wasOnBarrel;
+
+        return PlayerStats(
+          currentBolts: stats.currentBolts,
+          currentBarrels: stats.currentBarrels,
+          wasOnBarrel: hasBarrelIcon,
+          totalBolts:
+              stats.totalBolts +
+              (events.contains(SpecialGameEvent.bolt) ? 1 : 0),
+          totalBarrels: stats.totalBarrels + (usedAttempt ? 1 : 0),
+          totalMagicNumbers:
+              stats.totalMagicNumbers +
+              (events.contains(SpecialGameEvent.magicNumber) ? 1 : 0),
+        );
+      },
     );
   }
 }
