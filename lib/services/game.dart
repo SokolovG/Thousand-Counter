@@ -1,14 +1,13 @@
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/enums.dart';
+import 'package:thousand_counter/core/utils/validators.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
+import 'package:thousand_counter/models/game.dart';
+import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/profile.dart';
-
-import '../core/constants.dart';
-import '../core/utils/validators.dart';
-import '../models/game.dart';
-import '../models/player.dart';
-import '../models/round.dart';
-import 'rules.dart';
+import 'package:thousand_counter/models/round.dart';
+import 'package:thousand_counter/services/rules.dart';
 
 class GameService {
   // ignore: unused_field
@@ -288,11 +287,11 @@ class GameService {
     );
   }
 
-  void addPlayer(Game game, Player player) {
-    if (game.players.length > maxPlayers) {
+  void addPlayer(Game currentGame, Player player) {
+    if (currentGame.players.length > maxPlayers) {
       throw Exception("Max $maxPlayers players");
     }
-    game.players.add(player);
+    currentGame.copyWith(players: [...currentGame.players, player]);
   }
 
   Game startGame(List<Profile> profiles, {String? name}) {

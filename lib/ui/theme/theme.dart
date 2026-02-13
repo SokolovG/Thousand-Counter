@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import 'package:thousand_counter/ui/theme/colors.dart';
 import 'extension.dart';
 
 class AppTheme {

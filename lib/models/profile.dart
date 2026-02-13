@@ -1,7 +1,7 @@
 import 'package:thousand_counter/models/base_model.dart';
 
 class Profile extends Entity {
-  String name;
+  final String name;
 
   Profile({required this.name, super.id});
 

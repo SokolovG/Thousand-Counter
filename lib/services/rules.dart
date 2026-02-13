@@ -1,5 +1,5 @@
-import '../core/constants.dart';
-import '../models/player.dart';
+import 'package:thousand_counter/core/constants.dart';
+import 'package:thousand_counter/models/player.dart';
 
 class RulesService {
   bool isBolt(int points, bool isOnBarrel) => points == 0 && !isOnBarrel;
