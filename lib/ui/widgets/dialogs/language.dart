@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
+import 'package:thousand_counter/providers/core_providers.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
 import 'package:thousand_counter/ui/utils.dart';
 
@@ -24,6 +25,9 @@ void languageDialog(BuildContext context, WidgetRef ref) {
                   onChanged: (value) {
                     if (value != null) {
                       ref.read(localeProvider.notifier).state = value;
+                      ref
+                          .read(prefsManagerProvider)
+                          .setString("language_code", value.languageCode);
                     }
                   },
                   child: RadioListTile(value: locale, title: Text(label)),

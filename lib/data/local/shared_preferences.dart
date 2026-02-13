@@ -8,7 +8,7 @@ class SharedPreferencesManager {
     await _prefs.setString(key, value);
   }
 
-  Future<String?> getString(String key, String value) async {
+  Future<String?> getString(String key) async {
     return _prefs.getString(key);
   }
 }

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/providers/core_providers.dart';
 
 final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.light);
 final localeProvider = StateProvider<Locale>((ref) {
-  // final saved = SharedPreferences.getInstance()...
-  // TODO: db
-  // return saved ?? const Locale('en');
+  final manager = ref.watch(prefsManagerProvider);
+  final savedLanguage = manager.getString('language_code');
+
+  if (savedLanguage == 'ru') return const Locale('ru');
+  if (savedLanguage == 'en') return const Locale('en');
+
   return const Locale('en');
 });
 final availableThemesProvider = Provider<List<ThemeMode>>((ref) {
