@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
+import 'package:thousand_counter/providers/core_providers.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
 import 'package:thousand_counter/ui/utils.dart';
 
@@ -25,6 +26,9 @@ void themaDialog(BuildContext context, WidgetRef ref) {
                   onChanged: (value) {
                     if (value != null) {
                       ref.read(themeModeProvider.notifier).state = value;
+                      ref
+                          .read(prefsManagerProvider)
+                          .setString("app_theme", value.name);
                     }
                   },
                   child: RadioListTile(value: mode, title: Text(label)),
