@@ -210,8 +210,19 @@
     "@emptyRoundsHistory": {
         "description": "Message when rounds number is 0"
     },
-    "roundDetails": "Round details",
-    "@roundDetails": {
-        "description": "Title for the one round details"
+    "roundNumber": "Round {roundNumber}",
+    "@roundNumber": {
+        "description": "Title for the round details",
+        "placeholders": {
+            "roundNumber": {}
+        }
+    },
+    "editRound": "Edit",
+    "@editRound": {
+        "description": "Button to edit a round"
+    },
+    "deleteRound": "Delete",
+    "@deleteRound": {
+        "description": "Button to delete a round"
     }
 }

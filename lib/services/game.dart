@@ -28,6 +28,14 @@ class GameService {
     return game;
   }
 
+  Game deleteRound(Game game) {
+    return game;
+  }
+
+  Game updateRound(Game game) {
+    return game;
+  }
+
   Game split(Game game, int bid, int bidderIndex) {
     final updatedPlayers = List<Player>.from(game.players);
     final activePlayer = updatedPlayers[bidderIndex];

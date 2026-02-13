@@ -386,11 +386,23 @@ abstract class AppLocalizations {
   /// **'The history is still empty. Play the first round!'**
   String get emptyRoundsHistory;
 
-  /// Title for the one round details
+  /// Title for the round details
   ///
   /// In en, this message translates to:
-  /// **'Round details'**
-  String get roundDetails;
+  /// **'Round {roundNumber}'**
+  String roundNumber(Object roundNumber);
+
+  /// Button to edit a round
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editRound;
+
+  /// Button to delete a round
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteRound;
 }
 
 class _AppLocalizationsDelegate

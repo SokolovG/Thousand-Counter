@@ -167,5 +167,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'The history is still empty. Play the first round!';
 
   @override
-  String get roundDetails => 'Round details';
+  String roundNumber(Object roundNumber) {
+    return 'Round $roundNumber';
+  }
+
+  @override
+  String get editRound => 'Edit';
+
+  @override
+  String get deleteRound => 'Delete';
 }

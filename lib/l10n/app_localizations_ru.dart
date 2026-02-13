@@ -166,5 +166,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emptyRoundsHistory => 'История еще пуста. Сыграйте первый раунд!';
 
   @override
-  String get roundDetails => 'Детали раунда';
+  String roundNumber(Object roundNumber) {
+    return 'Раунд $roundNumber';
+  }
+
+  @override
+  String get editRound => 'Редактировать';
+
+  @override
+  String get deleteRound => 'Удалить';
 }

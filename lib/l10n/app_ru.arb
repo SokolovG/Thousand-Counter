@@ -210,8 +210,19 @@
     "@emptyRoundsHistory": {
         "description": "Message when rounds number is 0"
     },
-    "roundDetails": "Детали раунда",
-    "@roundDetails": {
-        "description": "Title for the one round details"
+    "roundNumber": "Раунд {roundNumber}",
+    "@roundNumber": {
+        "description": "Title for the round details",
+        "placeholders": {
+            "roundNumber": {}
+        }
+    },
+    "editRound": "Редактировать",
+    "@editRound": {
+        "description": "Button to edit a round"
+    },
+    "deleteRound": "Удалить",
+    "@deleteRound": {
+        "description": "Button to delete a round"
     }
 }

@@ -11,7 +11,7 @@ Widget buildEventIcons(List<SpecialGameEvent>? events) {
         case SpecialGameEvent.barrel:
           return const Icon(Icons.oil_barrel, color: Colors.brown, size: 18);
         case SpecialGameEvent.barrelFall:
-          return const Icon(Icons.trending_down, color: Colors.red, size: 18);
+          return const Icon(Icons.downhill_skiing, color: Colors.red, size: 18);
         case SpecialGameEvent.bolt:
           return const Icon(Icons.flash_on, color: Colors.amber, size: 18);
         case SpecialGameEvent.magicNumber:
