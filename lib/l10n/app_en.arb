@@ -224,5 +224,13 @@
     "deleteRound": "Delete",
     "@deleteRound": {
         "description": "Button to delete a round"
+    },
+    "liveStatus": "Live status:",
+    "@liveStatus": {
+        "description": "Title for current player status in game"
+    },
+    "generalStatistics": "General statistics:",
+    "@generalStatistics": {
+        "description": "Title for general player statistics in game"
     }
 }

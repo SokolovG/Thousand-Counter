@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/player_stats.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
@@ -11,6 +12,7 @@ void playerGameHistoryDialog(
   PlayerStats playerStats,
 ) async {
   final currentGame = ref.read(currentGameProvider);
+  final l10n = AppLocalizations.of(context)!;
 
   if (currentGame == null) return;
 
@@ -26,7 +28,7 @@ void playerGameHistoryDialog(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 8,
             children: [
-              Center(child: Text("Live status:")),
+              Center(child: Text(l10n.liveStatus)),
               Card(
                 child: Center(
                   child: Padding(
@@ -61,7 +63,7 @@ void playerGameHistoryDialog(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 8,
             children: [
-              Center(child: Text("Career Highlights")),
+              Center(child: Text(l10n.generalStatistics)),
               Card(
                 child: Center(
                   child: Padding(

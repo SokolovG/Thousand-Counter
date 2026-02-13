@@ -176,4 +176,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get deleteRound => 'Удалить';
+
+  @override
+  String get liveStatus => 'Текущий статус:';
+
+  @override
+  String get generalStatistics => 'Общая статистика:';
 }

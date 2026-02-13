@@ -176,4 +176,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteRound => 'Delete';
+
+  @override
+  String get liveStatus => 'Live status:';
+
+  @override
+  String get generalStatistics => 'General statistics:';
 }

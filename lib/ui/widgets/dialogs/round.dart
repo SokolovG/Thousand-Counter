@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/round.dart';
@@ -16,24 +17,36 @@ void roundialog(
     builder: (BuildContext context) {
       final l10n = AppLocalizations.of(context)!;
       return AlertDialog(
-        title: Center(child: Text(l10n.roundNumber(currentGame.currentRound))),
+        title: Center(child: Text(l10n.roundNumber(round.roundNumber))),
         actionsAlignment: MainAxisAlignment.center,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: currentGame.players.map((p) {
             final score = round.playerScores[p.profile.id] ?? 0;
+            final events = round.specialEvents[p.profile.id] ?? [];
+            final isMagic = events.contains(SpecialGameEvent.magicNumber);
+
             return ListTile(
               contentPadding: EdgeInsets.zero,
               leading: buildEventIcons(round.specialEvents[p.profile.id]),
               title: Text(p.profile.name),
-              trailing: Text(
-                score > 0 ? "+$score" : "$score",
-                style: TextStyle(
-                  color: score > 0
-                      ? Colors.green
-                      : (score < 0 ? Colors.red : Colors.grey),
-                  fontWeight: FontWeight.bold,
-                ),
+              trailing: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    score > 0 ? "+$score" : "$score",
+                    style: TextStyle(
+                      color: score < 0 ? Colors.red : Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (isMagic)
+                    Text(
+                      "→ 0",
+                      style: TextStyle(color: Colors.orange, fontSize: 12),
+                    ),
+                ],
               ),
             );
           }).toList(),

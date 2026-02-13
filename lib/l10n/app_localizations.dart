@@ -403,6 +403,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get deleteRound;
+
+  /// Title for current player status in game
+  ///
+  /// In en, this message translates to:
+  /// **'Live status:'**
+  String get liveStatus;
+
+  /// Title for general player statistics in game
+  ///
+  /// In en, this message translates to:
+  /// **'General statistics:'**
+  String get generalStatistics;
 }
 
 class _AppLocalizationsDelegate

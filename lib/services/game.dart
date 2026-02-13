@@ -96,8 +96,8 @@ class GameService {
         pPoints = pPoints + pointsToOthers;
       }
 
-      int delta = pPoints - updatedPlayers[i].totalPoints;
-      roundResultsForHistory[updatedPlayers[i].profile.id] = delta;
+      int pureDelta = pOnBarrel ? 0 : pointsToOthers;
+      roundResultsForHistory[updatedPlayers[i].profile.id] = pureDelta;
 
       if (pEvents.isNotEmpty) {
         gameEventsMap[updatedPlayers[i].profile.id] = pEvents;
@@ -107,13 +107,13 @@ class GameService {
       if (isMagic) pEvents.add(SpecialGameEvent.magicNumber);
 
       updatedPlayers[i] = updatedPlayers[i].copyWith(
-        totalPoints: pPoints,
+        totalPoints: isMagic ? 0 : pPoints,
         barrelAttempts: pAttempts,
         isOnBarrel: pOnBarrel,
       );
     }
     roundResultsForHistory[activePlayer.profile.id] =
-        activePlayerPoints - activePlayer.totalPoints;
+        roundResultsForHistory[activePlayer.profile.id] = -bid;
 
     Round newRound = Round(
       roundNumber: game.rounds.length + 1,
@@ -201,17 +201,19 @@ class GameService {
       if (isMagic) pEvents.add(SpecialGameEvent.magicNumber);
 
       final isThreeBolts = _rulesService.hasThreeBoltsFromInt(newBoltsCount);
+
+      int pureDelta = scoreToAdd;
+
       if (isBolt && isThreeBolts) {
         newTotalPoints -= boltPenalty;
         newBoltsCount = 0;
+        pureDelta -= boltPenalty;
       }
-
-      int delta = (isMagic ? 0 : newTotalPoints) - p.totalPoints;
-      roundResultsForHistory[p.profile.id] = delta;
 
       if (pEvents.isNotEmpty) {
         gameEventsMap[p.profile.id] = pEvents;
       }
+      roundResultsForHistory[p.profile.id] = pureDelta;
 
       return p.copyWith(
         totalPoints: isMagic ? 0 : newTotalPoints,
