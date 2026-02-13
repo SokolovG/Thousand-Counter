@@ -153,7 +153,6 @@ class GameService {
       int newTotalPoints = p.totalPoints;
 
       if (p.isOnBarrel) {
-        print("BARREL! Name - ${p.profile.name}");
         if (newTotal >= maxPoints) {
           // WIN
           newTotalPoints = newTotal;
@@ -161,7 +160,6 @@ class GameService {
           newBarrelAttempts = 0;
         } else if (newBarrelPlayer != null &&
             newBarrelPlayer.profile.id != p.profile.id) {
-          print("NEWWWW BARREL! Name - ${newBarrelPlayer.profile.name}");
           pEvents.add(SpecialGameEvent.barrelFall);
           newIsOnBarrel = false;
           newBarrelAttempts = 0;
@@ -169,19 +167,16 @@ class GameService {
         } else {
           newBarrelAttempts = p.barrelAttempts + 1;
           if (newBarrelAttempts >= maxBarrelsNumber) {
-            print("BARREL! FUCK! -120!!! - ${p.profile.name}");
             pEvents.add(SpecialGameEvent.barrelFall);
             newIsOnBarrel = false;
             newBarrelAttempts = 0;
             newTotalPoints = barrelNumber - barrelPenalty;
           } else {
-            print("BARREL! Sitting... Name - ${p.profile.name}");
             pEvents.add(SpecialGameEvent.barrel);
             newTotalPoints = barrelNumber;
           }
         }
       } else if (newTotal >= barrelNumber) {
-        print("FIRST BARREL! Name - ${p.profile.name}");
         pEvents.add(SpecialGameEvent.barrel);
         newIsOnBarrel = true;
         newBarrelAttempts = 0;
@@ -199,7 +194,6 @@ class GameService {
 
       final isThreeBolts = _rulesService.hasThreeBoltsFromInt(newBoltsCount);
       if (isBolt && isThreeBolts) {
-        print(p.profile.name == "Sonya" ? "SONYA -120 BOLT" : "");
         newTotalPoints -= boltPenalty;
         newBoltsCount = 0;
       }
