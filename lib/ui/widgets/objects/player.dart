@@ -31,7 +31,6 @@ class PlayerWidget extends ConsumerWidget {
     bool isPlayerOnBarrel = player.isOnBarrel;
     final effectiveHintText = isBidder ? "100" : "0";
     final l10n = AppLocalizations.of(context)!;
-    // TODO: add colors for round history? fill winner round with color
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       color: color,
@@ -58,24 +57,6 @@ class PlayerWidget extends ConsumerWidget {
                   ],
                 ),
               ),
-              if (currentGame != null && !currentGame.isFinished)
-                IconButton(
-                  icon: Icon(
-                    isBidder ? Icons.gavel : Icons.gavel_outlined,
-                    color: isBidder
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.outlineVariant,
-                  ),
-                  onPressed: () {
-                    ref.read(activeBidderIdProvider.notifier).state =
-                        player.profile.id;
-                  },
-                ),
-              if (player.totalPoints >= maxPoints)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Icon(Icons.emoji_events, color: appColors.goldCrown),
-                ),
 
               if (isPlayerOnBarrel && player.totalPoints < maxPoints)
                 Padding(
@@ -101,6 +82,24 @@ class PlayerWidget extends ConsumerWidget {
                       ),
                     ],
                   ),
+                ),
+              if (currentGame != null && !currentGame.isFinished)
+                IconButton(
+                  icon: Icon(
+                    isBidder ? Icons.gavel : Icons.gavel_outlined,
+                    color: isBidder
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.outlineVariant,
+                  ),
+                  onPressed: () {
+                    ref.read(activeBidderIdProvider.notifier).state =
+                        player.profile.id;
+                  },
+                ),
+              if (player.totalPoints >= maxPoints)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Icon(Icons.emoji_events, color: appColors.goldCrown),
                 ),
 
               Padding(

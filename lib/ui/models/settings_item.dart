@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum SettingsItemType { navigation, toggle, info }
+import 'package:thousand_counter/core/enums.dart';
 
 class SettingsItem {
   final IconData icon;

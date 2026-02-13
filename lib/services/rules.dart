@@ -2,7 +2,7 @@ import '../core/constants.dart';
 import '../models/player.dart';
 
 class RulesService {
-  bool isBolt(int points) => points == 0;
+  bool isBolt(int points, bool isOnBarrel) => points == 0 && !isOnBarrel;
 
   bool isBarrel(int totalPoints) => totalPoints >= barrelNumber;
 

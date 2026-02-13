@@ -1,4 +1,5 @@
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 
@@ -31,12 +32,14 @@ class GameService {
     final updatedPlayers = List<Player>.from(game.players);
     final activePlayer = updatedPlayers[bidderIndex];
     Map<String, int> roundResultsForHistory = {};
+    Map<String, List<SpecialGameEvent>> gameEventsMap = {};
 
     int activePlayerPoints = activePlayer.totalPoints;
     int activePlayerAttempts = activePlayer.barrelAttempts;
     bool activePlayerOnBarrel = activePlayer.isOnBarrel;
 
-    if (activePlayer.isOnBarrel) {
+    if (activePlayerOnBarrel) {
+      gameEventsMap[activePlayer.profile.id] = [SpecialGameEvent.barrelFall];
       activePlayerAttempts += 1;
 
       if (activePlayerAttempts >= maxBarrelsNumber) {
@@ -65,17 +68,35 @@ class GameService {
       int pPoints = updatedPlayers[i].totalPoints;
       bool pOnBarrel = updatedPlayers[i].isOnBarrel;
       int pAttempts = updatedPlayers[i].barrelAttempts;
+      List<SpecialGameEvent> pEvents = [];
 
       if (i == bidderIndex) continue;
       if (updatedPlayers.length == maxPlayers && i == dealerIndex) continue;
 
       if (pOnBarrel) {
-        pPoints = updatedPlayers[i].totalPoints;
+        pAttempts += 1;
+        if (pAttempts >= maxBarrelsNumber) {
+          pOnBarrel = false;
+          pAttempts = 0;
+          pPoints = barrelNumber - barrelPenalty;
+          pEvents.add(SpecialGameEvent.barrelFall);
+        } else {
+          pEvents.add(SpecialGameEvent.barrel);
+          pPoints = updatedPlayers[i].totalPoints;
+        }
       } else {
         pPoints = pPoints + pointsToOthers;
       }
+
       int delta = pPoints - updatedPlayers[i].totalPoints;
       roundResultsForHistory[updatedPlayers[i].profile.id] = delta;
+
+      if (pEvents.isNotEmpty) {
+        gameEventsMap[updatedPlayers[i].profile.id] = pEvents;
+      }
+
+      final isMagic = _rulesService.isMagicNumber(pPoints);
+      if (isMagic) pEvents.add(SpecialGameEvent.magicNumber);
 
       updatedPlayers[i] = updatedPlayers[i].copyWith(
         totalPoints: pPoints,
@@ -89,6 +110,7 @@ class GameService {
     Round newRound = Round(
       roundNumber: game.rounds.length + 1,
       playerScores: roundResultsForHistory,
+      specialEvents: gameEventsMap,
     );
 
     return game.copyWith(
@@ -108,6 +130,7 @@ class GameService {
     final processedPoints = Map<String, int>.from(points);
     final bidderScore = processedPoints[bidderId] ?? 0;
     Map<String, int> roundResultsForHistory = {};
+    Map<String, List<SpecialGameEvent>> gameEventsMap = {};
 
     if (bidderScore < bid) {
       processedPoints[bidderId] = -bid;
@@ -123,32 +146,43 @@ class GameService {
       final scoreToAdd = processedPoints[p.profile.id] ?? 0;
       final newTotal = p.totalPoints + scoreToAdd;
 
+      List<SpecialGameEvent> pEvents = [];
+
       bool newIsOnBarrel = p.isOnBarrel;
       int newBarrelAttempts = p.barrelAttempts;
       int newTotalPoints = p.totalPoints;
 
       if (p.isOnBarrel) {
-        // Логика победы с бочки
+        print("BARREL! Name - ${p.profile.name}");
         if (newTotal >= maxPoints) {
+          // WIN
           newTotalPoints = newTotal;
           newIsOnBarrel = false;
           newBarrelAttempts = 0;
         } else if (newBarrelPlayer != null &&
             newBarrelPlayer.profile.id != p.profile.id) {
+          print("NEWWWW BARREL! Name - ${newBarrelPlayer.profile.name}");
+          pEvents.add(SpecialGameEvent.barrelFall);
           newIsOnBarrel = false;
           newBarrelAttempts = 0;
           newTotalPoints = barrelNumber - barrelPenalty;
         } else {
           newBarrelAttempts = p.barrelAttempts + 1;
           if (newBarrelAttempts >= maxBarrelsNumber) {
+            print("BARREL! FUCK! -120!!! - ${p.profile.name}");
+            pEvents.add(SpecialGameEvent.barrelFall);
             newIsOnBarrel = false;
             newBarrelAttempts = 0;
             newTotalPoints = barrelNumber - barrelPenalty;
           } else {
+            print("BARREL! Sitting... Name - ${p.profile.name}");
+            pEvents.add(SpecialGameEvent.barrel);
             newTotalPoints = barrelNumber;
           }
         }
       } else if (newTotal >= barrelNumber) {
+        print("FIRST BARREL! Name - ${p.profile.name}");
+        pEvents.add(SpecialGameEvent.barrel);
         newIsOnBarrel = true;
         newBarrelAttempts = 0;
         newTotalPoints = barrelNumber;
@@ -156,19 +190,26 @@ class GameService {
         newTotalPoints = newTotal;
       }
 
-      final isBolt = _rulesService.isBolt(scoreToAdd);
-      int newBoltsCount = isBolt ? p.boltsCount + 1 : p.boltsCount;
+      final isBolt = _rulesService.isBolt(scoreToAdd, p.isOnBarrel);
+      if (isBolt && !p.isOnBarrel) pEvents.add(SpecialGameEvent.bolt);
 
+      int newBoltsCount = isBolt ? p.boltsCount + 1 : p.boltsCount;
       final isMagic = _rulesService.isMagicNumber(newTotalPoints);
+      if (isMagic) pEvents.add(SpecialGameEvent.magicNumber);
 
       final isThreeBolts = _rulesService.hasThreeBoltsFromInt(newBoltsCount);
       if (isBolt && isThreeBolts) {
+        print(p.profile.name == "Sonya" ? "SONYA -120 BOLT" : "");
         newTotalPoints -= boltPenalty;
         newBoltsCount = 0;
       }
 
       int delta = (isMagic ? 0 : newTotalPoints) - p.totalPoints;
       roundResultsForHistory[p.profile.id] = delta;
+
+      if (pEvents.isNotEmpty) {
+        gameEventsMap[p.profile.id] = pEvents;
+      }
 
       return p.copyWith(
         totalPoints: isMagic ? 0 : newTotalPoints,
@@ -181,6 +222,7 @@ class GameService {
     Round newRound = Round(
       roundNumber: game.rounds.length + 1,
       playerScores: roundResultsForHistory,
+      specialEvents: gameEventsMap,
     );
 
     game = game.copyWith(

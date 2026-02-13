@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/round.dart';
+import 'package:thousand_counter/ui/widgets/objects/event_icons.dart';
 
 void roundialog(
   BuildContext context,
@@ -19,6 +20,7 @@ void roundialog(
         children: currentGame.players.map((p) {
           final score = round.playerScores[p.profile.id] ?? 0;
           return ListTile(
+            leading: buildEventIcons(round.specialEvents[p.profile.id]),
             title: Text(p.profile.name),
             trailing: Text(
               score > 0 ? "+$score" : "$score",
