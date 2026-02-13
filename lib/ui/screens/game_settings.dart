@@ -111,7 +111,6 @@ class GameSettingsScreen extends ConsumerWidget {
           );
         },
         error: (err, trace) {
-          // _talker.error("Failed to load profiles", err, trace);
           return Text(l10n.errorGeneric(err));
         },
       ),
@@ -133,7 +132,6 @@ class GameSettingsScreen extends ConsumerWidget {
     final name = l10n.defaultGameName(dateStr);
 
     final game = gameService.startGame(selectedProfiles, name: name);
-    // _talker.info("Game started: $game");
     return game;
   }
 }

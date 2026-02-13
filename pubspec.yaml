@@ -8,7 +8,6 @@ environment:
   sdk: ^3.10.7
 
 dependencies:
-  talker_flutter: ^5.1.13
   uuid: ^4.5.2
   recase: ^4.1.0
   flutter_riverpod: ^2.6.1
@@ -21,7 +20,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  talker_riverpod_logger: ^5.0.1
   flutter_slidable: ^4.0.3
   flutter_localizations:
     sdk: flutter

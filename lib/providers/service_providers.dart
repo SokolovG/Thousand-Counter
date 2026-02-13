@@ -22,10 +22,9 @@ final profileServiceProvider = Provider((ref) {
 });
 
 final gameServiceProvider = Provider((ref) {
-  final talker = ref.watch(talkerProvider);
   final rulesService = ref.read(rulesServiceProvider);
   final gameRepo = ref.read(gameRepositoryProvider);
-  return GameService(rulesService, talker, gameRepo);
+  return GameService(rulesService, gameRepo);
 });
 
 // DATA PROVIDERS

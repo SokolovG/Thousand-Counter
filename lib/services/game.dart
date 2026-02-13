@@ -1,4 +1,3 @@
-import 'package:talker_flutter/talker_flutter.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
@@ -10,12 +9,10 @@ import 'package:thousand_counter/models/round.dart';
 import 'package:thousand_counter/services/rules.dart';
 
 class GameService {
-  // ignore: unused_field
-  final Talker _talker;
   final RulesService _rulesService;
   final GameRepository _gameRepository;
 
-  GameService(this._rulesService, this._talker, this._gameRepository);
+  GameService(this._rulesService, this._gameRepository);
 
   Future<List<Game>> getAllGames() async {
     final games = await _gameRepository.getAll();
@@ -295,13 +292,11 @@ class GameService {
   }
 
   Game startGame(List<Profile> profiles, {String? name}) {
-    // _talker.debug("Starting game with ${profiles.length} profiles");
     GameValidators.validatePlayerCount(profiles.length);
     final players = profiles
         .map((profile) => Player(profile: profile))
         .toList();
     final game = Game(players: players, name: name);
-    // _talker.info("Game created successfully: $game");
     return game;
   }
 
