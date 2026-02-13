@@ -8,7 +8,7 @@ import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/services/game.dart';
-import 'package:thousand_counter/ui/theme/extension.dart';
+import 'package:thousand_counter/ui/theme/text_styles.dart';
 import 'package:thousand_counter/ui/widgets/objects/profle_checkbox.dart';
 
 class GameSettingsScreen extends ConsumerWidget {
@@ -20,7 +20,6 @@ class GameSettingsScreen extends ConsumerWidget {
     final profilesAsync = ref.watch(profilesListProvider);
     final gameService = ref.read(gameServiceProvider);
     final l10n = AppLocalizations.of(context)!;
-    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return Scaffold(
       appBar: AppBar(
@@ -66,10 +65,7 @@ class GameSettingsScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     state.errorMessage!,
-                    style: TextStyle(
-                      color: appColors.alert,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyles.errorSmall(context),
                   ),
                 ),
               Padding(

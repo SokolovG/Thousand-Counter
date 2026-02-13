@@ -90,7 +90,7 @@ class PlayerWidget extends ConsumerWidget {
                       SizedBox(width: 4),
                       Text(
                         "${player.barrelAttempts + 1}/3",
-                        style: TextStyle(
+                        style: theme.textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: player.barrelAttempts >= 2
                               ? appColors.alert
@@ -123,7 +123,9 @@ class PlayerWidget extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: 8),
                 child: Text(
                   l10n.bolts(player.boltsCount),
-                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               isThisPlayerMinusPressed

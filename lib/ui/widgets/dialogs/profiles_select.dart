@@ -4,14 +4,12 @@ import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
-import 'package:thousand_counter/ui/theme/extension.dart';
+import 'package:thousand_counter/ui/theme/text_styles.dart';
 import 'package:thousand_counter/ui/widgets/objects/profle_checkbox.dart';
 
 void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
   final allProfilesAsync = ref.read(profilesListProvider);
   final gameService = ref.read(gameServiceProvider);
-  final theme = Theme.of(context);
-  final appColors = theme.extension<AppColors>()!;
 
   showDialog(
     context: context,
@@ -89,7 +87,7 @@ void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         errorText,
-                        style: TextStyle(color: appColors.alert),
+                        style: TextStyles.errorSmall(context),
                       ),
                     ),
                 ],

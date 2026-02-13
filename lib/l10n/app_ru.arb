@@ -217,7 +217,7 @@
             "roundNumber": {}
         }
     },
-    "editRound": "Редактировать",
+    "editRound": "Править",
     "@editRound": {
         "description": "Button to edit a round"
     },

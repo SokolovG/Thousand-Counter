@@ -82,7 +82,7 @@ List<SettingsItem> _buildSettingsItems(
       subtitle: l10n.authorName,
       type: SettingsItemType.info,
       onTap: () async {
-        final uri = Uri.parse(githubUrl);
+        final uri = Uri.parse(authorGithub);
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri, mode: LaunchMode.externalApplication);
         }
@@ -93,7 +93,7 @@ List<SettingsItem> _buildSettingsItems(
       title: l10n.sourceCode,
       type: SettingsItemType.info,
       onTap: () async {
-        final uri = Uri.parse(authorGithub);
+        final uri = Uri.parse(githubUrl);
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri, mode: LaunchMode.externalApplication);
         }

@@ -14,6 +14,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color textSecondary;
   final Color iconSecondary;
   final Color playerHighlight;
+  final Color gridBorder;
   final Color success;
   final Color info;
   final Color warning;
@@ -33,6 +34,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.textSecondary,
     required this.iconSecondary,
     required this.playerHighlight,
+    required this.gridBorder,
     required this.success,
     required this.info,
     required this.warning,
@@ -73,6 +75,7 @@ class AppColors extends ThemeExtension<AppColors> {
       textSecondary: textSecondary ?? this.textSecondary,
       iconSecondary: iconSecondary ?? this.iconSecondary,
       playerHighlight: playerHighlight ?? this.playerHighlight,
+      gridBorder: gridBorder,
       success: success ?? this.success,
       info: info ?? this.info,
       warning: warning ?? this.warning,
@@ -100,6 +103,7 @@ class AppColors extends ThemeExtension<AppColors> {
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       iconSecondary: Color.lerp(iconSecondary, other.iconSecondary, t)!,
       playerHighlight: Color.lerp(playerHighlight, other.playerHighlight, t)!,
+      gridBorder: Color.lerp(gridBorder, other.gridBorder, t)!,
       success: Color.lerp(success, other.success, t)!,
       info: Color.lerp(info, other.info, t)!,
       warning: Color.lerp(warning, other.warning, t)!,

@@ -48,8 +48,17 @@ void roundsHistoryDialog(
                                 ? appColors.alert
                                 : appColors.success,
                             borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: appColors.gridBorder, width: 2),
                           ),
-                          child: Center(child: Text("${index + 1}")),
+                          child: Center(
+                            child: Text(
+                              "${index + 1}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       );
                     },

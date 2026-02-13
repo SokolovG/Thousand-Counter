@@ -172,7 +172,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get editRound => 'Редактировать';
+  String get editRound => 'Править';
 
   @override
   String get deleteRound => 'Удалить';
