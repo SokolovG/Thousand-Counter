@@ -84,10 +84,14 @@ class GameScreen extends ConsumerWidget {
                 final appColors = Theme.of(context).extension<AppColors>()!;
                 final isCurrentPlayer = index == currentGame.currentPlayerIndex;
                 final color = isCurrentPlayer
-                    ? Theme.of(context).colorScheme.primaryContainer
+                    ? appColors.playerHighlight
                     : appColors.cardBackground;
 
-                return PlayerWidget(player: player, color: color);
+                return PlayerWidget(
+                  player: player,
+                  color: color,
+                  isCurrentPlayer: isCurrentPlayer,
+                );
               },
             ),
           ),

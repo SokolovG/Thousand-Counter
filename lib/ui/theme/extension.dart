@@ -13,6 +13,12 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color textPrimary;
   final Color textSecondary;
   final Color iconSecondary;
+  final Color playerHighlight;
+  final Color success;
+  final Color info;
+  final Color warning;
+  final Color bolt;
+  final Color barrel;
 
   const AppColors({
     required this.barrelColor,
@@ -26,6 +32,12 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.textPrimary,
     required this.textSecondary,
     required this.iconSecondary,
+    required this.playerHighlight,
+    required this.success,
+    required this.info,
+    required this.warning,
+    required this.bolt,
+    required this.barrel,
   });
 
   @override
@@ -41,6 +53,12 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? textPrimary,
     Color? textSecondary,
     Color? iconSecondary,
+    Color? playerHighlight,
+    Color? success,
+    Color? info,
+    Color? warning,
+    Color? bolt,
+    Color? barrel,
   }) {
     return AppColors(
       barrelColor: barrelColor ?? this.barrelColor,
@@ -54,6 +72,12 @@ class AppColors extends ThemeExtension<AppColors> {
       textPrimary: textPrimary ?? this.textPrimary,
       textSecondary: textSecondary ?? this.textSecondary,
       iconSecondary: iconSecondary ?? this.iconSecondary,
+      playerHighlight: playerHighlight ?? this.playerHighlight,
+      success: success ?? this.success,
+      info: info ?? this.info,
+      warning: warning ?? this.warning,
+      bolt: bolt ?? this.bolt,
+      barrel: barrel ?? this.barrel,
     );
   }
 
@@ -75,6 +99,12 @@ class AppColors extends ThemeExtension<AppColors> {
       textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       iconSecondary: Color.lerp(iconSecondary, other.iconSecondary, t)!,
+      playerHighlight: Color.lerp(playerHighlight, other.playerHighlight, t)!,
+      success: Color.lerp(success, other.success, t)!,
+      info: Color.lerp(info, other.info, t)!,
+      warning: Color.lerp(warning, other.warning, t)!,
+      bolt: Color.lerp(bolt, other.bolt, t)!,
+      barrel: Color.lerp(barrel, other.barrel, t)!,
     );
   }
 }

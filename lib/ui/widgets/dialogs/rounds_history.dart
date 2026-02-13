@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
+import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/round.dart';
 
 void roundsHistoryDialog(
@@ -9,6 +10,7 @@ void roundsHistoryDialog(
   WidgetRef ref,
   Game currentGame,
 ) {
+  final appColors = Theme.of(context).extension<AppColors>()!;
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -43,8 +45,8 @@ void roundsHistoryDialog(
                         child: Container(
                           decoration: BoxDecoration(
                             color: (index == roundsCount - 1)
-                                ? Colors.redAccent
-                                : Colors.lightGreen,
+                                ? appColors.alert
+                                : appColors.success,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(child: Text("${index + 1}")),

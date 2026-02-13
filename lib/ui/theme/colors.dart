@@ -1,14 +1,18 @@
 import 'dart:ui';
 
 class AppPalette {
-  static const red = Color(0xFFE02020);
-  static const orange = Color(0xFFFF9900);
-  static const darkGrey = Color(0xFF303030);
-  static const lightGrey = Color(0xFFB0B0B0);
-  static const white = Color(0xFFffffff);
-  static const gold = Color(0xFFFFD700);
-  static const black = Color(0xFF000000);
-  static const black5 = Color.fromARGB(128, 0, 0, 0);
-  static const green = Color(0xFF008000);
-  static const blue = Color(0xFF0000FF);
+  static const cream = Color(0xFFFFF8F0);
+  static const warmBeige = Color(0xFFEFE0C4);
+  static const warmBrown = Color(0xFF5C3D2E);
+  static const mutedBrown = Color(0xFF8B6F5E);
+  static const softShadow = Color(0x33C4A882);
+
+  static const darkWood = Color(0xFF2C2218);
+  static const darkCard = Color(0xFF3D2E22);
+  static const warmText = Color(0xFFF2E0C8);
+
+  static const terracotta = Color(0xFFC0503A);
+  static const amber = Color(0xFFD4863A);
+  static const softGold = Color(0xFFD4AA50);
+  static const mutedBlue = Color(0xFF5B7FA6);
 }

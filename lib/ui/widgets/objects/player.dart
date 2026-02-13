@@ -12,8 +12,14 @@ import 'package:thousand_counter/ui/theme/extension.dart';
 class PlayerWidget extends ConsumerWidget {
   final Player player;
   final Color color;
+  final bool isCurrentPlayer;
 
-  const PlayerWidget({super.key, required this.player, required this.color});
+  const PlayerWidget({
+    super.key,
+    required this.player,
+    required this.color,
+    this.isCurrentPlayer = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,6 +41,12 @@ class PlayerWidget extends ConsumerWidget {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       color: color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: isCurrentPlayer
+            ? BorderSide(color: theme.colorScheme.primary, width: 2)
+            : BorderSide.none,
+      ),
       child: InkWell(
         onTap: () {
           if (currentGame != null) {

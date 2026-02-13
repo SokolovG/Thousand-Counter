@@ -5,6 +5,7 @@ import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/round.dart';
+import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/widgets/objects/event_icons.dart';
 
 void roundialog(
@@ -13,6 +14,8 @@ void roundialog(
   Round round,
   Game currentGame,
 ) {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -33,7 +36,7 @@ void roundialog(
 
             return ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: buildEventIcons(round.specialEvents[p.profile.id]),
+              leading: buildEventIcons(context, round.specialEvents[p.profile.id]),
               title: Text(p.profile.name),
               trailing: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -42,20 +45,20 @@ void roundialog(
                   Text(
                     score > 0 ? "+$score" : "$score",
                     style: TextStyle(
-                      color: score < 0 ? Colors.red : Colors.green,
+                      color: score < 0 ? appColors.alert : appColors.success,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   if (isMagic)
                     Text(
                       "→ 0",
-                      style: TextStyle(color: Colors.orange, fontSize: 12),
+                      style: TextStyle(color: appColors.warning, fontSize: 12),
                     ),
                   if (isPlayerOnBarrel && !isMagic && !isFalledFromBarrel)
                     Text(
                       "→ $barrelNumber",
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: appColors.info,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -63,7 +66,7 @@ void roundialog(
                   if (isFalledFromBarrel)
                     Text(
                       "→ -$barrelPenalty",
-                      style: TextStyle(color: Colors.red, fontSize: 12),
+                      style: TextStyle(color: appColors.alert, fontSize: 12),
                     ),
                 ],
               ),
@@ -75,23 +78,23 @@ void roundialog(
             children: [
               TextButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.edit, size: 18, color: Colors.blue),
+                icon: Icon(Icons.edit, size: 18, color: appColors.info),
                 label: Text(
                   l10n.editRound,
-                  style: const TextStyle(color: Colors.blue),
+                  style: TextStyle(color: appColors.info),
                 ),
               ),
 
               TextButton.icon(
                 onPressed: () {},
-                icon: const Icon(
+                icon: Icon(
                   Icons.delete_outline,
                   size: 18,
-                  color: Colors.red,
+                  color: appColors.alert,
                 ),
                 label: Text(
                   l10n.deleteRound,
-                  style: const TextStyle(color: Colors.red),
+                  style: TextStyle(color: appColors.alert),
                 ),
               ),
             ],
