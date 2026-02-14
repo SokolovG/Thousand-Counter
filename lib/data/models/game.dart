@@ -1,9 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:thousand_counter/data/models/player.dart';
+import 'package:uuid/uuid.dart';
 
 @DataClassName("GameModel")
 class Games extends Table {
-  TextColumn get id => text()();
+  TextColumn get id => text().clientDefault(() => const Uuid().v4())();
   TextColumn get name => text()();
   DateTimeColumn get createdAt => dateTime()();
   IntColumn get currentRound => integer()();

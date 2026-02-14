@@ -8,6 +8,7 @@ import 'package:thousand_counter/data/models/profile.dart';
 import 'package:thousand_counter/data/models/round.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';
 

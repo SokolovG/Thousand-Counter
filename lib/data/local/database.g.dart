@@ -16,7 +16,8 @@ class $ProfilesTable extends Profiles
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => const Uuid().v4(),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -47,8 +48,6 @@ class $ProfilesTable extends Profiles
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -155,11 +154,10 @@ class ProfilesCompanion extends UpdateCompanion<ProfileModel> {
     this.rowid = const Value.absent(),
   });
   ProfilesCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String name,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       name = Value(name);
+  }) : name = Value(name);
   static Insertable<ProfileModel> custom({
     Expression<String>? id,
     Expression<String>? name,
@@ -705,7 +703,8 @@ class $GamesTable extends Games with TableInfo<$GamesTable, GameModel> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => const Uuid().v4(),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -801,8 +800,6 @@ class $GamesTable extends Games with TableInfo<$GamesTable, GameModel> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -1074,7 +1071,7 @@ class GamesCompanion extends UpdateCompanion<GameModel> {
     this.rowid = const Value.absent(),
   });
   GamesCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String name,
     required DateTime createdAt,
     required int currentRound,
@@ -1082,8 +1079,7 @@ class GamesCompanion extends UpdateCompanion<GameModel> {
     required int currentPlayerIndex,
     this.winnerPlayerId = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       name = Value(name),
+  }) : name = Value(name),
        createdAt = Value(createdAt),
        currentRound = Value(currentRound),
        currentPlayerIndex = Value(currentPlayerIndex);
@@ -1183,6 +1179,16 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $RoundsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    clientDefault: () => const Uuid().v4(),
+  );
   static const VerificationMeta _roundNumberMeta = const VerificationMeta(
     'roundNumber',
   );
@@ -1220,11 +1226,11 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
       );
   static const VerificationMeta _gameIdMeta = const VerificationMeta('gameId');
   @override
-  late final GeneratedColumn<int> gameId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> gameId = GeneratedColumn<String>(
     'game_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES games (id)',
@@ -1232,6 +1238,7 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
   );
   @override
   List<GeneratedColumn> get $columns => [
+    id,
     roundNumber,
     playerScores,
     specialEvents,
@@ -1249,6 +1256,9 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
     if (data.containsKey('round_number')) {
       context.handle(
         _roundNumberMeta,
@@ -1277,6 +1287,10 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
   RoundModel map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RoundModel(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
       roundNumber: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}round_number'],
@@ -1294,7 +1308,7 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
         )!,
       ),
       gameId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}game_id'],
       )!,
     );
@@ -1312,11 +1326,13 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
 }
 
 class RoundModel extends DataClass implements Insertable<RoundModel> {
+  final String id;
   final int roundNumber;
   final Map<String, int> playerScores;
   final Map<String, List<SpecialGameEvent>> specialEvents;
-  final int gameId;
+  final String gameId;
   const RoundModel({
+    required this.id,
     required this.roundNumber,
     required this.playerScores,
     required this.specialEvents,
@@ -1325,6 +1341,7 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
     map['round_number'] = Variable<int>(roundNumber);
     {
       map['player_scores'] = Variable<String>(
@@ -1336,12 +1353,13 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
         $RoundsTable.$converterspecialEvents.toSql(specialEvents),
       );
     }
-    map['game_id'] = Variable<int>(gameId);
+    map['game_id'] = Variable<String>(gameId);
     return map;
   }
 
   RoundsCompanion toCompanion(bool nullToAbsent) {
     return RoundsCompanion(
+      id: Value(id),
       roundNumber: Value(roundNumber),
       playerScores: Value(playerScores),
       specialEvents: Value(specialEvents),
@@ -1355,33 +1373,37 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return RoundModel(
+      id: serializer.fromJson<String>(json['id']),
       roundNumber: serializer.fromJson<int>(json['roundNumber']),
       playerScores: serializer.fromJson<Map<String, int>>(json['playerScores']),
       specialEvents: serializer.fromJson<Map<String, List<SpecialGameEvent>>>(
         json['specialEvents'],
       ),
-      gameId: serializer.fromJson<int>(json['gameId']),
+      gameId: serializer.fromJson<String>(json['gameId']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
       'roundNumber': serializer.toJson<int>(roundNumber),
       'playerScores': serializer.toJson<Map<String, int>>(playerScores),
       'specialEvents': serializer.toJson<Map<String, List<SpecialGameEvent>>>(
         specialEvents,
       ),
-      'gameId': serializer.toJson<int>(gameId),
+      'gameId': serializer.toJson<String>(gameId),
     };
   }
 
   RoundModel copyWith({
+    String? id,
     int? roundNumber,
     Map<String, int>? playerScores,
     Map<String, List<SpecialGameEvent>>? specialEvents,
-    int? gameId,
+    String? gameId,
   }) => RoundModel(
+    id: id ?? this.id,
     roundNumber: roundNumber ?? this.roundNumber,
     playerScores: playerScores ?? this.playerScores,
     specialEvents: specialEvents ?? this.specialEvents,
@@ -1389,6 +1411,7 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
   );
   RoundModel copyWithCompanion(RoundsCompanion data) {
     return RoundModel(
+      id: data.id.present ? data.id.value : this.id,
       roundNumber: data.roundNumber.present
           ? data.roundNumber.value
           : this.roundNumber,
@@ -1405,6 +1428,7 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
   @override
   String toString() {
     return (StringBuffer('RoundModel(')
+          ..write('id: $id, ')
           ..write('roundNumber: $roundNumber, ')
           ..write('playerScores: $playerScores, ')
           ..write('specialEvents: $specialEvents, ')
@@ -1415,11 +1439,12 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
 
   @override
   int get hashCode =>
-      Object.hash(roundNumber, playerScores, specialEvents, gameId);
+      Object.hash(id, roundNumber, playerScores, specialEvents, gameId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is RoundModel &&
+          other.id == this.id &&
           other.roundNumber == this.roundNumber &&
           other.playerScores == this.playerScores &&
           other.specialEvents == this.specialEvents &&
@@ -1427,12 +1452,14 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
 }
 
 class RoundsCompanion extends UpdateCompanion<RoundModel> {
+  final Value<String> id;
   final Value<int> roundNumber;
   final Value<Map<String, int>> playerScores;
   final Value<Map<String, List<SpecialGameEvent>>> specialEvents;
-  final Value<int> gameId;
+  final Value<String> gameId;
   final Value<int> rowid;
   const RoundsCompanion({
+    this.id = const Value.absent(),
     this.roundNumber = const Value.absent(),
     this.playerScores = const Value.absent(),
     this.specialEvents = const Value.absent(),
@@ -1440,23 +1467,26 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
     this.rowid = const Value.absent(),
   });
   RoundsCompanion.insert({
+    this.id = const Value.absent(),
     required int roundNumber,
     required Map<String, int> playerScores,
     required Map<String, List<SpecialGameEvent>> specialEvents,
-    required int gameId,
+    required String gameId,
     this.rowid = const Value.absent(),
   }) : roundNumber = Value(roundNumber),
        playerScores = Value(playerScores),
        specialEvents = Value(specialEvents),
        gameId = Value(gameId);
   static Insertable<RoundModel> custom({
+    Expression<String>? id,
     Expression<int>? roundNumber,
     Expression<String>? playerScores,
     Expression<String>? specialEvents,
-    Expression<int>? gameId,
+    Expression<String>? gameId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
       if (roundNumber != null) 'round_number': roundNumber,
       if (playerScores != null) 'player_scores': playerScores,
       if (specialEvents != null) 'special_events': specialEvents,
@@ -1466,13 +1496,15 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
   }
 
   RoundsCompanion copyWith({
+    Value<String>? id,
     Value<int>? roundNumber,
     Value<Map<String, int>>? playerScores,
     Value<Map<String, List<SpecialGameEvent>>>? specialEvents,
-    Value<int>? gameId,
+    Value<String>? gameId,
     Value<int>? rowid,
   }) {
     return RoundsCompanion(
+      id: id ?? this.id,
       roundNumber: roundNumber ?? this.roundNumber,
       playerScores: playerScores ?? this.playerScores,
       specialEvents: specialEvents ?? this.specialEvents,
@@ -1484,6 +1516,9 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
     if (roundNumber.present) {
       map['round_number'] = Variable<int>(roundNumber.value);
     }
@@ -1498,7 +1533,7 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
       );
     }
     if (gameId.present) {
-      map['game_id'] = Variable<int>(gameId.value);
+      map['game_id'] = Variable<String>(gameId.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1509,6 +1544,7 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
   @override
   String toString() {
     return (StringBuffer('RoundsCompanion(')
+          ..write('id: $id, ')
           ..write('roundNumber: $roundNumber, ')
           ..write('playerScores: $playerScores, ')
           ..write('specialEvents: $specialEvents, ')
@@ -1540,7 +1576,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 
 typedef $$ProfilesTableCreateCompanionBuilder =
     ProfilesCompanion Function({
-      required String id,
+      Value<String> id,
       required String name,
       Value<int> rowid,
     });
@@ -1714,7 +1750,7 @@ class $$ProfilesTableTableManager
               }) => ProfilesCompanion(id: id, name: name, rowid: rowid),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String name,
                 Value<int> rowid = const Value.absent(),
               }) => ProfilesCompanion.insert(id: id, name: name, rowid: rowid),
@@ -2135,7 +2171,7 @@ typedef $$PlayersTableProcessedTableManager =
     >;
 typedef $$GamesTableCreateCompanionBuilder =
     GamesCompanion Function({
-      required String id,
+      Value<String> id,
       required String name,
       required DateTime createdAt,
       required int currentRound,
@@ -2155,6 +2191,30 @@ typedef $$GamesTableUpdateCompanionBuilder =
       Value<String?> winnerPlayerId,
       Value<int> rowid,
     });
+
+final class $$GamesTableReferences
+    extends BaseReferences<_$AppDatabase, $GamesTable, GameModel> {
+  $$GamesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$RoundsTable, List<RoundModel>> _roundsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.rounds,
+    aliasName: $_aliasNameGenerator(db.games.id, db.rounds.gameId),
+  );
+
+  $$RoundsTableProcessedTableManager get roundsRefs {
+    final manager = $$RoundsTableTableManager(
+      $_db,
+      $_db.rounds,
+    ).filter((f) => f.gameId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_roundsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$GamesTableFilterComposer extends Composer<_$AppDatabase, $GamesTable> {
   $$GamesTableFilterComposer({
@@ -2193,6 +2253,31 @@ class $$GamesTableFilterComposer extends Composer<_$AppDatabase, $GamesTable> {
     column: $table.currentPlayerIndex,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> roundsRefs(
+    Expression<bool> Function($$RoundsTableFilterComposer f) f,
+  ) {
+    final $$RoundsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.rounds,
+      getReferencedColumn: (t) => t.gameId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RoundsTableFilterComposer(
+            $db: $db,
+            $table: $db.rounds,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$GamesTableOrderingComposer
@@ -2267,6 +2352,31 @@ class $$GamesTableAnnotationComposer
     column: $table.currentPlayerIndex,
     builder: (column) => column,
   );
+
+  Expression<T> roundsRefs<T extends Object>(
+    Expression<T> Function($$RoundsTableAnnotationComposer a) f,
+  ) {
+    final $$RoundsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.rounds,
+      getReferencedColumn: (t) => t.gameId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RoundsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.rounds,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$GamesTableTableManager
@@ -2280,9 +2390,9 @@ class $$GamesTableTableManager
           $$GamesTableAnnotationComposer,
           $$GamesTableCreateCompanionBuilder,
           $$GamesTableUpdateCompanionBuilder,
-          (GameModel, BaseReferences<_$AppDatabase, $GamesTable, GameModel>),
+          (GameModel, $$GamesTableReferences),
           GameModel,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool roundsRefs})
         > {
   $$GamesTableTableManager(_$AppDatabase db, $GamesTable table)
     : super(
@@ -2317,7 +2427,7 @@ class $$GamesTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String name,
                 required DateTime createdAt,
                 required int currentRound,
@@ -2336,9 +2446,38 @@ class $$GamesTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$GamesTableReferences(db, table, e)),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({roundsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (roundsRefs) db.rounds],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (roundsRefs)
+                    await $_getPrefetchedData<
+                      GameModel,
+                      $GamesTable,
+                      RoundModel
+                    >(
+                      currentTable: table,
+                      referencedTable: $$GamesTableReferences._roundsRefsTable(
+                        db,
+                      ),
+                      managerFromTypedResult: (p0) =>
+                          $$GamesTableReferences(db, table, p0).roundsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.gameId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -2353,26 +2492,50 @@ typedef $$GamesTableProcessedTableManager =
       $$GamesTableAnnotationComposer,
       $$GamesTableCreateCompanionBuilder,
       $$GamesTableUpdateCompanionBuilder,
-      (GameModel, BaseReferences<_$AppDatabase, $GamesTable, GameModel>),
+      (GameModel, $$GamesTableReferences),
       GameModel,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool roundsRefs})
     >;
 typedef $$RoundsTableCreateCompanionBuilder =
     RoundsCompanion Function({
+      Value<String> id,
       required int roundNumber,
       required Map<String, int> playerScores,
       required Map<String, List<SpecialGameEvent>> specialEvents,
-      required int gameId,
+      required String gameId,
       Value<int> rowid,
     });
 typedef $$RoundsTableUpdateCompanionBuilder =
     RoundsCompanion Function({
+      Value<String> id,
       Value<int> roundNumber,
       Value<Map<String, int>> playerScores,
       Value<Map<String, List<SpecialGameEvent>>> specialEvents,
-      Value<int> gameId,
+      Value<String> gameId,
       Value<int> rowid,
     });
+
+final class $$RoundsTableReferences
+    extends BaseReferences<_$AppDatabase, $RoundsTable, RoundModel> {
+  $$RoundsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $GamesTable _gameIdTable(_$AppDatabase db) =>
+      db.games.createAlias($_aliasNameGenerator(db.rounds.gameId, db.games.id));
+
+  $$GamesTableProcessedTableManager get gameId {
+    final $_column = $_itemColumn<String>('game_id')!;
+
+    final manager = $$GamesTableTableManager(
+      $_db,
+      $_db.games,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_gameIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
 
 class $$RoundsTableFilterComposer
     extends Composer<_$AppDatabase, $RoundsTable> {
@@ -2383,6 +2546,11 @@ class $$RoundsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<int> get roundNumber => $composableBuilder(
     column: $table.roundNumber,
     builder: (column) => ColumnFilters(column),
@@ -2403,6 +2571,29 @@ class $$RoundsTableFilterComposer
     column: $table.specialEvents,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
+
+  $$GamesTableFilterComposer get gameId {
+    final $$GamesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.gameId,
+      referencedTable: $db.games,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GamesTableFilterComposer(
+            $db: $db,
+            $table: $db.games,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$RoundsTableOrderingComposer
@@ -2414,6 +2605,11 @@ class $$RoundsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get roundNumber => $composableBuilder(
     column: $table.roundNumber,
     builder: (column) => ColumnOrderings(column),
@@ -2428,6 +2624,29 @@ class $$RoundsTableOrderingComposer
     column: $table.specialEvents,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$GamesTableOrderingComposer get gameId {
+    final $$GamesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.gameId,
+      referencedTable: $db.games,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GamesTableOrderingComposer(
+            $db: $db,
+            $table: $db.games,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$RoundsTableAnnotationComposer
@@ -2439,6 +2658,9 @@ class $$RoundsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
   GeneratedColumn<int> get roundNumber => $composableBuilder(
     column: $table.roundNumber,
     builder: (column) => column,
@@ -2455,6 +2677,29 @@ class $$RoundsTableAnnotationComposer
     column: $table.specialEvents,
     builder: (column) => column,
   );
+
+  $$GamesTableAnnotationComposer get gameId {
+    final $$GamesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.gameId,
+      referencedTable: $db.games,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GamesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.games,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$RoundsTableTableManager
@@ -2468,9 +2713,9 @@ class $$RoundsTableTableManager
           $$RoundsTableAnnotationComposer,
           $$RoundsTableCreateCompanionBuilder,
           $$RoundsTableUpdateCompanionBuilder,
-          (RoundModel, BaseReferences<_$AppDatabase, $RoundsTable, RoundModel>),
+          (RoundModel, $$RoundsTableReferences),
           RoundModel,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool gameId})
         > {
   $$RoundsTableTableManager(_$AppDatabase db, $RoundsTable table)
     : super(
@@ -2485,13 +2730,15 @@ class $$RoundsTableTableManager
               $$RoundsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
+                Value<String> id = const Value.absent(),
                 Value<int> roundNumber = const Value.absent(),
                 Value<Map<String, int>> playerScores = const Value.absent(),
                 Value<Map<String, List<SpecialGameEvent>>> specialEvents =
                     const Value.absent(),
-                Value<int> gameId = const Value.absent(),
+                Value<String> gameId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RoundsCompanion(
+                id: id,
                 roundNumber: roundNumber,
                 playerScores: playerScores,
                 specialEvents: specialEvents,
@@ -2500,12 +2747,14 @@ class $$RoundsTableTableManager
               ),
           createCompanionCallback:
               ({
+                Value<String> id = const Value.absent(),
                 required int roundNumber,
                 required Map<String, int> playerScores,
                 required Map<String, List<SpecialGameEvent>> specialEvents,
-                required int gameId,
+                required String gameId,
                 Value<int> rowid = const Value.absent(),
               }) => RoundsCompanion.insert(
+                id: id,
                 roundNumber: roundNumber,
                 playerScores: playerScores,
                 specialEvents: specialEvents,
@@ -2513,9 +2762,52 @@ class $$RoundsTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$RoundsTableReferences(db, table, e)),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({gameId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (gameId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.gameId,
+                                referencedTable: $$RoundsTableReferences
+                                    ._gameIdTable(db),
+                                referencedColumn: $$RoundsTableReferences
+                                    ._gameIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -2530,9 +2822,9 @@ typedef $$RoundsTableProcessedTableManager =
       $$RoundsTableAnnotationComposer,
       $$RoundsTableCreateCompanionBuilder,
       $$RoundsTableUpdateCompanionBuilder,
-      (RoundModel, BaseReferences<_$AppDatabase, $RoundsTable, RoundModel>),
+      (RoundModel, $$RoundsTableReferences),
       RoundModel,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool gameId})
     >;
 
 class $AppDatabaseManager {

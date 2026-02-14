@@ -115,6 +115,7 @@ class GameService {
       roundNumber: game.rounds.length + 1,
       playerScores: roundResultsForHistory,
       specialEvents: gameEventsMap,
+      gameId: game.id,
     );
 
     return game.copyWith(
@@ -223,6 +224,7 @@ class GameService {
       roundNumber: game.rounds.length + 1,
       playerScores: roundResultsForHistory,
       specialEvents: gameEventsMap,
+      gameId: game.id,
     );
 
     game = game.copyWith(

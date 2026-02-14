@@ -10,7 +10,10 @@ import 'package:thousand_counter/services/rules.dart';
 import 'package:thousand_counter/ui/screens/game_settings.dart';
 
 // REPORISTORIES PROVIDERS
-final profileRepositoryProvider = Provider((ref) => ProfileRepository());
+final profileRepositoryProvider = Provider((ref) {
+  final db = ref.read(databaseProvider);
+  ProfileRepository(db);
+});
 final gameRepositoryProvider = Provider((ref) {
   final db = ref.read(databaseProvider);
   GameRepository(db);
