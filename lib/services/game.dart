@@ -2,6 +2,7 @@ import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
+import 'package:thousand_counter/data/repositories/rounds.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/profile.dart';
@@ -11,28 +12,31 @@ import 'package:thousand_counter/services/rules.dart';
 class GameService {
   final RulesService _rulesService;
   final GameRepository _gameRepository;
+  final RoundsRepository _roundRepository;
 
-  GameService(this._rulesService, this._gameRepository);
+  GameService(this._rulesService, this._gameRepository, this._roundRepository);
 
   Future<List<Game>> getAllGames() async {
     final games = await _gameRepository.getAll();
     return games;
   }
 
-  Future<Game?> getGameById(String id) async {
-    final Game? game = await _gameRepository.get(id);
+  Stream<Game?> watchGame(String id) {
+    final Stream<Game?> game = _gameRepository.get(id);
     return game;
   }
 
   Game deleteRound(Game game) {
+    // TODO
     return game;
   }
 
   Game updateRound(Game game) {
+    // TODO
     return game;
   }
 
-  Game split(Game game, int bid, int bidderIndex) {
+  Future<Game> split(Game game, int bid, int bidderIndex) async {
     final updatedPlayers = List<Player>.from(game.players);
     final activePlayer = updatedPlayers[bidderIndex];
     Map<String, int> roundResultsForHistory = {};
@@ -117,6 +121,8 @@ class GameService {
       specialEvents: gameEventsMap,
       gameId: game.id,
     );
+    await _gameRepository.update(game);
+    await _roundRepository.add(newRound);
 
     return game.copyWith(
       rounds: [...game.rounds, newRound],
@@ -126,12 +132,12 @@ class GameService {
     );
   }
 
-  Game confirmRound({
+  Future<Game> confirmRound({
     required Game game,
     required Map<String, int> points,
     required String bidderId,
     required int bid,
-  }) {
+  }) async {
     final processedPoints = Map<String, int>.from(points);
     final bidderScore = processedPoints[bidderId] ?? 0;
     Map<String, int> roundResultsForHistory = {};
@@ -239,7 +245,8 @@ class GameService {
       game = game.copyWith(winner: winner, isFinished: true);
     }
 
-    _gameRepository.update(game);
+    await _gameRepository.update(game);
+    await _roundRepository.add(newRound);
     return game;
   }
 
@@ -259,7 +266,10 @@ class GameService {
     return game.copyWith(players: updatedPlayers);
   }
 
-  Game updatePlayers(Game currentGame, List<Profile> newProfiles) {
+  Future<Game> updatePlayers(
+    Game currentGame,
+    List<Profile> newProfiles,
+  ) async {
     if (newProfiles.length > maxPlayers) {
       return currentGame;
     }
@@ -280,25 +290,31 @@ class GameService {
       newIndex = currentGame.currentPlayerIndex % updatedPlayers.length;
     }
 
-    return currentGame.copyWith(
+    final updatedGame = currentGame.copyWith(
       players: updatedPlayers,
       currentPlayerIndex: newIndex,
     );
+    await _gameRepository.update(updatedGame);
+    return updatedGame;
   }
 
-  void addPlayer(Game currentGame, Player player) {
+  void addPlayer(Game currentGame, Player player) async {
     if (currentGame.players.length > maxPlayers) {
       throw Exception("Max $maxPlayers players");
     }
-    currentGame.copyWith(players: [...currentGame.players, player]);
+    final updatedGame = currentGame.copyWith(
+      players: [...currentGame.players, player],
+    );
+    _gameRepository.update(updatedGame);
   }
 
-  Game startGame(List<Profile> profiles, {String? name}) {
+  Future<Game> startGame(List<Profile> profiles, {String? name}) async {
     GameValidators.validatePlayerCount(profiles.length);
     final players = profiles
         .map((profile) => Player(profile: profile))
         .toList();
     final game = Game(players: players, name: name);
+    await _gameRepository.add(game);
     return game;
   }
 

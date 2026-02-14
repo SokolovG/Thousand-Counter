@@ -16,12 +16,13 @@ class GameRepository implements AbstractRepository<Game> {
         .into(db.games)
         .insert(
           GamesCompanion.insert(
-            id: game.id,
+            id: Value(game.id),
             name: game.name,
             createdAt: game.createdAt,
             currentRound: game.currentRound,
             currentPlayerIndex: game.currentPlayerIndex,
             winnerPlayerId: Value(game.winner?.profile.id),
+            isFinished: Value(game.isFinished),
           ),
         );
     return game;

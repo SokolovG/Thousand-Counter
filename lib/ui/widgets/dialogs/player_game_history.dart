@@ -11,7 +11,6 @@ void playerGameHistoryDialog(
   Player player,
   PlayerStats playerStats,
 ) async {
-  final currentGame = ref.read(currentGameProvider);
   final l10n = AppLocalizations.of(context)!;
 
   if (currentGame == null) return;

@@ -26,7 +26,6 @@ class PlayerWidget extends ConsumerWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
     final activeBidderId = ref.watch(activeBidderIdProvider);
-    final currentGame = ref.watch(currentGameProvider);
 
     final bool isBidder = activeBidderId != null
         ? activeBidderId == player.profile.id

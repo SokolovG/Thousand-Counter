@@ -20,7 +20,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/game/:gameId',
       builder: (context, state) {
-        final gameId = state.pathParameters['gameId'];
+        final gameId = state.pathParameters['gameId']!;
         return GameScreen(gameId: gameId);
       },
     ),

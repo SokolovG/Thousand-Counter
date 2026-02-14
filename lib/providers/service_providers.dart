@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/data/repositories/profile.dart';
+import 'package:thousand_counter/data/repositories/rounds.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/core_providers.dart';
@@ -10,13 +11,17 @@ import 'package:thousand_counter/services/rules.dart';
 import 'package:thousand_counter/ui/screens/game_settings.dart';
 
 // REPORISTORIES PROVIDERS
-final profileRepositoryProvider = Provider((ref) {
+final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
   final db = ref.read(databaseProvider);
-  ProfileRepository(db);
+  return ProfileRepository(db);
 });
-final gameRepositoryProvider = Provider((ref) {
+final gameRepositoryProvider = Provider<GameRepository>((ref) {
   final db = ref.read(databaseProvider);
-  GameRepository(db);
+  return GameRepository(db);
+});
+final roundRepositoryProvider = Provider<RoundsRepository>((ref) {
+  final db = ref.read(databaseProvider);
+  return RoundsRepository(db);
 });
 
 // SERVICE PROVIDERS
@@ -30,14 +35,14 @@ final profileServiceProvider = Provider((ref) {
 final gameServiceProvider = Provider((ref) {
   final rulesService = ref.read(rulesServiceProvider);
   final gameRepo = ref.read(gameRepositoryProvider);
-  return GameService(rulesService, gameRepo);
+  final roundRepo = ref.read(roundRepositoryProvider);
+  return GameService(rulesService, gameRepo, roundRepo);
 });
 
 // DATA PROVIDERS
-final currentGameProvider = StateProvider<Game?>((ref) => null);
-final gameByIdProvider = FutureProvider.family<Game?, String>((ref, id) async {
-  final gameService = ref.read(gameServiceProvider);
-  return gameService.getGameById(id);
+final gameStreamProvider = StreamProvider.family<Game?, String>((ref, gameId) {
+  final service = ref.watch(gameServiceProvider);
+  return service.watchGame(gameId);
 });
 final isEditModeProvider = StateProvider.autoDispose<bool>((ref) => false);
 final roundScoresProvider = StateProvider<Map<String, int>>((ref) => {});
@@ -55,11 +60,11 @@ final minusPressedProvider = StateProvider<Map<String, bool>>(
 final activeBidderIdProvider = StateProvider<String?>((ref) => null);
 
 final currentBidProvider = StateProvider<int>((ref) => 100);
-final splitAvailableProvider = Provider<bool>((ref) {
+final splitAvailableProvider = Provider.family<bool, String>((ref, gameId) {
   final roundScores = ref.watch(roundScoresProvider);
   final activeBidderId = ref.watch(activeBidderIdProvider);
-  final currentGame = ref.watch(currentGameProvider);
-
+  final gameAsync = ref.watch(gameStreamProvider(gameId));
+  final currentGame = gameAsync.value;
   if (currentGame == null) return false;
 
   final bidderId =

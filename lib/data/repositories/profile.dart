@@ -12,7 +12,9 @@ class ProfileRepository implements AbstractRepository<Profile> {
   Future<Profile> add(Profile profile) async {
     await db
         .into(db.profiles)
-        .insert(ProfilesCompanion.insert(id: profile.id, name: profile.name));
+        .insert(
+          ProfilesCompanion.insert(id: Value(profile.id), name: profile.name),
+        );
     return profile;
   }
 

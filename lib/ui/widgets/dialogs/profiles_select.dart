@@ -28,7 +28,6 @@ void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
                   Expanded(
                     child: Consumer(
                       builder: (context, ref, child) {
-                        final activeGame = ref.watch(currentGameProvider);
                         if (activeGame == null) return const SizedBox();
 
                         return allProfilesAsync.when(
@@ -66,13 +65,11 @@ void showProfilesSelectDialog(BuildContext context, WidgetRef ref) {
                                   )
                                   .toList();
 
-                              final updatedGame = gameService.updatePlayers(
+                              await gameService.updatePlayers(
                                 activeGame,
                                 sortedProfiles,
                               );
 
-                              ref.read(currentGameProvider.notifier).state =
-                                  updatedGame;
                               setState(() => errorText = "");
                             },
                           ),
