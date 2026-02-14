@@ -1,47 +1,49 @@
-import 'package:thousand_counter/data/repositories/abstract_repositories.dart';
+import 'package:drift/drift.dart';
+import 'package:thousand_counter/data/local/database.dart';
+import 'package:thousand_counter/data/models/game.dart';
+import 'package:thousand_counter/data/repositories/abstract.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/profile.dart';
 
 class GameRepository implements AbstractRepository<Game> {
-  final List<Game> _games = [];
+  final AppDatabase db;
 
-  GameRepository() {
-    Profile profile1 = Profile(name: 'Sonya');
-    Profile profile2 = Profile(name: 'Grischa');
-    Player player1 = Player(profile: profile1);
-    Player player2 = Player(profile: profile2);
-    List<Player> players = [player1, player2];
-    _games.addAll([
-      Game(players: players, isFinished: true, name: "Completed Game"),
-      Game(players: players, isFinished: false, name: "Active Game"),
-    ]);
-  }
+  GameRepository(this.db) {}
 
   @override
   Future<Game> add(Game game) async {
-    _games.add(game);
+    await db
+        .into(db.games)
+        .insert(
+          GamesCompanion.insert(
+            name: game.name,
+            createdAt: game.createdAt,
+            currentRound: game.currentRound,
+            currentPlayerIndex: game.currentPlayerIndex,
+            winnerPlayerId: Value(game.winner?.profile.id),
+          ),
+        );
     return game;
   }
 
   @override
   Future<void> delete(String id) async {
-    _games.removeWhere((game) => game.id == id);
+    await (db.delete(db.games)..where((g) => g.id.equals(id))).go();
   }
 
   @override
-  Future<Game?> get(String id) async {
-    try {
-      Game game = _games.firstWhere((game) => game.id == id);
-      return game;
-    } catch (e) {
-      return null;
-    }
+  Stream<Game?> get(String id) {
+    final query = db.select(db.games)..where((g) => g.id.equals(id));
+    return query.watchSingleOrNull().map((gameModel) {
+      if (gameModel == null) return null;
+      return Game.fromDb(gameModel);
+    });
   }
 
   @override
   Future<List<Game>> getAll() async {
-    return List.from(_games);
+    //
   }
 
   @override

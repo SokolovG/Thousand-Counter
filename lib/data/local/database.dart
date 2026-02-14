@@ -1,4 +1,7 @@
 import 'package:drift/drift.dart';
+import 'package:thousand_counter/core/enums.dart';
+import 'package:thousand_counter/data/converters/map_converter.dart';
+import 'package:thousand_counter/data/converters/special_events.dart';
 import 'package:thousand_counter/data/models/game.dart';
 import 'package:thousand_counter/data/models/player.dart';
 import 'package:thousand_counter/data/models/profile.dart';

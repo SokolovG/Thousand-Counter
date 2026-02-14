@@ -1,8 +1,8 @@
 import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/models/base_model.dart';
+import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/player_stats.dart';
-import 'player.dart';
-import 'round.dart';
+import 'package:thousand_counter/models/round.dart';
 
 class Game extends Entity {
   final List<Player> players;

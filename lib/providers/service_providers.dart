@@ -3,6 +3,7 @@ import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/data/repositories/profile.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
+import 'package:thousand_counter/providers/core_providers.dart';
 import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/services/profile.dart';
 import 'package:thousand_counter/services/rules.dart';
@@ -10,7 +11,10 @@ import 'package:thousand_counter/ui/screens/game_settings.dart';
 
 // REPORISTORIES PROVIDERS
 final profileRepositoryProvider = Provider((ref) => ProfileRepository());
-final gameRepositoryProvider = Provider((ref) => GameRepository());
+final gameRepositoryProvider = Provider((ref) {
+  final db = ref.read(databaseProvider);
+  GameRepository(db);
+});
 
 // SERVICE PROVIDERS
 final rulesServiceProvider = Provider((ref) => RulesService());

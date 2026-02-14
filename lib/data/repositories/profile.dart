@@ -1,4 +1,4 @@
-import 'package:thousand_counter/data/repositories/abstract_repositories.dart';
+import 'package:thousand_counter/data/repositories/abstract.dart';
 import 'package:thousand_counter/models/profile.dart';
 
 class ProfileRepository implements AbstractRepository<Profile> {
