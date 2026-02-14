@@ -4,10 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
-import 'package:thousand_counter/models/game.dart';
-import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
-import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/ui/theme/text_styles.dart';
 import 'package:thousand_counter/ui/widgets/objects/profle_checkbox.dart';
 
@@ -33,7 +30,9 @@ class GameSettingsScreen extends ConsumerWidget {
               },
               icon: Icon(Icons.clear_rounded),
             ),
-          if (state.selectedIds.isEmpty)
+          if (state.selectedIds.isEmpty &&
+              profilesAsync.value != null &&
+              profilesAsync.value!.isNotEmpty)
             IconButton(
               onPressed: () {
                 final Set<String> ids = profilesAsync.value!
@@ -48,6 +47,9 @@ class GameSettingsScreen extends ConsumerWidget {
       ),
       body: profilesAsync.when(
         data: (profiles) {
+          if (profiles.isEmpty) {
+            return Scaffold(body: Center(child: Text("Please add profiles!")));
+          }
           return Column(
             children: [
               Expanded(
@@ -75,15 +77,22 @@ class GameSettingsScreen extends ConsumerWidget {
                   height: 60,
                   child: ElevatedButton(
                     onPressed: state.isValid
-                        ? () {
-                            Game game = _startGame(
-                              context,
-                              profiles,
-                              gameService,
-                              state.selectedIds,
+                        ? () async {
+                            final router = GoRouter.of(context);
+                            final dateStr =
+                                "${DateTime.now().day}.${DateTime.now().month}";
+                            final gameName = l10n.defaultGameName(dateStr);
+                            final selectedProfiles = profiles
+                                .where((p) => state.selectedIds.contains(p.id))
+                                .toList();
+
+                            final game = await gameService.startGame(
+                              selectedProfiles,
+                              name: gameName,
                             );
+                            if (!context.mounted) return;
                             gameService.addGame(game);
-                            context.push(
+                            router.push(
                               "/game/${game.id}?previousScreen=game_settings",
                             );
                           }
@@ -114,24 +123,6 @@ class GameSettingsScreen extends ConsumerWidget {
         },
       ),
     );
-  }
-
-  Game _startGame(
-    BuildContext context,
-    List<Profile> allProfiles,
-    GameService gameService,
-    Set<String> selectedIds,
-  ) {
-    final selectedProfiles = allProfiles
-        .where((p) => selectedIds.contains(p.id))
-        .toList();
-
-    final dateStr = "${DateTime.now().day}.${DateTime.now().month}";
-    final l10n = AppLocalizations.of(context)!;
-    final name = l10n.defaultGameName(dateStr);
-
-    final game = gameService.startGame(selectedProfiles, name: name);
-    return game;
   }
 }
 

@@ -12,6 +12,7 @@ class GameRepository implements AbstractRepository<Game> {
 
   @override
   Future<Game> add(Game game) async {
+    // BUG: unique constraint!!!
     await db
         .into(db.games)
         .insert(
@@ -67,7 +68,8 @@ class GameRepository implements AbstractRepository<Game> {
     ]);
 
     final rows = await query.get();
-    final Map<String, Game> groupedGames = {};
+    final Map<String, Game> gamesMap = {};
+    final Map<String, List<Player>> playersMap = {};
 
     for (final row in rows) {
       final gameModel = row.readTable(db.games);
@@ -82,25 +84,17 @@ class GameRepository implements AbstractRepository<Game> {
         barrelAttempts: playerModel.barrelAttempts,
       );
 
-      if (!groupedGames.containsKey(gameModel.id)) {
-        groupedGames[gameModel.id] = Game.fromDb(
-          gameModel,
-        ).copyWith(players: [player]);
-      } else {
-        final existingGame = groupedGames[gameModel.id]!;
-        groupedGames[gameModel.id] = existingGame.copyWith(
-          players: [...existingGame.players, player],
-        );
-      }
+      gamesMap.putIfAbsent(gameModel.id, () => Game.fromDb(gameModel));
+
+      playersMap.putIfAbsent(gameModel.id, () => []).add(player);
     }
-    return groupedGames.values.toList();
+    return gamesMap.values.map((game) {
+      return game.copyWith(players: playersMap[game.id] ?? []);
+    }).toList();
   }
 
   @override
   Future<Game> update(Game updatedGame) async {
-    // final game = (db.select(
-    //   db.games,
-    // )..where((g) => g.id.equals(updatedGame.id))).get();
     await (db.update(
       db.games,
     )..where((g) => g.id.equals(updatedGame.id))).write(
@@ -112,7 +106,6 @@ class GameRepository implements AbstractRepository<Game> {
         winnerPlayerId: Value(updatedGame.winner?.profile.id),
       ),
     );
-
     return updatedGame;
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/player_stats.dart';
-import 'package:thousand_counter/providers/service_providers.dart';
 
 void playerGameHistoryDialog(
   BuildContext context,
@@ -12,8 +11,6 @@ void playerGameHistoryDialog(
   PlayerStats playerStats,
 ) async {
   final l10n = AppLocalizations.of(context)!;
-
-  if (currentGame == null) return;
 
   showDialog(
     context: context,

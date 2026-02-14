@@ -19,30 +19,36 @@ class RecentGamesScreen extends ConsumerWidget {
         title: Text(l10n.recentGames),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
-          IconButton(
-            onPressed: () {
-              ref.read(isEditModeProvider.notifier).update((state) => !state);
-            },
-            icon: Icon(isEditMode ? Icons.check : Icons.edit_outlined),
-          ),
+          if (gamesAsync.value != null && gamesAsync.value!.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                ref.read(isEditModeProvider.notifier).update((state) => !state);
+              },
+              icon: Icon(isEditMode ? Icons.check : Icons.edit_outlined),
+            ),
         ],
       ),
       body: gamesAsync.when(
-        data: (games) => SlidableAutoCloseBehavior(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: games.length,
-                  itemBuilder: (BuildContext context, int i) {
-                    final game = games[i];
-                    return GameWidget(game: game);
-                  },
+        data: (games) {
+          if (games.isEmpty) {
+            return Scaffold(body: Center(child: Text("Please play game!")));
+          }
+          return SlidableAutoCloseBehavior(
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: games.length,
+                    itemBuilder: (BuildContext context, int i) {
+                      final game = games[i];
+                      return GameWidget(game: game);
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              ],
+            ),
+          );
+        },
 
         error: (err, stack) => Center(child: Text(l10n.errorGeneric(err))),
         loading: () => Center(child: CircularProgressIndicator()),

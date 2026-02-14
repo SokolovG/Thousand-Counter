@@ -49,7 +49,8 @@ class GameScreen extends ConsumerWidget {
             actions: [
               if (!currentGame.isFinished)
                 IconButton(
-                  onPressed: () => showProfilesSelectDialog(context, ref),
+                  onPressed: () =>
+                      showProfilesSelectDialog(context, ref, currentGame.id),
                   icon: const Icon(Icons.groups),
                 ),
               IconButton(
@@ -77,6 +78,8 @@ class GameScreen extends ConsumerWidget {
                       player: player,
                       color: color,
                       isCurrentPlayer: isCurrentPlayer,
+                      gameId: currentGame.id,
+                      playerIndex: index,
                     );
                   },
                 ),
@@ -117,6 +120,7 @@ class GameScreen extends ConsumerWidget {
                           bidderId: activeBidderId,
                           bid: bid,
                         );
+                        if (!context.mounted) return;
 
                         ref.read(minusPressedProvider.notifier).state = {};
                         ref.read(activeBidderIdProvider.notifier).state = null;

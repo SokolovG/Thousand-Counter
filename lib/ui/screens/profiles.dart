@@ -32,28 +32,37 @@ class ProfilesScreen extends ConsumerWidget {
               onPressed: () => _showAddDialog(context, ref),
               icon: const Icon(Icons.add_circle_outline),
             ),
-          IconButton(
-            onPressed: () {
-              ref.read(isEditModeProvider.notifier).update((state) => !state);
-            },
-            icon: Icon(isEditMode ? Icons.check : Icons.edit_outlined),
-          ),
+          if (profilesAsync.value != null && profilesAsync.value!.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                ref.read(isEditModeProvider.notifier).update((state) => !state);
+              },
+              icon: Icon(isEditMode ? Icons.check : Icons.edit_outlined),
+            ),
         ],
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: profilesAsync.when(
-        data: (profiles) => SlidableAutoCloseBehavior(
-          child: ListView.builder(
-            itemCount: profiles.length,
-            itemBuilder: (context, i) {
-              final profile = profiles[i];
-              return ProfileWidget(profile: profile);
-            },
-          ),
-        ),
+        data: (profiles) {
+          if (profiles.isEmpty) {
+            return Scaffold(body: Center(child: Text("Please add profiles!")));
+          }
+          return SlidableAutoCloseBehavior(
+            child: ListView.builder(
+              itemCount: profiles.length,
+              itemBuilder: (context, i) {
+                final profile = profiles[i];
+                return ProfileWidget(profile: profile);
+              },
+            ),
+          );
+        },
         loading: () => Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text(l10n.errorGeneric(err))),
       ),
     );
   }
 }
+
+// BUG: delete player doesnt work
+// BUG: edit player doesnt work

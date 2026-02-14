@@ -13,12 +13,16 @@ class PlayerWidget extends ConsumerWidget {
   final Player player;
   final Color color;
   final bool isCurrentPlayer;
+  final String gameId;
+  final int playerIndex;
 
   const PlayerWidget({
     super.key,
     required this.player,
     required this.color,
     this.isCurrentPlayer = false,
+    required this.gameId,
+    required this.playerIndex,
   });
 
   @override
@@ -26,10 +30,20 @@ class PlayerWidget extends ConsumerWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
     final activeBidderId = ref.watch(activeBidderIdProvider);
+    final player = ref.watch(
+      gameStreamProvider(
+        gameId,
+      ).select((game) => game.value?.players[playerIndex]),
+    );
+    final currentGame = ref.watch(
+      gameStreamProvider(gameId).select((g) => g.value),
+    );
+
+    if (player == null || currentGame == null) return const SizedBox.shrink();
 
     final bool isBidder = activeBidderId != null
         ? activeBidderId == player.profile.id
-        : currentGame?.players[currentGame.currentPlayerIndex].profile.id ==
+        : currentGame.players[currentGame.currentPlayerIndex].profile.id ==
               player.profile.id;
 
     Map<String, bool> allStates = ref.watch(minusPressedProvider);
@@ -48,9 +62,8 @@ class PlayerWidget extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: () {
-          if (currentGame != null) {
+          {
             final stats = currentGame.getStatsForPlayer(player.profile.id);
-
             playerGameHistoryDialog(context, ref, player, stats);
           }
         },
@@ -99,7 +112,7 @@ class PlayerWidget extends ConsumerWidget {
                     ],
                   ),
                 ),
-              if (currentGame != null && !currentGame.isFinished)
+              if (!currentGame.isFinished)
                 IconButton(
                   icon: Icon(
                     isBidder ? Icons.gavel : Icons.gavel_outlined,
