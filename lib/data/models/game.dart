@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:thousand_counter/data/models/player.dart';
 
 class Games extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -7,7 +8,5 @@ class Games extends Table {
   IntColumn get currentRound => integer()();
   BoolColumn get isFinished => boolean().withDefault(const Constant(false))();
   IntColumn get currentPlayerIndex => integer()();
+  IntColumn get winnerPlayerId => integer().references(Players, #id)();
 }
-//  final List<Player> players;
-//   final List<Round> rounds;
-//   final Player? winner;
