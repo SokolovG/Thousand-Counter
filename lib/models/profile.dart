@@ -1,3 +1,4 @@
+import 'package:thousand_counter/data/local/database.dart';
 import 'package:thousand_counter/models/base_model.dart';
 
 class Profile extends Entity {
@@ -12,5 +13,9 @@ class Profile extends Entity {
 
   Profile copyWith({required String name}) {
     return Profile(name: name, id: id);
+  }
+
+  factory Profile.fromDb(ProfileModel model) {
+    return Profile(name: model.name);
   }
 }

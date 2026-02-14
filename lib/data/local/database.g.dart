@@ -281,11 +281,11 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
   );
   static const VerificationMeta _gameIdMeta = const VerificationMeta('gameId');
   @override
-  late final GeneratedColumn<int> gameId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> gameId = GeneratedColumn<String>(
     'game_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
   static const VerificationMeta _profileIdMeta = const VerificationMeta(
@@ -411,7 +411,7 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
         data['${effectivePrefix}is_on_barrel'],
       )!,
       gameId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}game_id'],
       )!,
       profileId: attachedDatabase.typeMapping.read(
@@ -433,7 +433,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
   final int barrelAttempts;
   final String name;
   final bool isOnBarrel;
-  final int gameId;
+  final String gameId;
   final String profileId;
   const PlayerModel({
     required this.totalPoints,
@@ -452,7 +452,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     map['barrel_attempts'] = Variable<int>(barrelAttempts);
     map['name'] = Variable<String>(name);
     map['is_on_barrel'] = Variable<bool>(isOnBarrel);
-    map['game_id'] = Variable<int>(gameId);
+    map['game_id'] = Variable<String>(gameId);
     map['profile_id'] = Variable<String>(profileId);
     return map;
   }
@@ -480,7 +480,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       barrelAttempts: serializer.fromJson<int>(json['barrelAttempts']),
       name: serializer.fromJson<String>(json['name']),
       isOnBarrel: serializer.fromJson<bool>(json['isOnBarrel']),
-      gameId: serializer.fromJson<int>(json['gameId']),
+      gameId: serializer.fromJson<String>(json['gameId']),
       profileId: serializer.fromJson<String>(json['profileId']),
     );
   }
@@ -493,7 +493,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       'barrelAttempts': serializer.toJson<int>(barrelAttempts),
       'name': serializer.toJson<String>(name),
       'isOnBarrel': serializer.toJson<bool>(isOnBarrel),
-      'gameId': serializer.toJson<int>(gameId),
+      'gameId': serializer.toJson<String>(gameId),
       'profileId': serializer.toJson<String>(profileId),
     };
   }
@@ -504,7 +504,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     int? barrelAttempts,
     String? name,
     bool? isOnBarrel,
-    int? gameId,
+    String? gameId,
     String? profileId,
   }) => PlayerModel(
     totalPoints: totalPoints ?? this.totalPoints,
@@ -578,7 +578,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
   final Value<int> barrelAttempts;
   final Value<String> name;
   final Value<bool> isOnBarrel;
-  final Value<int> gameId;
+  final Value<String> gameId;
   final Value<String> profileId;
   final Value<int> rowid;
   const PlayersCompanion({
@@ -597,7 +597,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     this.barrelAttempts = const Value.absent(),
     required String name,
     this.isOnBarrel = const Value.absent(),
-    required int gameId,
+    required String gameId,
     required String profileId,
     this.rowid = const Value.absent(),
   }) : name = Value(name),
@@ -609,7 +609,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     Expression<int>? barrelAttempts,
     Expression<String>? name,
     Expression<bool>? isOnBarrel,
-    Expression<int>? gameId,
+    Expression<String>? gameId,
     Expression<String>? profileId,
     Expression<int>? rowid,
   }) {
@@ -631,7 +631,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     Value<int>? barrelAttempts,
     Value<String>? name,
     Value<bool>? isOnBarrel,
-    Value<int>? gameId,
+    Value<String>? gameId,
     Value<String>? profileId,
     Value<int>? rowid,
   }) {
@@ -666,7 +666,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
       map['is_on_barrel'] = Variable<bool>(isOnBarrel.value);
     }
     if (gameId.present) {
-      map['game_id'] = Variable<int>(gameId.value);
+      map['game_id'] = Variable<String>(gameId.value);
     }
     if (profileId.present) {
       map['profile_id'] = Variable<String>(profileId.value);
@@ -1777,7 +1777,7 @@ typedef $$PlayersTableCreateCompanionBuilder =
       Value<int> barrelAttempts,
       required String name,
       Value<bool> isOnBarrel,
-      required int gameId,
+      required String gameId,
       required String profileId,
       Value<int> rowid,
     });
@@ -1788,7 +1788,7 @@ typedef $$PlayersTableUpdateCompanionBuilder =
       Value<int> barrelAttempts,
       Value<String> name,
       Value<bool> isOnBarrel,
-      Value<int> gameId,
+      Value<String> gameId,
       Value<String> profileId,
       Value<int> rowid,
     });
@@ -1849,7 +1849,7 @@ class $$PlayersTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get gameId => $composableBuilder(
+  ColumnFilters<String> get gameId => $composableBuilder(
     column: $table.gameId,
     builder: (column) => ColumnFilters(column),
   );
@@ -1912,7 +1912,7 @@ class $$PlayersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get gameId => $composableBuilder(
+  ColumnOrderings<String> get gameId => $composableBuilder(
     column: $table.gameId,
     builder: (column) => ColumnOrderings(column),
   );
@@ -1973,7 +1973,7 @@ class $$PlayersTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<int> get gameId =>
+  GeneratedColumn<String> get gameId =>
       $composableBuilder(column: $table.gameId, builder: (column) => column);
 
   $$ProfilesTableAnnotationComposer get profileId {
@@ -2033,7 +2033,7 @@ class $$PlayersTableTableManager
                 Value<int> barrelAttempts = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<bool> isOnBarrel = const Value.absent(),
-                Value<int> gameId = const Value.absent(),
+                Value<String> gameId = const Value.absent(),
                 Value<String> profileId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => PlayersCompanion(
@@ -2053,7 +2053,7 @@ class $$PlayersTableTableManager
                 Value<int> barrelAttempts = const Value.absent(),
                 required String name,
                 Value<bool> isOnBarrel = const Value.absent(),
-                required int gameId,
+                required String gameId,
                 required String profileId,
                 Value<int> rowid = const Value.absent(),
               }) => PlayersCompanion.insert(

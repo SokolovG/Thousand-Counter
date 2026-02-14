@@ -1,4 +1,5 @@
 import 'package:thousand_counter/core/enums.dart';
+import 'package:thousand_counter/data/local/database.dart';
 import 'package:thousand_counter/models/base_model.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/player_stats.dart';
@@ -27,6 +28,18 @@ class Game extends Entity {
   }) : rounds = rounds ?? [],
        createdAt = createdAt ?? DateTime.now(),
        name = name ?? "";
+
+  factory Game.fromDb(GameModel model) {
+    return Game(
+      id: model.id,
+      name: model.name,
+      createdAt: model.createdAt,
+      currentRound: model.currentRound,
+      currentPlayerIndex: model.currentPlayerIndex,
+      winner: null,
+      players: [],
+    );
+  }
 
   @override
   @override

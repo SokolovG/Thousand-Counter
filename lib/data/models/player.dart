@@ -9,7 +9,7 @@ class Players extends Table {
   IntColumn get barrelAttempts => integer().withDefault(const Constant(0))();
   TextColumn get name => text().withLength(min: 2, max: 20)();
   BoolColumn get isOnBarrel => boolean().withDefault(const Constant(false))();
-  IntColumn get gameId => integer().references(Games, #id)();
+  TextColumn get gameId => text().references(Games, #id)();
   TextColumn get profileId => text().references(Profiles, #id)();
 
   @override
