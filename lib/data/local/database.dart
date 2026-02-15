@@ -28,5 +28,14 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  Future<void> resetDatabase() async {
+    await transaction(() async {
+      await delete(rounds).go();
+      await delete(players).go();
+      await delete(games).go();
+      await delete(profiles).go();
+    });
+  }
+
   // TODO: sqlite3.wasm, drift_worker.js
 }

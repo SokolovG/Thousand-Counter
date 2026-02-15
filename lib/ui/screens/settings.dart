@@ -108,9 +108,18 @@ List<SettingsItem> _buildSettingsItems(
       type: SettingsItemType.info,
     ),
     SettingsItem(
+      icon: Icons.delete,
+      title: "Clear database",
+      type: SettingsItemType.info,
+      onTap: () async {
+        final db = ref.read(databaseProvider);
+        await db.resetDatabase();
+      },
+    ),
+    SettingsItem(
       icon: Icons.data_array,
       title: "Data",
-      type: SettingsItemType.info,
+      type: SettingsItemType.navigation,
       onTap: () async {
         final db = ref.read(databaseProvider);
         Navigator.of(
