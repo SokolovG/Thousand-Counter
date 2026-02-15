@@ -127,10 +127,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editPlayer => 'Edit player';
 
   @override
-  String get minPlayersError => 'Minimum 3 players!';
+  String get minPlayersError => 'Game must have at least 3 players';
 
   @override
-  String get maxPlayersError => 'Maximum 4 players!';
+  String get maxPlayersError => 'Game cannot have more than 4 players';
+
+  @override
+  String get emptyNameError => 'Player name cannot be empty';
+
+  @override
+  String get nameTooLongError => 'Player name too long';
+
+  @override
+  String get invalidNameError => 'Name can only contain letters';
 
   @override
   String totalPoints(Object points) {
@@ -208,4 +217,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get playGame =>
       'You don\'t have any past games yet... Play your first game now!';
+
+  @override
+  String get loadingGames => 'Loading games...';
 }

@@ -56,7 +56,12 @@ class GameScreen extends ConsumerWidget {
                   icon: const Icon(Icons.groups),
                 ),
               IconButton(
-                onPressed: () => roundsHistoryDialog(context, ref, currentGame),
+                onPressed: () => roundsHistoryDialog(
+                  context,
+                  ref,
+                  currentGame.players,
+                  currentGame.rounds,
+                ),
                 icon: Icon(Icons.history),
               ),
             ],

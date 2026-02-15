@@ -128,6 +128,9 @@ List<SettingsItem> _buildSettingsItems(
         }
       },
     ),
+
+    // NEXT VERSION:
+
     // SettingsItem(
     //   icon: ,
     //   title: "Gold cone",

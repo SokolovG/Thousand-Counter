@@ -329,14 +329,32 @@ abstract class AppLocalizations {
   /// Error message for minimum players
   ///
   /// In en, this message translates to:
-  /// **'Minimum 3 players!'**
+  /// **'Game must have at least 3 players'**
   String get minPlayersError;
 
   /// Error message for maximum players
   ///
   /// In en, this message translates to:
-  /// **'Maximum 4 players!'**
+  /// **'Game cannot have more than 4 players'**
   String get maxPlayersError;
+
+  /// Error message for empty player name
+  ///
+  /// In en, this message translates to:
+  /// **'Player name cannot be empty'**
+  String get emptyNameError;
+
+  /// Error message for player name exceeding max length
+  ///
+  /// In en, this message translates to:
+  /// **'Player name too long'**
+  String get nameTooLongError;
+
+  /// Error message for player name with invalid characters
+  ///
+  /// In en, this message translates to:
+  /// **'Name can only contain letters'**
+  String get invalidNameError;
 
   /// Total points display
   ///
@@ -463,6 +481,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You don\'t have any past games yet... Play your first game now!'**
   String get playGame;
+
+  /// Loading indicator text
+  ///
+  /// In en, this message translates to:
+  /// **'Loading games...'**
+  String get loadingGames;
 }
 
 class _AppLocalizationsDelegate

@@ -23,9 +23,12 @@ class ProfileWidget extends ConsumerWidget {
       context,
       initialName: profile.name,
     );
+    final l10n = AppLocalizations.of(context)!;
     if (newName != null && newName != profile.name) {
       final updatedProfile = profile.copyWith(name: newName);
-      await ref.read(profileServiceProvider).updateProfile(updatedProfile);
+      await ref
+          .read(profileServiceProvider)
+          .updateProfile(updatedProfile, l10n);
       ref.invalidate(profilesListProvider);
       Future.microtask(() => ref.invalidate(profilesListProvider));
     }

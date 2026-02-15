@@ -16,13 +16,13 @@ void showProfilesSelectDialog(
   final allProfilesAsync = ref.read(profilesListProvider);
   final gameService = ref.read(gameServiceProvider);
   final gameAsync = ref.read(gameStreamProvider(gameId));
+  final l10n = AppLocalizations.of(context)!;
 
   gameAsync.when(
     data: (Game? currentGame) {
       showDialog(
         context: context,
         builder: (context) {
-          final l10n = AppLocalizations.of(context)!;
           String errorText = "";
           return StatefulBuilder(
             builder: (context, setState) {
@@ -86,7 +86,18 @@ void showProfilesSelectDialog(
                               ),
                               error: (err, stack) =>
                                   Text(l10n.errorGeneric(err)),
-                              loading: () => const CircularProgressIndicator(),
+                              loading: () {
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CircularProgressIndicator(),
+                                      SizedBox(height: 16),
+                                      Text(l10n.loadingProfiles),
+                                    ],
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),
@@ -109,6 +120,17 @@ void showProfilesSelectDialog(
       );
     },
     error: (Object error, StackTrace stackTrace) {},
-    loading: () {},
+    loading: () {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text(l10n.loadingProfiles),
+          ],
+        ),
+      );
+    },
   );
 }

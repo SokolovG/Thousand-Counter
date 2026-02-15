@@ -158,13 +158,25 @@
     "@editPlayer": {
         "description": "Title for editing a player"
     },
-    "minPlayersError": "Minimum 3 players!",
+    "minPlayersError": "Game must have at least 3 players",
     "@minPlayersError": {
         "description": "Error message for minimum players"
     },
-    "maxPlayersError": "Maximum 4 players!",
+    "maxPlayersError": "Game cannot have more than 4 players",
     "@maxPlayersError": {
         "description": "Error message for maximum players"
+    },
+    "emptyNameError": "Player name cannot be empty",
+    "@emptyNameError": {
+        "description": "Error message for empty player name"
+    },
+    "nameTooLongError": "Player name too long",
+    "@nameTooLongError": {
+        "description": "Error message for player name exceeding max length"
+    },
+    "invalidNameError": "Name can only contain letters",
+    "@invalidNameError": {
+        "description": "Error message for player name with invalid characters"
     },
     "totalPoints": "Total: {points}",
     "@totalPoints": {
@@ -264,5 +276,9 @@
     "playGame": "You don't have any past games yet... Play your first game now!",
     "@playGame": {
         "description": "Message when no game has been played yet"
+    },
+    "loadingGames": "Loading games...",
+    "@loadingGames": {
+        "description": "Loading indicator text"
     }
 }

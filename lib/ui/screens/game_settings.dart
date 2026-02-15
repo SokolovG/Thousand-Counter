@@ -48,7 +48,16 @@ class GameSettingsScreen extends ConsumerWidget {
       body: profilesAsync.when(
         data: (profiles) {
           if (profiles.isEmpty) {
-            return Scaffold(body: Center(child: Text(l10n.addProfiles)));
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                child: Text(
+                  l10n.addProfiles,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            );
           }
           return Column(
             children: [
@@ -88,6 +97,7 @@ class GameSettingsScreen extends ConsumerWidget {
 
                             final game = await gameService.startGame(
                               selectedProfiles,
+                              l10n,
                               name: gameName,
                             );
                             if (!context.mounted) return;

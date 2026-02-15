@@ -31,7 +31,16 @@ class RecentGamesScreen extends ConsumerWidget {
       body: gamesAsync.when(
         data: (games) {
           if (games.isEmpty) {
-            return Scaffold(body: Center(child: Text(l10n.playGame)));
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                child: Text(
+                  l10n.playGame,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            );
           }
           return SlidableAutoCloseBehavior(
             child: Column(
@@ -51,7 +60,18 @@ class RecentGamesScreen extends ConsumerWidget {
         },
 
         error: (err, stack) => Center(child: Text(l10n.errorGeneric(err))),
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading: () {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text(l10n.loadingGames),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

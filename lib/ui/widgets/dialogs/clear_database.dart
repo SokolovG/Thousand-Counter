@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/providers/core_providers.dart';
-// import 'package:thousand_counter/l10n/app_localizations.dart';
+import 'package:thousand_counter/providers/service_providers.dart';
 
 void clearDatabaseDialog(BuildContext context, WidgetRef ref) {
   final l10n = AppLocalizations.of(context)!;
@@ -15,6 +15,12 @@ void clearDatabaseDialog(BuildContext context, WidgetRef ref) {
           onPressed: () async {
             final db = ref.read(databaseProvider);
             await db.clearDatabase();
+            ref.invalidate(profilesListProvider);
+            ref.invalidate(gamesListProvider);
+
+            if (context.mounted) {
+              Navigator.of(context).pop();
+            }
           },
           child: Text(l10n.confirm),
         ),

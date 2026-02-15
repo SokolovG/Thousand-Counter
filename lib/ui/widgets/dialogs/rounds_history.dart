@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
-import 'package:thousand_counter/models/game.dart';
+import 'package:thousand_counter/models/player.dart';
+import 'package:thousand_counter/models/round.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/round.dart';
 
 void roundsHistoryDialog(
   BuildContext context,
   WidgetRef ref,
-  Game currentGame,
+  List<Player> players,
+  List<Round> rounds,
 ) {
   final appColors = Theme.of(context).extension<AppColors>()!;
   showDialog(
     context: context,
     builder: (BuildContext context) {
       final l10n = AppLocalizations.of(context)!;
-      int roundsCount = currentGame.rounds.length;
+      int roundsCount = rounds.length;
       return SimpleDialog(
         title: Center(child: Text(l10n.roundsHistory)),
         children: [
@@ -35,12 +37,7 @@ void roundsHistoryDialog(
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          roundialog(
-                            context,
-                            ref,
-                            currentGame.rounds[index],
-                            currentGame,
-                          );
+                          roundialog(context, ref, rounds[index], players);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -48,7 +45,10 @@ void roundsHistoryDialog(
                                 ? appColors.alert
                                 : appColors.success,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: appColors.gridBorder, width: 2),
+                            border: Border.all(
+                              color: appColors.gridBorder,
+                              width: 2,
+                            ),
                           ),
                           child: Center(
                             child: Text(
@@ -62,7 +62,7 @@ void roundsHistoryDialog(
                         ),
                       );
                     },
-                    itemCount: currentGame.rounds.length,
+                    itemCount: rounds.length,
                   ),
                 )
               : Padding(

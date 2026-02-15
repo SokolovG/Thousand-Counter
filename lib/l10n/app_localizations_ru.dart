@@ -133,6 +133,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get maxPlayersError => 'Максимум 4 игрока!';
 
   @override
+  String get emptyNameError => 'Имя игрока не может быть пустым';
+
+  @override
+  String get nameTooLongError => 'Имя слишком длинное';
+
+  @override
+  String get invalidNameError => 'Имя может содержать только буквы';
+
+  @override
   String totalPoints(Object points) {
     return 'Всего: $points';
   }
@@ -163,8 +172,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get roundsHistory => 'История раундов';
 
   @override
-  String get emptyRoundsHistory =>
-      'История еще пуста.\n Сыграйте первый раунд!';
+  String get emptyRoundsHistory => 'История еще пуста.\nСыграйте первый раунд!';
 
   @override
   String roundNumber(Object roundNumber) {
@@ -208,4 +216,7 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get playGame =>
       'У вас пока нет прошлых игр... Сыграйте свою первую игру сейчас!';
+
+  @override
+  String get loadingGames => 'Загрузка игр...';
 }

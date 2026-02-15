@@ -1,12 +1,13 @@
 import 'package:thousand_counter/core/constants.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 
 class GameValidators {
-  static void validatePlayerCount(int count) {
+  static void validatePlayerCount(int count, AppLocalizations l10n) {
     if (count < minPlayers) {
-      throw ArgumentError("Game must have at least 3 players");
+      throw ArgumentError(l10n.minPlayersError);
     }
     if (count > maxPlayers) {
-      throw ArgumentError("Game cannot have more than 4 players");
+      throw ArgumentError(l10n.maxPlayersError);
     }
   }
 
@@ -16,16 +17,16 @@ class GameValidators {
 }
 
 class ProfileValidators {
-  static void validateProfileName(String name) {
+  static void validateProfileName(String name, AppLocalizations l10n) {
     if (name.isEmpty) {
-      throw ArgumentError("Player name cannot be empty");
+      throw ArgumentError(l10n.emptyNameError);
     }
     if (name.length > maxNameLength) {
-      throw ArgumentError("Player name too long");
+      throw ArgumentError(l10n.nameTooLongError);
     }
 
     if (name.contains(RegExp(r'[^\p{L} ]', unicode: true))) {
-      throw ArgumentError("Имя может содержать только буквы");
+      throw ArgumentError(l10n.invalidNameError);
     }
   }
 }

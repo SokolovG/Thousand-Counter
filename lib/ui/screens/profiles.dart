@@ -11,8 +11,9 @@ class ProfilesScreen extends ConsumerWidget {
 
   void _showAddDialog(BuildContext context, WidgetRef ref) async {
     final name = await showProfileEditDialog(context);
+    final l10n = AppLocalizations.of(context)!;
     if (name != null && name.isNotEmpty) {
-      await ref.read(profileServiceProvider).addProfile(name);
+      await ref.read(profileServiceProvider).addProfile(name, l10n);
       ref.invalidate(profilesListProvider);
     }
   }
@@ -45,7 +46,16 @@ class ProfilesScreen extends ConsumerWidget {
       body: profilesAsync.when(
         data: (profiles) {
           if (profiles.isEmpty) {
-            return Scaffold(body: Center(child: Text(l10n.addProfiles)));
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                child: Text(
+                  l10n.addProfiles,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            );
           }
           return SlidableAutoCloseBehavior(
             child: ListView.builder(
@@ -57,7 +67,18 @@ class ProfilesScreen extends ConsumerWidget {
             ),
           );
         },
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading: () {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text(l10n.loadingProfiles),
+              ],
+            ),
+          );
+        },
         error: (err, stack) => Center(child: Text(l10n.errorGeneric(err))),
       ),
     );

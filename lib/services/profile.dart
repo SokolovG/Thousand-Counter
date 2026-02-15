@@ -1,5 +1,6 @@
 import 'package:thousand_counter/core/utils/validators.dart';
 import 'package:thousand_counter/data/repositories/profile.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/profile.dart';
 
 class ProfileService {
@@ -12,15 +13,15 @@ class ProfileService {
     return players;
   }
 
-  Future<void> addProfile(String name) async {
-    ProfileValidators.validateProfileName(name);
+  Future<void> addProfile(String name, AppLocalizations l10n) async {
+    ProfileValidators.validateProfileName(name, l10n);
 
     final playerProfile = Profile(name: name);
     await _repository.add(playerProfile);
   }
 
-  Future<void> updateProfile(Profile profile) async {
-    ProfileValidators.validateProfileName(profile.name);
+  Future<void> updateProfile(Profile profile, AppLocalizations l10n) async {
+    ProfileValidators.validateProfileName(profile.name, l10n);
 
     await _repository.update(profile);
   }

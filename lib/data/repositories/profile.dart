@@ -14,6 +14,7 @@ class ProfileRepository implements AbstractRepository<Profile> {
         .into(db.profiles)
         .insert(
           ProfilesCompanion.insert(id: Value(profile.id), name: profile.name),
+          mode: InsertMode.insertOrReplace,
         );
     return profile;
   }

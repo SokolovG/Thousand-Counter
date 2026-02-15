@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
-import 'package:thousand_counter/models/game.dart';
+import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/round.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/theme/text_styles.dart';
@@ -13,7 +13,7 @@ void roundialog(
   BuildContext context,
   WidgetRef ref,
   Round round,
-  Game currentGame,
+  List<Player> players,
 ) {
   final appColors = Theme.of(context).extension<AppColors>()!;
   final textTheme = Theme.of(context).textTheme;
@@ -33,7 +33,7 @@ void roundialog(
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: currentGame.players.map((p) {
+            children: players.map((p) {
               final score = round.playerScores[p.profile.id] ?? 0;
               final events = round.specialEvents[p.profile.id] ?? [];
               final isMagic = events.contains(SpecialGameEvent.magicNumber);

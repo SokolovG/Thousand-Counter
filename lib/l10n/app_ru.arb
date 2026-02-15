@@ -166,6 +166,18 @@
     "@maxPlayersError": {
         "description": "Error message for maximum players"
     },
+    "emptyNameError": "Имя игрока не может быть пустым",
+    "@emptyNameError": {
+        "description": "Error message for empty player name"
+    },
+    "nameTooLongError": "Имя слишком длинное",
+    "@nameTooLongError": {
+        "description": "Error message for player name exceeding max length"
+    },
+    "invalidNameError": "Имя может содержать только буквы",
+    "@invalidNameError": {
+        "description": "Error message for player name with invalid characters"
+    },
     "totalPoints": "Всего: {points}",
     "@totalPoints": {
         "description": "Total points display",
@@ -206,7 +218,7 @@
     "@roundsHistory": {
         "description": "Title for rounds history"
     },
-    "emptyRoundsHistory": "История еще пуста.\n Сыграйте первый раунд!",
+    "emptyRoundsHistory": "История еще пуста.\nСыграйте первый раунд!",
     "@emptyRoundsHistory": {
         "description": "Message when rounds number is 0"
     },
@@ -264,5 +276,9 @@
     "playGame": "У вас пока нет прошлых игр... Сыграйте свою первую игру сейчас!",
     "@playGame": {
         "description": "Message when no game has been played yet"
+    },
+    "loadingGames": "Загрузка игр...",
+    "@loadingGames": {
+        "description": "Loading indicator text"
     }
 }

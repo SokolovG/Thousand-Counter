@@ -3,6 +3,7 @@ import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/data/repositories/rounds.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/profile.dart';
@@ -31,10 +32,10 @@ class GameService {
     return game;
   }
 
-  Game updateRound(Game game) {
-    // TODO
-    return game;
-  }
+  // Game updateRound(Game game) {
+  // NEXT VERSION
+  //   return game;
+  // }
 
   Future<Game> split(Game game, int bid, int bidderIndex) async {
     final updatedPlayers = List<Player>.from(game.players);
@@ -313,8 +314,12 @@ class GameService {
     _gameRepository.update(updatedGame);
   }
 
-  Future<Game> startGame(List<Profile> profiles, {String? name}) async {
-    GameValidators.validatePlayerCount(profiles.length);
+  Future<Game> startGame(
+    List<Profile> profiles,
+    AppLocalizations l10n, {
+    String? name,
+  }) async {
+    GameValidators.validatePlayerCount(profiles.length, l10n);
     final players = profiles
         .map((profile) => Player(profile: profile))
         .toList();
