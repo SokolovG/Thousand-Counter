@@ -10,6 +10,33 @@ class GameRepository implements AbstractRepository<Game> {
 
   GameRepository(this.db);
 
+  Future<Game> addFullGame(Game game) async {
+    await db.transaction(() async {
+      await add(game);
+
+      for (var player in game.players) {
+        print(
+          "Сохраняю игрока ${player.profile.name} с profileId: ${player.profile.id}",
+        );
+        await db
+            .into(db.players)
+            .insert(
+              PlayersCompanion.insert(
+                totalPoints: Value(player.totalPoints),
+                boltsCount: Value(player.boltsCount),
+                barrelAttempts: Value(player.barrelAttempts),
+                name: player.profile.name,
+                isOnBarrel: Value(player.isOnBarrel),
+                gameId: game.id,
+                profileId: player.profile.id,
+              ),
+              mode: InsertMode.insertOrReplace,
+            );
+      }
+    });
+    return game;
+  }
+
   @override
   Future<Game> add(Game game) async {
     // BUG: unique constraint!!!
@@ -25,6 +52,7 @@ class GameRepository implements AbstractRepository<Game> {
             winnerPlayerId: Value(game.winner?.profile.id),
             isFinished: Value(game.isFinished),
           ),
+          mode: InsertMode.insertOrReplace,
         );
     return game;
   }
@@ -36,11 +64,13 @@ class GameRepository implements AbstractRepository<Game> {
 
   @override
   Stream<Game?> get(String id) {
+    print("Ищем игру с ID: $id");
     final query = db.select(db.games).join([
       innerJoin(db.players, db.players.gameId.equalsExp(db.games.id)),
       innerJoin(db.profiles, db.profiles.id.equalsExp(db.players.profileId)),
     ])..where(db.games.id.equals(id));
     return query.watch().map((List<TypedResult> rows) {
+      print("Найдено строк в БД: ${rows.length}");
       if (rows.isEmpty) return null;
       final gameModel = rows.first.readTable(db.games);
 

@@ -250,8 +250,13 @@ class GameService {
     return game;
   }
 
-  Future<Game> addGame(Game game) async {
-    game = await _gameRepository.add(game);
+  Future<Game> addGame(Game newGame) async {
+    final game = await _gameRepository.add(newGame);
+    return game;
+  }
+
+  Future<Game> addGameWithPlayers(Game newGame) async {
+    final game = await _gameRepository.addFullGame(newGame);
     return game;
   }
 
@@ -314,7 +319,6 @@ class GameService {
         .map((profile) => Player(profile: profile))
         .toList();
     final game = Game(players: players, name: name);
-    await _gameRepository.add(game);
     return game;
   }
 

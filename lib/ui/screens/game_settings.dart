@@ -91,7 +91,7 @@ class GameSettingsScreen extends ConsumerWidget {
                               name: gameName,
                             );
                             if (!context.mounted) return;
-                            gameService.addGame(game);
+                            await gameService.addGameWithPlayers(game);
                             router.push(
                               "/game/${game.id}?previousScreen=game_settings",
                             );

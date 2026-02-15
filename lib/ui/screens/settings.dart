@@ -1,7 +1,9 @@
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/enums.dart';
+import 'package:thousand_counter/providers/core_providers.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
 import 'package:thousand_counter/ui/models/settings_item.dart';
 import 'package:thousand_counter/ui/utils.dart';
@@ -104,6 +106,17 @@ List<SettingsItem> _buildSettingsItems(
       title: l10n.version,
       subtitle: appVersion,
       type: SettingsItemType.info,
+    ),
+    SettingsItem(
+      icon: Icons.data_array,
+      title: "Data",
+      type: SettingsItemType.info,
+      onTap: () async {
+        final db = ref.read(databaseProvider);
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (context) => DriftDbViewer(db)));
+      },
     ),
 
     // SettingsItem(

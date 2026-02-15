@@ -16,6 +16,6 @@ class Profile extends Entity {
   }
 
   factory Profile.fromDb(ProfileModel model) {
-    return Profile(name: model.name);
+    return Profile(id: model.id, name: model.name);
   }
 }
