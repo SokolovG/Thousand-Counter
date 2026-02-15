@@ -7,6 +7,7 @@ import 'package:thousand_counter/providers/core_providers.dart';
 import 'package:thousand_counter/providers/settings_providers.dart';
 import 'package:thousand_counter/ui/models/settings_item.dart';
 import 'package:thousand_counter/ui/utils.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/clear_database.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/language.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/rules.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/thema.dart';
@@ -78,18 +79,7 @@ List<SettingsItem> _buildSettingsItems(
         return languageDialog(context, ref);
       },
     ),
-    SettingsItem(
-      icon: Icons.person,
-      title: l10n.author,
-      subtitle: l10n.authorName,
-      type: SettingsItemType.info,
-      onTap: () async {
-        final uri = Uri.parse(authorGithub);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri, mode: LaunchMode.externalApplication);
-        }
-      },
-    ),
+
     SettingsItem(
       icon: Icons.code,
       title: l10n.sourceCode,
@@ -102,23 +92,16 @@ List<SettingsItem> _buildSettingsItems(
       },
     ),
     SettingsItem(
-      icon: Icons.app_settings_alt,
-      title: l10n.version,
-      subtitle: appVersion,
-      type: SettingsItemType.info,
-    ),
-    SettingsItem(
       icon: Icons.delete,
-      title: "Clear database",
+      title: l10n.clearDatabase,
       type: SettingsItemType.info,
       onTap: () async {
-        final db = ref.read(databaseProvider);
-        await db.resetDatabase();
+        return clearDatabaseDialog(context, ref);
       },
     ),
     SettingsItem(
       icon: Icons.data_array,
-      title: "Data",
+      title: l10n.databaseView,
       type: SettingsItemType.navigation,
       onTap: () async {
         final db = ref.read(databaseProvider);
@@ -127,6 +110,31 @@ List<SettingsItem> _buildSettingsItems(
         ).push(MaterialPageRoute(builder: (context) => DriftDbViewer(db)));
       },
     ),
+    SettingsItem(
+      icon: Icons.app_settings_alt,
+      title: l10n.version,
+      subtitle: appVersion,
+      type: SettingsItemType.info,
+    ),
+    SettingsItem(
+      icon: Icons.person,
+      title: l10n.author,
+      subtitle: l10n.authorName,
+      type: SettingsItemType.info,
+      onTap: () async {
+        final uri = Uri.parse(authorGithub);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      },
+    ),
+    // SettingsItem(
+    //   icon: ,
+    //   title: "Gold cone",
+    //   type: SettingsItemType.toggle,
+    //   switchValue: goldCone,
+    //   onSwitchChanged: (val) =>
+    // ),
 
     // SettingsItem(
     //   icon: Icons.share,

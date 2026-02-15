@@ -415,6 +415,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'General statistics:'**
   String get generalStatistics;
+
+  /// Message when game not found
+  ///
+  /// In en, this message translates to:
+  /// **'Game not found'**
+  String get errorGameNotFound;
+
+  /// Confirm that you want to clear the database
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to clear the database?'**
+  String get databaseDelete;
+
+  /// Message to confirm
+  ///
+  /// In en, this message translates to:
+  /// **'Confrim'**
+  String get confirm;
+
+  /// Database cleanup message
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the database'**
+  String get clearDatabase;
+
+  /// Database viewing message
+  ///
+  /// In en, this message translates to:
+  /// **'View database'**
+  String get databaseView;
+
+  /// Loading indicator text
+  ///
+  /// In en, this message translates to:
+  /// **'Loading game...'**
+  String get loadingGame;
+
+  /// Message when no profile has been created yet
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any player profiles yet... it\'s time to add some friends'**
+  String get addProfiles;
+
+  /// Message when no game has been played yet
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any past games yet... Play your first game now!'**
+  String get playGame;
 }
 
 class _AppLocalizationsDelegate

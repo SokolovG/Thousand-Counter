@@ -31,7 +31,7 @@ class RecentGamesScreen extends ConsumerWidget {
       body: gamesAsync.when(
         data: (games) {
           if (games.isEmpty) {
-            return Scaffold(body: Center(child: Text("Please play game!")));
+            return Scaffold(body: Center(child: Text(l10n.playGame)));
           }
           return SlidableAutoCloseBehavior(
             child: Column(

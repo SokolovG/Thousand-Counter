@@ -232,5 +232,37 @@
     "generalStatistics": "Общая статистика:",
     "@generalStatistics": {
         "description": "Title for general player statistics in game"
+    },
+    "errorGameNotFound": "Игра не найдена",
+    "@errorGameNotFound": {
+        "description": "Message when game not found"
+    },
+    "databaseDelete": "Вы уверены что хотите очистить базу данных?",
+    "@databaseDelete": {
+        "description": "Confirm that you want to clear the database"
+    },
+    "confirm": "Подтвердить",
+    "@confirm": {
+        "description": "Message to confirm"
+    },
+    "clearDatabase": "Очистить базу данных",
+    "@clearDatabase": {
+        "description": "Database cleanup message"
+    },
+    "databaseView": "Просмотр базы данных",
+    "@databaseView": {
+        "description": "Database viewing message"
+    },
+    "loadingGame": "Загрузка игры...",
+    "@loadingGame": {
+        "description": "Loading indicator text"
+    },
+    "addProfiles": "У вас пока нет профилей игроков... самое время добавить друзей!",
+    "@addProfiles": {
+        "description": "Message when no profile has been created yet"
+    },
+    "playGame": "У вас пока нет прошлых игр... Сыграйте свою первую игру сейчас!",
+    "@playGame": {
+        "description": "Message when no game has been played yet"
     }
 }

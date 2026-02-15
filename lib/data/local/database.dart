@@ -28,7 +28,7 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  Future<void> resetDatabase() async {
+  Future<void> clearDatabase() async {
     await transaction(() async {
       await delete(rounds).go();
       await delete(players).go();

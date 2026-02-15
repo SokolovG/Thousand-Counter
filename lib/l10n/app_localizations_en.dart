@@ -182,4 +182,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get generalStatistics => 'General statistics:';
+
+  @override
+  String get errorGameNotFound => 'Game not found';
+
+  @override
+  String get databaseDelete => 'Are you sure you want to clear the database?';
+
+  @override
+  String get confirm => 'Confrim';
+
+  @override
+  String get clearDatabase => 'Clear the database';
+
+  @override
+  String get databaseView => 'View database';
+
+  @override
+  String get loadingGame => 'Loading game...';
+
+  @override
+  String get addProfiles =>
+      'You don\'t have any player profiles yet... it\'s time to add some friends';
+
+  @override
+  String get playGame =>
+      'You don\'t have any past games yet... Play your first game now!';
 }

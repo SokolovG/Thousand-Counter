@@ -232,5 +232,37 @@
     "generalStatistics": "General statistics:",
     "@generalStatistics": {
         "description": "Title for general player statistics in game"
+    },
+    "errorGameNotFound": "Game not found",
+    "@errorGameNotFound": {
+        "description": "Message when game not found"
+    },
+    "databaseDelete": "Are you sure you want to clear the database?",
+    "@databaseDelete": {
+        "description": "Confirm that you want to clear the database"
+    },
+    "confirm": "Confrim",
+    "@confirm": {
+        "description": "Message to confirm"
+    },
+    "clearDatabase": "Clear the database",
+    "@clearDatabase": {
+        "description": "Database cleanup message"
+    },
+    "databaseView": "View database",
+    "@databaseView": {
+        "description": "Database viewing message"
+    },
+    "loadingGame": "Loading game...",
+    "@loadingGame": {
+        "description": "Loading indicator text"
+    },
+    "addProfiles": "You don't have any player profiles yet... it's time to add some friends",
+    "@addProfiles": {
+        "description": "Message when no profile has been created yet"
+    },
+    "playGame": "You don't have any past games yet... Play your first game now!",
+    "@playGame": {
+        "description": "Message when no game has been played yet"
     }
 }

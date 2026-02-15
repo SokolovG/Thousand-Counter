@@ -29,9 +29,7 @@ class GameScreen extends ConsumerWidget {
     return gameAsync.when(
       data: (Game? currentGame) {
         if (currentGame == null) {
-          return Scaffold(
-            body: Center(child: Text("")),
-          ); // TODO: errorGameNotFound
+          return Scaffold(body: Center(child: Text(l10n.errorGameNotFound)));
         }
         final players = currentGame.players;
         return Scaffold(
@@ -190,7 +188,7 @@ class GameScreen extends ConsumerWidget {
             children: [
               CircularProgressIndicator(),
               SizedBox(height: 16),
-              Text(""), //TODO!
+              Text(l10n.loadingGame),
             ],
           ),
         );

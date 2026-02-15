@@ -45,7 +45,7 @@ class ProfilesScreen extends ConsumerWidget {
       body: profilesAsync.when(
         data: (profiles) {
           if (profiles.isEmpty) {
-            return Scaffold(body: Center(child: Text("Please add profiles!")));
+            return Scaffold(body: Center(child: Text(l10n.addProfiles)));
           }
           return SlidableAutoCloseBehavior(
             child: ListView.builder(

@@ -182,4 +182,30 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get generalStatistics => 'Общая статистика:';
+
+  @override
+  String get errorGameNotFound => 'Игра не найдена';
+
+  @override
+  String get databaseDelete => 'Вы уверены что хотите очистить базу данных?';
+
+  @override
+  String get confirm => 'Подтвердить';
+
+  @override
+  String get clearDatabase => 'Очистить базу данных';
+
+  @override
+  String get databaseView => 'Просмотр базы данных';
+
+  @override
+  String get loadingGame => 'Загрузка игры...';
+
+  @override
+  String get addProfiles =>
+      'У вас пока нет профилей игроков... самое время добавить друзей!';
+
+  @override
+  String get playGame =>
+      'У вас пока нет прошлых игр... Сыграйте свою первую игру сейчас!';
 }
