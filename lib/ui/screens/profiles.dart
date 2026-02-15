@@ -9,9 +9,12 @@ import 'package:thousand_counter/ui/widgets/dialogs/profile_edit.dart';
 class ProfilesScreen extends ConsumerWidget {
   const ProfilesScreen({super.key});
 
-  void _showAddDialog(BuildContext context, WidgetRef ref) async {
+  void _showAddDialog(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) async {
     final name = await showProfileEditDialog(context);
-    final l10n = AppLocalizations.of(context)!;
     if (name != null && name.isNotEmpty) {
       await ref.read(profileServiceProvider).addProfile(name, l10n);
       ref.invalidate(profilesListProvider);
@@ -30,7 +33,7 @@ class ProfilesScreen extends ConsumerWidget {
         actions: [
           if (!isEditMode)
             IconButton(
-              onPressed: () => _showAddDialog(context, ref),
+              onPressed: () => _showAddDialog(context, ref, l10n),
               icon: const Icon(Icons.add_circle_outline),
             ),
           if (profilesAsync.value != null && profilesAsync.value!.isNotEmpty)

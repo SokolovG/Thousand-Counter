@@ -10,8 +10,6 @@ import 'package:thousand_counter/ui/widgets/objects/player.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
 // TODO: добавление и удаление игроков не работает
-// TODO: история раундов не работает
-// TODO: подсчет очков не работает
 // TODO: текущий игрок не работает
 class GameScreen extends ConsumerWidget {
   final String gameId;

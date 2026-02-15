@@ -18,12 +18,15 @@ class ProfileWidget extends ConsumerWidget {
     ref.invalidate(profilesListProvider);
   }
 
-  void _onEdit(BuildContext context, WidgetRef ref) async {
+  void _onEdit(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) async {
     final newName = await showProfileEditDialog(
       context,
       initialName: profile.name,
     );
-    final l10n = AppLocalizations.of(context)!;
     if (newName != null && newName != profile.name) {
       final updatedProfile = profile.copyWith(name: newName);
       await ref
@@ -38,6 +41,7 @@ class ProfileWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(isEditModeProvider);
     final appColors = Theme.of(context).extension<AppColors>()!;
+    final l10n = AppLocalizations.of(context)!;
 
     return Slidable(
       key: ValueKey(isEditMode),
@@ -75,7 +79,9 @@ class ProfileWidget extends ConsumerWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: SlidableObject(
-                onEditCallback: _onEdit,
+                onEditCallback: (context, ref) {
+                  _onEdit(context, ref, l10n);
+                },
                 title: profile.name,
                 icon: Icon(Icons.person),
               ),

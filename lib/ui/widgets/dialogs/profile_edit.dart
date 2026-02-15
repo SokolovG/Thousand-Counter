@@ -43,6 +43,5 @@ Future<String?> showProfileEditDialog(
     },
   );
 
-  controller.dispose();
   return name;
 }
