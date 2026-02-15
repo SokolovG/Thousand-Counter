@@ -54,7 +54,7 @@ class Game extends Entity {
     bool? isFinished,
     String? name,
     Player? winner,
-    int currentPlayerIndex = 0,
+    int? currentPlayerIndex,
   }) {
     return Game(
       players: players ?? this.players,
@@ -65,7 +65,7 @@ class Game extends Entity {
       isFinished: isFinished ?? this.isFinished,
       name: name ?? this.name,
       winner: winner ?? this.winner,
-      currentPlayerIndex: currentPlayerIndex,
+      currentPlayerIndex: currentPlayerIndex ?? 0,
     );
   }
 }

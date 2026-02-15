@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/data/repositories/profile.dart';
 import 'package:thousand_counter/data/repositories/rounds.dart';
+import 'package:thousand_counter/data/uow/game.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/profile.dart';
 import 'package:thousand_counter/providers/core_providers.dart';
@@ -23,6 +24,12 @@ final roundRepositoryProvider = Provider<RoundsRepository>((ref) {
   final db = ref.read(databaseProvider);
   return RoundsRepository(db);
 });
+final gameUnitOfWorkProvide = Provider<GameUnitOfWork>((ref) {
+  final gameRepo = ref.read(gameRepositoryProvider);
+  final roundRepo = ref.read(roundRepositoryProvider);
+  final db = ref.read(databaseProvider);
+  return GameUnitOfWork(db, gameRepo, roundRepo);
+});
 
 // SERVICE PROVIDERS
 final rulesServiceProvider = Provider((ref) => RulesService());
@@ -36,7 +43,8 @@ final gameServiceProvider = Provider((ref) {
   final rulesService = ref.read(rulesServiceProvider);
   final gameRepo = ref.read(gameRepositoryProvider);
   final roundRepo = ref.read(roundRepositoryProvider);
-  return GameService(rulesService, gameRepo, roundRepo);
+  final gameUow = ref.read(gameUnitOfWorkProvide);
+  return GameService(rulesService, gameRepo, roundRepo, gameUow);
 });
 
 // DATA PROVIDERS

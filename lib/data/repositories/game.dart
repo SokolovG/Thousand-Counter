@@ -10,10 +10,30 @@ class GameRepository implements AbstractRepository<Game> {
 
   GameRepository(this.db);
 
+  Future<List<Player>> updatePlayers(
+    List<Player> updatedPlayers,
+    String gameId,
+  ) async {
+    for (var player in updatedPlayers) {
+      await (db.update(db.players)..where(
+            (p) =>
+                p.gameId.equals(gameId) & p.profileId.equals(player.profile.id),
+          ))
+          .write(
+            PlayersCompanion(
+              totalPoints: Value(player.totalPoints),
+              boltsCount: Value(player.boltsCount),
+              barrelAttempts: Value(player.barrelAttempts),
+              isOnBarrel: Value(player.isOnBarrel),
+            ),
+          );
+    }
+    return updatedPlayers;
+  }
+
   Future<Game> addFullGame(Game game) async {
     await db.transaction(() async {
       await add(game);
-
       for (var player in game.players) {
         await db
             .into(db.players)
@@ -22,7 +42,6 @@ class GameRepository implements AbstractRepository<Game> {
                 totalPoints: Value(player.totalPoints),
                 boltsCount: Value(player.boltsCount),
                 barrelAttempts: Value(player.barrelAttempts),
-                name: player.profile.name,
                 isOnBarrel: Value(player.isOnBarrel),
                 gameId: game.id,
                 profileId: player.profile.id,
@@ -36,7 +55,6 @@ class GameRepository implements AbstractRepository<Game> {
 
   @override
   Future<Game> add(Game game) async {
-    // BUG: unique constraint!!!
     await db
         .into(db.games)
         .insert(

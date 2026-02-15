@@ -3,6 +3,7 @@ import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/data/repositories/rounds.dart';
+import 'package:thousand_counter/data/uow/game.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/player.dart';
@@ -14,8 +15,14 @@ class GameService {
   final RulesService _rulesService;
   final GameRepository _gameRepository;
   final RoundsRepository _roundRepository;
+  final GameUnitOfWork _gameUow;
 
-  GameService(this._rulesService, this._gameRepository, this._roundRepository);
+  GameService(
+    this._rulesService,
+    this._gameRepository,
+    this._roundRepository,
+    this._gameUow,
+  );
 
   Future<List<Game>> getAllGames() async {
     final games = await _gameRepository.getAll();
@@ -23,7 +30,12 @@ class GameService {
   }
 
   Stream<Game?> watchGame(String id) {
-    final Stream<Game?> game = _gameRepository.get(id);
+    final Stream<Game?> game = _gameRepository.get(id).asyncMap((game) async {
+      if (game == null) return null;
+      final rounds = await _roundRepository.getAllByGameId(game.id);
+      return game.copyWith(rounds: rounds);
+    });
+
     return game;
   }
 
@@ -122,8 +134,7 @@ class GameService {
       specialEvents: gameEventsMap,
       gameId: game.id,
     );
-    await _gameRepository.update(game);
-    await _roundRepository.add(newRound);
+    await _gameUow.saveRoundResult(game, newRound);
 
     return game.copyWith(
       rounds: [...game.rounds, newRound],
@@ -246,8 +257,7 @@ class GameService {
       game = game.copyWith(winner: winner, isFinished: true);
     }
 
-    await _gameRepository.update(game);
-    await _roundRepository.add(newRound);
+    await _gameUow.saveRoundResult(game, newRound);
     return game;
   }
 

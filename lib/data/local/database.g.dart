@@ -249,19 +249,6 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    additionalChecks: GeneratedColumn.checkTextLength(
-      minTextLength: 2,
-      maxTextLength: 20,
-    ),
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
   static const VerificationMeta _isOnBarrelMeta = const VerificationMeta(
     'isOnBarrel',
   );
@@ -305,7 +292,6 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
     totalPoints,
     boltsCount,
     barrelAttempts,
-    name,
     isOnBarrel,
     gameId,
     profileId,
@@ -345,14 +331,6 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
           _barrelAttemptsMeta,
         ),
       );
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
     }
     if (data.containsKey('is_on_barrel')) {
       context.handle(
@@ -400,10 +378,6 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
         DriftSqlType.int,
         data['${effectivePrefix}barrel_attempts'],
       )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
       isOnBarrel: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_on_barrel'],
@@ -429,7 +403,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
   final int totalPoints;
   final int boltsCount;
   final int barrelAttempts;
-  final String name;
   final bool isOnBarrel;
   final String gameId;
   final String profileId;
@@ -437,7 +410,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     required this.totalPoints,
     required this.boltsCount,
     required this.barrelAttempts,
-    required this.name,
     required this.isOnBarrel,
     required this.gameId,
     required this.profileId,
@@ -448,7 +420,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     map['total_points'] = Variable<int>(totalPoints);
     map['bolts_count'] = Variable<int>(boltsCount);
     map['barrel_attempts'] = Variable<int>(barrelAttempts);
-    map['name'] = Variable<String>(name);
     map['is_on_barrel'] = Variable<bool>(isOnBarrel);
     map['game_id'] = Variable<String>(gameId);
     map['profile_id'] = Variable<String>(profileId);
@@ -460,7 +431,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       totalPoints: Value(totalPoints),
       boltsCount: Value(boltsCount),
       barrelAttempts: Value(barrelAttempts),
-      name: Value(name),
       isOnBarrel: Value(isOnBarrel),
       gameId: Value(gameId),
       profileId: Value(profileId),
@@ -476,7 +446,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       totalPoints: serializer.fromJson<int>(json['totalPoints']),
       boltsCount: serializer.fromJson<int>(json['boltsCount']),
       barrelAttempts: serializer.fromJson<int>(json['barrelAttempts']),
-      name: serializer.fromJson<String>(json['name']),
       isOnBarrel: serializer.fromJson<bool>(json['isOnBarrel']),
       gameId: serializer.fromJson<String>(json['gameId']),
       profileId: serializer.fromJson<String>(json['profileId']),
@@ -489,7 +458,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       'totalPoints': serializer.toJson<int>(totalPoints),
       'boltsCount': serializer.toJson<int>(boltsCount),
       'barrelAttempts': serializer.toJson<int>(barrelAttempts),
-      'name': serializer.toJson<String>(name),
       'isOnBarrel': serializer.toJson<bool>(isOnBarrel),
       'gameId': serializer.toJson<String>(gameId),
       'profileId': serializer.toJson<String>(profileId),
@@ -500,7 +468,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     int? totalPoints,
     int? boltsCount,
     int? barrelAttempts,
-    String? name,
     bool? isOnBarrel,
     String? gameId,
     String? profileId,
@@ -508,7 +475,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     totalPoints: totalPoints ?? this.totalPoints,
     boltsCount: boltsCount ?? this.boltsCount,
     barrelAttempts: barrelAttempts ?? this.barrelAttempts,
-    name: name ?? this.name,
     isOnBarrel: isOnBarrel ?? this.isOnBarrel,
     gameId: gameId ?? this.gameId,
     profileId: profileId ?? this.profileId,
@@ -524,7 +490,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       barrelAttempts: data.barrelAttempts.present
           ? data.barrelAttempts.value
           : this.barrelAttempts,
-      name: data.name.present ? data.name.value : this.name,
       isOnBarrel: data.isOnBarrel.present
           ? data.isOnBarrel.value
           : this.isOnBarrel,
@@ -539,7 +504,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
           ..write('totalPoints: $totalPoints, ')
           ..write('boltsCount: $boltsCount, ')
           ..write('barrelAttempts: $barrelAttempts, ')
-          ..write('name: $name, ')
           ..write('isOnBarrel: $isOnBarrel, ')
           ..write('gameId: $gameId, ')
           ..write('profileId: $profileId')
@@ -552,7 +516,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     totalPoints,
     boltsCount,
     barrelAttempts,
-    name,
     isOnBarrel,
     gameId,
     profileId,
@@ -564,7 +527,6 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
           other.totalPoints == this.totalPoints &&
           other.boltsCount == this.boltsCount &&
           other.barrelAttempts == this.barrelAttempts &&
-          other.name == this.name &&
           other.isOnBarrel == this.isOnBarrel &&
           other.gameId == this.gameId &&
           other.profileId == this.profileId);
@@ -574,7 +536,6 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
   final Value<int> totalPoints;
   final Value<int> boltsCount;
   final Value<int> barrelAttempts;
-  final Value<String> name;
   final Value<bool> isOnBarrel;
   final Value<String> gameId;
   final Value<String> profileId;
@@ -583,7 +544,6 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     this.totalPoints = const Value.absent(),
     this.boltsCount = const Value.absent(),
     this.barrelAttempts = const Value.absent(),
-    this.name = const Value.absent(),
     this.isOnBarrel = const Value.absent(),
     this.gameId = const Value.absent(),
     this.profileId = const Value.absent(),
@@ -593,19 +553,16 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     this.totalPoints = const Value.absent(),
     this.boltsCount = const Value.absent(),
     this.barrelAttempts = const Value.absent(),
-    required String name,
     this.isOnBarrel = const Value.absent(),
     required String gameId,
     required String profileId,
     this.rowid = const Value.absent(),
-  }) : name = Value(name),
-       gameId = Value(gameId),
+  }) : gameId = Value(gameId),
        profileId = Value(profileId);
   static Insertable<PlayerModel> custom({
     Expression<int>? totalPoints,
     Expression<int>? boltsCount,
     Expression<int>? barrelAttempts,
-    Expression<String>? name,
     Expression<bool>? isOnBarrel,
     Expression<String>? gameId,
     Expression<String>? profileId,
@@ -615,7 +572,6 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
       if (totalPoints != null) 'total_points': totalPoints,
       if (boltsCount != null) 'bolts_count': boltsCount,
       if (barrelAttempts != null) 'barrel_attempts': barrelAttempts,
-      if (name != null) 'name': name,
       if (isOnBarrel != null) 'is_on_barrel': isOnBarrel,
       if (gameId != null) 'game_id': gameId,
       if (profileId != null) 'profile_id': profileId,
@@ -627,7 +583,6 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     Value<int>? totalPoints,
     Value<int>? boltsCount,
     Value<int>? barrelAttempts,
-    Value<String>? name,
     Value<bool>? isOnBarrel,
     Value<String>? gameId,
     Value<String>? profileId,
@@ -637,7 +592,6 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
       totalPoints: totalPoints ?? this.totalPoints,
       boltsCount: boltsCount ?? this.boltsCount,
       barrelAttempts: barrelAttempts ?? this.barrelAttempts,
-      name: name ?? this.name,
       isOnBarrel: isOnBarrel ?? this.isOnBarrel,
       gameId: gameId ?? this.gameId,
       profileId: profileId ?? this.profileId,
@@ -656,9 +610,6 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     }
     if (barrelAttempts.present) {
       map['barrel_attempts'] = Variable<int>(barrelAttempts.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
     }
     if (isOnBarrel.present) {
       map['is_on_barrel'] = Variable<bool>(isOnBarrel.value);
@@ -681,7 +632,6 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
           ..write('totalPoints: $totalPoints, ')
           ..write('boltsCount: $boltsCount, ')
           ..write('barrelAttempts: $barrelAttempts, ')
-          ..write('name: $name, ')
           ..write('isOnBarrel: $isOnBarrel, ')
           ..write('gameId: $gameId, ')
           ..write('profileId: $profileId, ')
@@ -1282,7 +1232,7 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   RoundModel map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -1811,7 +1761,6 @@ typedef $$PlayersTableCreateCompanionBuilder =
       Value<int> totalPoints,
       Value<int> boltsCount,
       Value<int> barrelAttempts,
-      required String name,
       Value<bool> isOnBarrel,
       required String gameId,
       required String profileId,
@@ -1822,7 +1771,6 @@ typedef $$PlayersTableUpdateCompanionBuilder =
       Value<int> totalPoints,
       Value<int> boltsCount,
       Value<int> barrelAttempts,
-      Value<String> name,
       Value<bool> isOnBarrel,
       Value<String> gameId,
       Value<String> profileId,
@@ -1872,11 +1820,6 @@ class $$PlayersTableFilterComposer
 
   ColumnFilters<int> get barrelAttempts => $composableBuilder(
     column: $table.barrelAttempts,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1938,11 +1881,6 @@ class $$PlayersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<bool> get isOnBarrel => $composableBuilder(
     column: $table.isOnBarrel,
     builder: (column) => ColumnOrderings(column),
@@ -2000,9 +1938,6 @@ class $$PlayersTableAnnotationComposer
     column: $table.barrelAttempts,
     builder: (column) => column,
   );
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
 
   GeneratedColumn<bool> get isOnBarrel => $composableBuilder(
     column: $table.isOnBarrel,
@@ -2067,7 +2002,6 @@ class $$PlayersTableTableManager
                 Value<int> totalPoints = const Value.absent(),
                 Value<int> boltsCount = const Value.absent(),
                 Value<int> barrelAttempts = const Value.absent(),
-                Value<String> name = const Value.absent(),
                 Value<bool> isOnBarrel = const Value.absent(),
                 Value<String> gameId = const Value.absent(),
                 Value<String> profileId = const Value.absent(),
@@ -2076,7 +2010,6 @@ class $$PlayersTableTableManager
                 totalPoints: totalPoints,
                 boltsCount: boltsCount,
                 barrelAttempts: barrelAttempts,
-                name: name,
                 isOnBarrel: isOnBarrel,
                 gameId: gameId,
                 profileId: profileId,
@@ -2087,7 +2020,6 @@ class $$PlayersTableTableManager
                 Value<int> totalPoints = const Value.absent(),
                 Value<int> boltsCount = const Value.absent(),
                 Value<int> barrelAttempts = const Value.absent(),
-                required String name,
                 Value<bool> isOnBarrel = const Value.absent(),
                 required String gameId,
                 required String profileId,
@@ -2096,7 +2028,6 @@ class $$PlayersTableTableManager
                 totalPoints: totalPoints,
                 boltsCount: boltsCount,
                 barrelAttempts: barrelAttempts,
-                name: name,
                 isOnBarrel: isOnBarrel,
                 gameId: gameId,
                 profileId: profileId,
