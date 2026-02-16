@@ -30,6 +30,7 @@ class PlayerWidget extends ConsumerWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
     final activeBidderId = ref.watch(activeBidderIdProvider);
+    // TODO: если перебивает кто то ставку = то увеличиваем hintText и placeholder в коде на 5 очков
     final player = ref.watch(
       gameStreamProvider(
         gameId,
@@ -46,10 +47,11 @@ class PlayerWidget extends ConsumerWidget {
         : currentGame.players[currentGame.currentPlayerIndex].profile.id ==
               player.profile.id;
 
-    Map<String, bool> allStates = ref.watch(minusPressedProvider);
-    bool isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
-    bool isPlayerOnBarrel = player.isOnBarrel;
-    final effectiveHintText = isBidder ? "100" : "0";
+    final currentBid = ref.watch(currentBidProvider);
+    final allStates = ref.watch(minusPressedProvider);
+    final isThisPlayerMinusPressed = allStates[player.profile.id] ?? false;
+    final bool isPlayerOnBarrel = player.isOnBarrel;
+    final effectiveHintText = isBidder ? "$currentBid" : "0";
     final l10n = AppLocalizations.of(context)!;
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -121,8 +123,12 @@ class PlayerWidget extends ConsumerWidget {
                         : theme.colorScheme.outlineVariant,
                   ),
                   onPressed: () {
-                    ref.read(activeBidderIdProvider.notifier).state =
-                        player.profile.id;
+                    if (activeBidderId != player.profile.id) {
+                      ref.read(activeBidderIdProvider.notifier).state =
+                          player.profile.id;
+                      ref.read(currentBidProvider.notifier).state =
+                          currentBid + 5;
+                    }
                   },
                 ),
               if (player.totalPoints >= maxPoints)
@@ -140,35 +146,26 @@ class PlayerWidget extends ConsumerWidget {
                   ),
                 ),
               ),
-              isThisPlayerMinusPressed
-                  ? IconButton(
-                      icon: Icon(
-                        Icons.remove,
-                        color: appColors.textSecondary,
-                        size: 25.0,
-                      ),
-                      onPressed: () {
-                        Map<String, bool> current = ref
-                            .read(minusPressedProvider.notifier)
-                            .state;
-                        ref.read(minusPressedProvider.notifier).state = {
-                          ...current,
-                          player.profile.id: false,
-                        };
-                      },
-                    )
-                  : IconButton(
-                      icon: Icon(Icons.remove, color: appColors.iconSecondary),
-                      onPressed: () {
-                        Map<String, bool> current = ref
-                            .read(minusPressedProvider.notifier)
-                            .state;
-                        ref.read(minusPressedProvider.notifier).state = {
-                          ...current,
-                          player.profile.id: true,
-                        };
-                      },
-                    ),
+              IconButton(
+                icon: Icon(
+                  isThisPlayerMinusPressed
+                      ? Icons.remove_circle
+                      : Icons.remove_circle_outline,
+                  color: isThisPlayerMinusPressed
+                      ? appColors.alert
+                      : appColors.iconSecondary,
+                  size: 25.0,
+                ),
+                onPressed: () {
+                  Map<String, bool> current = ref
+                      .read(minusPressedProvider.notifier)
+                      .state;
+                  ref.read(minusPressedProvider.notifier).state = {
+                    ...current,
+                    player.profile.id: !isThisPlayerMinusPressed,
+                  };
+                },
+              ),
               SizedBox(
                 width: 60,
                 child: TextField(

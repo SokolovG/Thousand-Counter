@@ -10,6 +10,7 @@ import 'package:thousand_counter/ui/widgets/objects/player.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
 // TODO: добавление и удаление игроков не работает - при нажатии меняется биддер
+// TODO: расписать не работает
 class GameScreen extends ConsumerWidget {
   final String gameId;
   const GameScreen({super.key, required this.gameId});
@@ -102,21 +103,26 @@ class GameScreen extends ConsumerWidget {
                           minusPressedProvider,
                         );
 
+                        final activeBidderId =
+                            ref.read(activeBidderIdProvider) ??
+                            players[currentGame.currentPlayerIndex].profile.id;
+
+                        int bid = ref.read(currentBidProvider);
+
                         Map<String, int> finalPoints = {};
                         for (var player in players) {
                           String id = player.profile.id;
                           int score = points[id] ?? 0;
 
+                          if (id == activeBidderId &&
+                              score == 0 &&
+                              !(minuses[id] ?? false)) {
+                            score = bid;
+                          }
+
                           bool isMinus = minuses[id] ?? false;
                           finalPoints[id] = isMinus ? -score : score;
                         }
-
-                        final activeBidderId =
-                            ref.read(activeBidderIdProvider) ??
-                            players[currentGame.currentPlayerIndex].profile.id;
-
-                        int bid = points[activeBidderId] ?? 100;
-                        if (bid == 0) bid = 100;
 
                         await gameService.confirmRound(
                           game: currentGame,
@@ -126,6 +132,7 @@ class GameScreen extends ConsumerWidget {
                         );
                         if (!context.mounted) return;
 
+                        ref.read(currentBidProvider.notifier).state = 100;
                         ref.read(minusPressedProvider.notifier).state = {};
                         ref.read(activeBidderIdProvider.notifier).state = null;
                         ref.read(roundScoresProvider.notifier).state = {};
