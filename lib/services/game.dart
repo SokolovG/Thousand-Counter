@@ -334,6 +334,7 @@ class GameService {
         .map((profile) => Player(profile: profile))
         .toList();
     final game = Game(players: players, name: name);
+    await addGameWithPlayers(game);
     return game;
   }
 
