@@ -112,42 +112,36 @@ extension GameStats on Game {
 
 extension GameNameExtension on Game {
   String getLocalizedName(AppLocalizations l10n) {
+    if (name.isNotEmpty) return name;
+
     final seed = id.hashCode;
     final random = Random(seed);
 
-    if (isFinished && winner != null) {
-      final victoryIndex = random.nextInt(3);
-      final winnerName = winner!.profile.name;
+    if (isFinished) {
+      final effectiveWinner = winner ??
+          (players.isNotEmpty
+              ? players.reduce((a, b) => a.totalPoints > b.totalPoints ? a : b)
+              : null);
 
-      switch (victoryIndex) {
-        case 0:
-          return l10n.gameTitleVictory_0(winnerName);
-        case 1:
-          return l10n.gameTitleVictory_1(winnerName);
-        case 2:
-          return l10n.gameTitleVictory_2(winnerName);
-        default:
-          return l10n.gameTitleVictory_0(winnerName);
+      if (effectiveWinner != null) {
+        final victoryIndex = random.nextInt(3);
+        final winnerName = effectiveWinner.profile.name;
+        return [
+          l10n.gameTitleVictory_0(winnerName),
+          l10n.gameTitleVictory_1(winnerName),
+          l10n.gameTitleVictory_2(winnerName),
+        ][victoryIndex];
       }
     }
 
     final index = random.nextInt(6);
-
-    switch (index) {
-      case 0:
-        return l10n.funnyTitle_0;
-      case 1:
-        return l10n.funnyTitle_1;
-      case 2:
-        return l10n.funnyTitle_2;
-      case 3:
-        return l10n.funnyTitle_3;
-      case 4:
-        return l10n.funnyTitle_4;
-      case 5:
-        return l10n.funnyTitle_5;
-      default:
-        return l10n.funnyTitle_0;
-    }
+    return [
+      l10n.funnyTitle_0,
+      l10n.funnyTitle_1,
+      l10n.funnyTitle_2,
+      l10n.funnyTitle_3,
+      l10n.funnyTitle_4,
+      l10n.funnyTitle_5,
+    ][index];
   }
 }

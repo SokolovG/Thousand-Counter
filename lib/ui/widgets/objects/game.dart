@@ -16,7 +16,6 @@ class GameWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(isEditModeProvider);
-    final l10n = AppLocalizations.of(context)!;
     final appColors = Theme.of(context).extension<AppColors>()!;
     Widget icon = game.isFinished
         ? Icon(Icons.emoji_events, color: appColors.goldCrown)
@@ -56,7 +55,7 @@ class GameWidget extends ConsumerWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: SlidableObject(
-            title: game.getLocalizedName(l10n),
+            title: game.name,
             subtitle: GridView.builder(
               padding: const EdgeInsets.only(top: 8),
               shrinkWrap: true,
@@ -73,7 +72,9 @@ class GameWidget extends ConsumerWidget {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
-                    color: appColors.playerHighlight.withValues(alpha: 0.15),
+                    color: game.winner == p
+                        ? appColors.goldCrown.withValues(alpha: 0.50)
+                        : appColors.playerHighlight.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: appColors.playerHighlight.withValues(alpha: 0.3),

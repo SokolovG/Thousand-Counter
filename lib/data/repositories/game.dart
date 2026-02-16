@@ -101,14 +101,11 @@ class GameRepository implements AbstractRepository<Game> {
       }).toList();
       final winner = gameModel.winnerPlayerId != null
           ? players
-              .where((p) => p.profile.id == gameModel.winnerPlayerId)
-              .firstOrNull
+                .where((p) => p.profile.id == gameModel.winnerPlayerId)
+                .firstOrNull
           : null;
 
-      return Game.fromDb(gameModel).copyWith(
-        players: players,
-        winner: winner,
-      );
+      return Game.fromDb(gameModel).copyWith(players: players, winner: winner);
     });
   }
 
@@ -145,14 +142,11 @@ class GameRepository implements AbstractRepository<Game> {
       final players = playersMap[gameModel.id] ?? [];
       final winner = gameModel.winnerPlayerId != null
           ? players
-              .where((p) => p.profile.id == gameModel.winnerPlayerId)
-              .firstOrNull
+                .where((p) => p.profile.id == gameModel.winnerPlayerId)
+                .firstOrNull
           : null;
 
-      return Game.fromDb(gameModel).copyWith(
-        players: players,
-        winner: winner,
-      );
+      return Game.fromDb(gameModel).copyWith(players: players, winner: winner);
     }).toList();
   }
 

@@ -68,6 +68,7 @@ void roundialog(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                    // TODO: add winner icon
                     if (isPlayerOnBarrel && !isMagic && !isFalledFromBarrel)
                       Text(
                         "→ $barrelNumber",

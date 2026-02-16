@@ -88,9 +88,6 @@ class GameSettingsScreen extends ConsumerWidget {
                     onPressed: state.isValid
                         ? () async {
                             final router = GoRouter.of(context);
-                            final dateStr =
-                                "${DateTime.now().day}.${DateTime.now().month}";
-                            final gameName = l10n.defaultGameName(dateStr);
                             final selectedProfiles = profiles
                                 .where((p) => state.selectedIds.contains(p.id))
                                 .toList();
@@ -98,7 +95,6 @@ class GameSettingsScreen extends ConsumerWidget {
                             final game = await gameService.startGame(
                               selectedProfiles,
                               l10n,
-                              name: gameName,
                             );
                             if (!context.mounted) return;
                             ref.invalidate(gamesListProvider);

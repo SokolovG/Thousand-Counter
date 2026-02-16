@@ -32,7 +32,13 @@ class GameScreen extends ConsumerWidget {
         final players = currentGame.players;
         return Scaffold(
           appBar: AppBar(
-            title: Center(child: Text(l10n.round(currentGame.currentRound))),
+            title: Center(
+              child: Text(
+                currentGame.isFinished
+                    ? currentGame.name
+                    : l10n.round(currentGame.currentRound),
+              ),
+            ),
             leading: previousScreen == "recent_games"
                 ? IconButton(
                     icon: Icon(Icons.arrow_back_ios),
@@ -124,12 +130,13 @@ class GameScreen extends ConsumerWidget {
                           finalPoints[id] = isMinus ? -score : score;
                         }
 
-                        await gameService.confirmRound(
-                          game: currentGame,
-                          points: finalPoints,
-                          bidderId: activeBidderId,
-                          bid: bid,
-                        );
+                         await gameService.confirmRound(
+                           game: currentGame,
+                           points: finalPoints,
+                           bidderId: activeBidderId,
+                           bid: bid,
+                           l10n: l10n,
+                         );
                         if (!context.mounted) return;
 
                         ref.read(currentBidProvider.notifier).state = 100;

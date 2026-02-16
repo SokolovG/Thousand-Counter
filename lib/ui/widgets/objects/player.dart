@@ -9,7 +9,6 @@ import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/player_game_history.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
-// TODO: game.isFinishged ? block widget : AbsorbPointer
 class PlayerWidget extends ConsumerWidget {
   final Player player;
   final Color color;
@@ -53,8 +52,9 @@ class PlayerWidget extends ConsumerWidget {
     final bool isPlayerOnBarrel = player.isOnBarrel;
     final effectiveHintText = isBidder ? "$currentBid" : "0";
     final l10n = AppLocalizations.of(context)!;
+
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       color: color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -64,13 +64,11 @@ class PlayerWidget extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: () {
-          {
-            final stats = currentGame.getStatsForPlayer(player.profile.id);
-            playerGameHistoryDialog(context, ref, player, stats);
-          }
+          final stats = currentGame.getStatsForPlayer(player.profile.id);
+          playerGameHistoryDialog(context, ref, player, stats);
         },
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(
@@ -137,50 +135,65 @@ class PlayerWidget extends ConsumerWidget {
                   child: Icon(Icons.emoji_events, color: appColors.goldCrown),
                 ),
 
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Text(
-                  l10n.bolts(player.boltsCount),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+              Opacity(
+                opacity: currentGame.isFinished ? 0.5 : 1.0,
+                child: AbsorbPointer(
+                  absorbing: currentGame.isFinished,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Text(
+                          l10n.bolts(player.boltsCount),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          isThisPlayerMinusPressed
+                              ? Icons.remove_circle
+                              : Icons.remove_circle_outline,
+                          color: isThisPlayerMinusPressed
+                              ? appColors.alert
+                              : appColors.iconSecondary,
+                          size: 25.0,
+                        ),
+                        onPressed: () {
+                          Map<String, bool> current = ref
+                              .read(minusPressedProvider.notifier)
+                              .state;
+                          ref.read(minusPressedProvider.notifier).state = {
+                            ...current,
+                            player.profile.id: !isThisPlayerMinusPressed,
+                          };
+                        },
+                      ),
+                      SizedBox(
+                        width: 60,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d{0,3}$'),
+                            ),
+                          ],
+                          textAlign: TextAlign.center,
+                          onChanged: (value) {
+                            ref.read(roundScoresProvider.notifier).state = {
+                              ...ref.read(roundScoresProvider),
+                              player.profile.id: int.tryParse(value) ?? 0,
+                            };
+                          },
+                          decoration: InputDecoration(
+                            hintText: effectiveHintText,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              IconButton(
-                icon: Icon(
-                  isThisPlayerMinusPressed
-                      ? Icons.remove_circle
-                      : Icons.remove_circle_outline,
-                  color: isThisPlayerMinusPressed
-                      ? appColors.alert
-                      : appColors.iconSecondary,
-                  size: 25.0,
-                ),
-                onPressed: () {
-                  Map<String, bool> current = ref
-                      .read(minusPressedProvider.notifier)
-                      .state;
-                  ref.read(minusPressedProvider.notifier).state = {
-                    ...current,
-                    player.profile.id: !isThisPlayerMinusPressed,
-                  };
-                },
-              ),
-              SizedBox(
-                width: 60,
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d{0,3}$')),
-                  ],
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    ref.read(roundScoresProvider.notifier).state = {
-                      ...ref.read(roundScoresProvider),
-                      player.profile.id: int.tryParse(value) ?? 0,
-                    };
-                  },
-                  decoration: InputDecoration(hintText: effectiveHintText),
                 ),
               ),
             ],

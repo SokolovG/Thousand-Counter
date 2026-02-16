@@ -149,6 +149,7 @@ class GameService {
     required Map<String, int> points,
     required String bidderId,
     required int bid,
+    required AppLocalizations l10n,
   }) async {
     final processedPoints = Map<String, int>.from(points);
     final bidderScore = processedPoints[bidderId] ?? 0;
@@ -255,6 +256,8 @@ class GameService {
     Player? winner = getWinner(game);
     if (winner != null) {
       game = game.copyWith(winner: winner, isFinished: true);
+      final victoryTitle = game.getLocalizedName(l10n);
+      game = game.copyWith(name: victoryTitle);
     }
 
     await _gameUow.saveRoundResult(game, newRound);
@@ -324,17 +327,18 @@ class GameService {
     _gameRepository.update(updatedGame);
   }
 
-  Future<Game> startGame(
-    List<Profile> profiles,
-    AppLocalizations l10n, {
-    String? name,
-  }) async {
+  Future<Game> startGame(List<Profile> profiles, AppLocalizations l10n) async {
     GameValidators.validatePlayerCount(profiles.length, l10n);
     final players = profiles
         .map((profile) => Player(profile: profile))
         .toList();
-    final game = Game(players: players, name: name);
-    await addGameWithPlayers(game);
+    Game game = Game(players: players);
+    game = await addGameWithPlayers(game);
+
+    final persistentName = game.getLocalizedName(l10n);
+    game = game.copyWith(name: persistentName);
+    await _gameRepository.update(game);
+
     return game;
   }
 
