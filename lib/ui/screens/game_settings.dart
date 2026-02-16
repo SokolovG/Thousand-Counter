@@ -41,7 +41,7 @@ class GameSettingsScreen extends ConsumerWidget {
 
                 notifier.selectAll(ids, l10n.maxPlayersError);
               },
-              icon: Icon(Icons.select_all),
+              icon: Icon(Icons.done_all),
             ),
         ],
       ),

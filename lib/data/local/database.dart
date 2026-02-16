@@ -40,6 +40,4 @@ class AppDatabase extends _$AppDatabase {
       await delete(profiles).go();
     });
   }
-
-  // TODO: sqlite3.wasm, drift_worker.js
 }

@@ -21,6 +21,7 @@ class ProfilesCheckBoxWidget extends ConsumerWidget {
       itemBuilder: (context, index) {
         final profile = profiles[index];
         return CheckboxListTile(
+          contentPadding: const EdgeInsets.only(right: 3, left: 25),
           title: Text(profile.name),
           value: selectedIds.contains(profile.id),
           onChanged: (checked) {
