@@ -220,4 +220,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingGames => 'Loading games...';
+
+  @override
+  String get funnyTitle_0 => 'Epic battle';
+
+  @override
+  String get funnyTitle_1 => 'Quiet evening playing cards';
+
+  @override
+  String get funnyTitle_2 => 'Battle of the century';
+
+  @override
+  String get funnyTitle_3 => 'Mysterious game';
+
+  @override
+  String gameTitleVictory(Object winner) {
+    return 'Триумф $winner';
+  }
 }

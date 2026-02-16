@@ -280,5 +280,28 @@
     "loadingGames": "Загрузка игр...",
     "@loadingGames": {
         "description": "Loading indicator text"
+    },
+    "funnyTitle_0": "Эпическая заруба",
+    "funnyTitle_1": "Тихий вечер в карты",
+    "funnyTitle_2": "Битва века",
+    "funnyTitle_3": "Загадочная партия",
+    "@funnyTitle_0": {
+        "description": "Funny title for game"
+    },
+    "@funnyTitle_1": {
+        "description": "Funny title for game"
+    },
+    "@funnyTitle_2": {
+        "description": "Funny title for game"
+    },
+    "@funnyTitle_3": {
+        "description": "Funny title for game"
+    },
+    "gameTitleVictory": "Triumph of {winner}",
+    "@gameTitleVictory": {
+        "description": "Title for winner",
+        "placeholders": {
+            "winner": {}
+        }
     }
 }

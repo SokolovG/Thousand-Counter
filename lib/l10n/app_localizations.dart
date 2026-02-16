@@ -487,6 +487,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading games...'**
   String get loadingGames;
+
+  /// Funny title for game
+  ///
+  /// In en, this message translates to:
+  /// **'Epic battle'**
+  String get funnyTitle_0;
+
+  /// Funny title for game
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet evening playing cards'**
+  String get funnyTitle_1;
+
+  /// Funny title for game
+  ///
+  /// In en, this message translates to:
+  /// **'Battle of the century'**
+  String get funnyTitle_2;
+
+  /// Funny title for game
+  ///
+  /// In en, this message translates to:
+  /// **'Mysterious game'**
+  String get funnyTitle_3;
+
+  /// Title for winner
+  ///
+  /// In en, this message translates to:
+  /// **'Триумф {winner}'**
+  String gameTitleVictory(Object winner);
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/data/local/database.dart';
+import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/base_model.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/player_stats.dart';
@@ -103,5 +106,30 @@ extension GameStats on Game {
         );
       },
     );
+  }
+}
+
+extension GameNameExtension on Game {
+  String getLocalizedName(AppLocalizations l10n) {
+    if (isFinished && winner != null) {
+      return l10n.gameTitleVictory(winner!.profile.name);
+    }
+
+    final seed = id.hashCode;
+    final random = Random(seed);
+    final index = random.nextInt(4);
+
+    switch (index) {
+      case 0:
+        return l10n.funnyTitle_0;
+      case 1:
+        return l10n.funnyTitle_1;
+      case 2:
+        return l10n.funnyTitle_2;
+      case 3:
+        return l10n.funnyTitle_3;
+      default:
+        return l10n.funnyTitle_0;
+    }
   }
 }

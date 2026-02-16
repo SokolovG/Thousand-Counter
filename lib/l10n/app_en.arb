@@ -280,5 +280,28 @@
     "loadingGames": "Loading games...",
     "@loadingGames": {
         "description": "Loading indicator text"
+    },
+    "funnyTitle_0": "Epic battle",
+    "funnyTitle_1": "Quiet evening playing cards",
+    "funnyTitle_2": "Battle of the century",
+    "funnyTitle_3": "Mysterious game",
+    "@funnyTitle_0": {
+        "description": "Funny title for game"
+    },
+    "@funnyTitle_1": {
+        "description": "Funny title for game"
+    },
+    "@funnyTitle_2": {
+        "description": "Funny title for game"
+    },
+    "@funnyTitle_3": {
+        "description": "Funny title for game"
+    },
+    "gameTitleVictory": "Триумф {winner}",
+    "@gameTitleVictory": {
+        "description": "Title for winner",
+        "placeholders": {
+            "winner": {}
+        }
     }
 }

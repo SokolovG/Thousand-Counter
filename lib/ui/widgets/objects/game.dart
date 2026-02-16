@@ -16,8 +16,9 @@ class GameWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(isEditModeProvider);
+    final l10n = AppLocalizations.of(context)!;
     final appColors = Theme.of(context).extension<AppColors>()!;
-    Widget widget = game.isFinished
+    Widget icon = game.isFinished
         ? Icon(Icons.emoji_events, color: appColors.goldCrown)
         : Icon(Icons.play_circle_fill, color: appColors.iconActive);
 
@@ -55,11 +56,53 @@ class GameWidget extends ConsumerWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: SlidableObject(
-            title: game.name,
-            subtitle: game.players
-                .map((p) => "${p.profile.name}: ${p.totalPoints}")
-                .join(' • '),
-            icon: widget,
+            title: game.getLocalizedName(l10n),
+            subtitle: Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: game.players.map((p) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: appColors.playerHighlight.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: appColors.playerHighlight.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.person_outline,
+                        size: 14,
+                        color: appColors.textSecondary,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        p.profile.name,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: appColors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${p.totalPoints}',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: appColors.textSecondary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+            icon: icon,
             onEditCallback: (context, ref) {
               context.push("/game/${game.id}?previousScreen=recent_games");
             },

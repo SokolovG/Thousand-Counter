@@ -5,16 +5,14 @@ import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/objects/game.dart';
 
-// TODO: норм отображение очков
-// TODO: норм названия игр
 class RecentGamesScreen extends ConsumerWidget {
   const RecentGamesScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var gamesAsync = ref.watch(gamesListProvider);
-    var isEditMode = ref.watch(isEditModeProvider);
-    var l10n = AppLocalizations.of(context)!;
+    final gamesAsync = ref.watch(gamesListProvider);
+    final isEditMode = ref.watch(isEditModeProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(

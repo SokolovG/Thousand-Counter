@@ -8,7 +8,7 @@ class SlidableObject extends ConsumerWidget {
   final Function(BuildContext, WidgetRef) onEditCallback;
   final String title;
   final Widget icon;
-  final String? subtitle;
+  final Widget? subtitle;
 
   const SlidableObject({
     super.key,
@@ -31,7 +31,7 @@ class SlidableObject extends ConsumerWidget {
             )
           : icon,
       title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle!) : null,
+      subtitle: subtitle != null ? subtitle! : subtitle,
       onTap: isEditMode
           ? () => Slidable.of(context)?.openEndActionPane()
           : () async {

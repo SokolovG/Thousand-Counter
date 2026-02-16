@@ -219,4 +219,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get loadingGames => 'Загрузка игр...';
+
+  @override
+  String get funnyTitle_0 => 'Эпическая заруба';
+
+  @override
+  String get funnyTitle_1 => 'Тихий вечер в карты';
+
+  @override
+  String get funnyTitle_2 => 'Битва века';
+
+  @override
+  String get funnyTitle_3 => 'Загадочная партия';
+
+  @override
+  String gameTitleVictory(Object winner) {
+    return 'Triumph of $winner';
+  }
 }
