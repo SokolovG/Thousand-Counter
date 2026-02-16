@@ -9,6 +9,7 @@ import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/player_game_history.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
+// TODO: game.isFinishged ? block widget : AbsorbPointer
 class PlayerWidget extends ConsumerWidget {
   final Player player;
   final Color color;
@@ -30,7 +31,6 @@ class PlayerWidget extends ConsumerWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
     final activeBidderId = ref.watch(activeBidderIdProvider);
-    // TODO: если перебивает кто то ставку = то увеличиваем hintText и placeholder в коде на 5 очков
     final player = ref.watch(
       gameStreamProvider(
         gameId,

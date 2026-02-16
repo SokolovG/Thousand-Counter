@@ -57,15 +57,21 @@ class GameWidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           child: SlidableObject(
             title: game.getLocalizedName(l10n),
-            subtitle: Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              children: game.players.map((p) {
+            subtitle: GridView.builder(
+              padding: const EdgeInsets.only(top: 8),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                mainAxisExtent: 32,
+              ),
+              itemCount: game.players.length,
+              itemBuilder: (context, index) {
+                final p = game.players[index];
                 return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                     color: appColors.playerHighlight.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
@@ -74,19 +80,24 @@ class GameWidget extends ConsumerWidget {
                     ),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        Icons.person_outline,
+                        game.winner == p
+                            ? Icons.emoji_events
+                            : Icons.person_outline,
                         size: 14,
                         color: appColors.textSecondary,
                       ),
                       const SizedBox(width: 4),
-                      Text(
-                        p.profile.name,
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: appColors.textPrimary,
-                          fontWeight: FontWeight.w600,
+                      Expanded(
+                        child: Text(
+                          p.profile.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
+                                color: appColors.textPrimary,
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                       ),
                       const SizedBox(width: 4),
@@ -100,7 +111,7 @@ class GameWidget extends ConsumerWidget {
                     ],
                   ),
                 );
-              }).toList(),
+              },
             ),
             icon: icon,
             onEditCallback: (context, ref) {
