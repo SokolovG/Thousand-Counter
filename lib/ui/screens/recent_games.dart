@@ -6,6 +6,7 @@ import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/objects/game.dart';
 
 // TODO: норм отображение очков
+// TODO: норм названия игр
 class RecentGamesScreen extends ConsumerWidget {
   const RecentGamesScreen({super.key});
 

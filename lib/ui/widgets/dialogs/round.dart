@@ -95,25 +95,31 @@ void roundialog(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
-                Expanded(
-                  child: TextButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.edit, size: 18, color: appColors.info),
-                    label: Text(
-                      l10n.editRound,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: appColors.info,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
+                // NEXT VERSION
+                // Expanded(
+                //   child: TextButton.icon(
+                //     onPressed: () {},
+                //     icon: Icon(Icons.edit, size: 18, color: appColors.info),
+                //     label: Text(
+                //       l10n.editRound,
+                //       maxLines: 1,
+                //       overflow: TextOverflow.ellipsis,
+                //       style: textTheme.bodyMedium?.copyWith(
+                //         color: appColors.info,
+                //         fontWeight: FontWeight.w600,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      // TODO: Invalidate data round
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
                     icon: Icon(
                       Icons.delete_outline,
                       size: 18,

@@ -9,8 +9,7 @@ import 'package:thousand_counter/ui/widgets/dialogs/rounds_history.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
-// TODO: добавление и удаление игроков не работает
-// TODO: текущий игрок не работает
+// TODO: добавление и удаление игроков не работает - при нажатии меняется биддер
 class GameScreen extends ConsumerWidget {
   final String gameId;
   const GameScreen({super.key, required this.gameId});

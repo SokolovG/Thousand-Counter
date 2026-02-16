@@ -65,7 +65,7 @@ class Game extends Entity {
       isFinished: isFinished ?? this.isFinished,
       name: name ?? this.name,
       winner: winner ?? this.winner,
-      currentPlayerIndex: currentPlayerIndex ?? 0,
+      currentPlayerIndex: currentPlayerIndex ?? this.currentPlayerIndex,
     );
   }
 }
