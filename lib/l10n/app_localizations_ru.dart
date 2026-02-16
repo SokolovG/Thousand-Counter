@@ -233,7 +233,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get funnyTitle_3 => 'Загадочная партия';
 
   @override
-  String gameTitleVictory(Object winner) {
-    return 'Triumph of $winner';
+  String get funnyTitle_4 => 'Великий турнир';
+
+  @override
+  String get funnyTitle_5 => 'Удача или мастерство?';
+
+  @override
+  String gameTitleVictory_0(Object winner) {
+    return 'Триумф: $winner';
+  }
+
+  @override
+  String gameTitleVictory_1(Object winner) {
+    return '$winner — непобедим!';
+  }
+
+  @override
+  String gameTitleVictory_2(Object winner) {
+    return 'Слава: $winner!';
   }
 }

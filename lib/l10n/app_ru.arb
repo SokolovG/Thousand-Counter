@@ -282,23 +282,45 @@
         "description": "Loading indicator text"
     },
     "funnyTitle_0": "Эпическая заруба",
-    "funnyTitle_1": "Тихий вечер в карты",
-    "funnyTitle_2": "Битва века",
-    "funnyTitle_3": "Загадочная партия",
     "@funnyTitle_0": {
         "description": "Funny title for game"
     },
+    "funnyTitle_1": "Тихий вечер в карты",
     "@funnyTitle_1": {
         "description": "Funny title for game"
     },
+    "funnyTitle_2": "Битва века",
     "@funnyTitle_2": {
         "description": "Funny title for game"
     },
+    "funnyTitle_3": "Загадочная партия",
     "@funnyTitle_3": {
         "description": "Funny title for game"
     },
-    "gameTitleVictory": "Triumph of {winner}",
-    "@gameTitleVictory": {
+    "funnyTitle_4": "Великий турнир",
+    "@funnyTitle_4": {
+        "description": "Funny title for game"
+    },
+    "funnyTitle_5": "Удача или мастерство?",
+    "@funnyTitle_5": {
+        "description": "Funny title for game"
+    },
+    "gameTitleVictory_0": "Триумф: {winner}",
+    "@gameTitleVictory_0": {
+        "description": "Title for winner",
+        "placeholders": {
+            "winner": {}
+        }
+    },
+    "gameTitleVictory_1": "{winner} — непобедим!",
+    "@gameTitleVictory_1": {
+        "description": "Title for winner",
+        "placeholders": {
+            "winner": {}
+        }
+    },
+    "gameTitleVictory_2": "Слава: {winner}!",
+    "@gameTitleVictory_2": {
         "description": "Title for winner",
         "placeholders": {
             "winner": {}

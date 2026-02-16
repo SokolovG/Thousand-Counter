@@ -512,11 +512,35 @@ abstract class AppLocalizations {
   /// **'Mysterious game'**
   String get funnyTitle_3;
 
+  /// Funny title for game
+  ///
+  /// In en, this message translates to:
+  /// **'The Grand Tournament'**
+  String get funnyTitle_4;
+
+  /// Funny title for game
+  ///
+  /// In en, this message translates to:
+  /// **'Luck or skill?'**
+  String get funnyTitle_5;
+
   /// Title for winner
   ///
   /// In en, this message translates to:
-  /// **'Триумф {winner}'**
-  String gameTitleVictory(Object winner);
+  /// **'Triumph of {winner}'**
+  String gameTitleVictory_0(Object winner);
+
+  /// Title for winner
+  ///
+  /// In en, this message translates to:
+  /// **'{winner} is unstoppable!'**
+  String gameTitleVictory_1(Object winner);
+
+  /// Title for winner
+  ///
+  /// In en, this message translates to:
+  /// **'Glory to {winner}!'**
+  String gameTitleVictory_2(Object winner);
 }
 
 class _AppLocalizationsDelegate

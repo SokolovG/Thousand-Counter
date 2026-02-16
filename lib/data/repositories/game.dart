@@ -99,7 +99,16 @@ class GameRepository implements AbstractRepository<Game> {
           barrelAttempts: playerModel.barrelAttempts,
         );
       }).toList();
-      return Game.fromDb(gameModel).copyWith(players: players);
+      final winner = gameModel.winnerPlayerId != null
+          ? players
+              .where((p) => p.profile.id == gameModel.winnerPlayerId)
+              .firstOrNull
+          : null;
+
+      return Game.fromDb(gameModel).copyWith(
+        players: players,
+        winner: winner,
+      );
     });
   }
 
@@ -111,7 +120,7 @@ class GameRepository implements AbstractRepository<Game> {
     ]);
 
     final rows = await query.get();
-    final Map<String, Game> gamesMap = {};
+    final Map<String, GameModel> gameModelsMap = {};
     final Map<String, List<Player>> playersMap = {};
 
     for (final row in rows) {
@@ -127,12 +136,23 @@ class GameRepository implements AbstractRepository<Game> {
         barrelAttempts: playerModel.barrelAttempts,
       );
 
-      gamesMap.putIfAbsent(gameModel.id, () => Game.fromDb(gameModel));
-
+      gameModelsMap.putIfAbsent(gameModel.id, () => gameModel);
       playersMap.putIfAbsent(gameModel.id, () => []).add(player);
     }
-    return gamesMap.values.map((game) {
-      return game.copyWith(players: playersMap[game.id] ?? []);
+
+    return gameModelsMap.entries.map((entry) {
+      final gameModel = entry.value;
+      final players = playersMap[gameModel.id] ?? [];
+      final winner = gameModel.winnerPlayerId != null
+          ? players
+              .where((p) => p.profile.id == gameModel.winnerPlayerId)
+              .firstOrNull
+          : null;
+
+      return Game.fromDb(gameModel).copyWith(
+        players: players,
+        winner: winner,
+      );
     }).toList();
   }
 
@@ -147,6 +167,7 @@ class GameRepository implements AbstractRepository<Game> {
         currentRound: Value(updatedGame.currentRound),
         currentPlayerIndex: Value(updatedGame.currentPlayerIndex),
         winnerPlayerId: Value(updatedGame.winner?.profile.id),
+        isFinished: Value(updatedGame.isFinished),
       ),
     );
     return updatedGame;

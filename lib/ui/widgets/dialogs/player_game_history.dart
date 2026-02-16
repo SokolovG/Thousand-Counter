@@ -59,7 +59,10 @@ void playerGameHistoryDialog(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 8,
             children: [
-              Center(child: Text(l10n.generalStatistics)),
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: Center(child: Text(l10n.generalStatistics)),
+              ),
               Card(
                 child: Center(
                   child: Padding(

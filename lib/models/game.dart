@@ -41,6 +41,7 @@ class Game extends Entity {
       currentPlayerIndex: model.currentPlayerIndex,
       winner: null,
       players: [],
+      isFinished: model.isFinished,
     );
   }
 
@@ -111,13 +112,26 @@ extension GameStats on Game {
 
 extension GameNameExtension on Game {
   String getLocalizedName(AppLocalizations l10n) {
-    if (isFinished && winner != null) {
-      return l10n.gameTitleVictory(winner!.profile.name);
-    }
-
     final seed = id.hashCode;
     final random = Random(seed);
-    final index = random.nextInt(4);
+
+    if (isFinished && winner != null) {
+      final victoryIndex = random.nextInt(3);
+      final winnerName = winner!.profile.name;
+
+      switch (victoryIndex) {
+        case 0:
+          return l10n.gameTitleVictory_0(winnerName);
+        case 1:
+          return l10n.gameTitleVictory_1(winnerName);
+        case 2:
+          return l10n.gameTitleVictory_2(winnerName);
+        default:
+          return l10n.gameTitleVictory_0(winnerName);
+      }
+    }
+
+    final index = random.nextInt(6);
 
     switch (index) {
       case 0:
@@ -128,6 +142,10 @@ extension GameNameExtension on Game {
         return l10n.funnyTitle_2;
       case 3:
         return l10n.funnyTitle_3;
+      case 4:
+        return l10n.funnyTitle_4;
+      case 5:
+        return l10n.funnyTitle_5;
       default:
         return l10n.funnyTitle_0;
     }

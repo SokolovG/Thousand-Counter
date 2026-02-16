@@ -282,23 +282,45 @@
         "description": "Loading indicator text"
     },
     "funnyTitle_0": "Epic battle",
-    "funnyTitle_1": "Quiet evening playing cards",
-    "funnyTitle_2": "Battle of the century",
-    "funnyTitle_3": "Mysterious game",
     "@funnyTitle_0": {
         "description": "Funny title for game"
     },
+    "funnyTitle_1": "Quiet evening playing cards",
     "@funnyTitle_1": {
         "description": "Funny title for game"
     },
+    "funnyTitle_2": "Battle of the century",
     "@funnyTitle_2": {
         "description": "Funny title for game"
     },
+    "funnyTitle_3": "Mysterious game",
     "@funnyTitle_3": {
         "description": "Funny title for game"
     },
-    "gameTitleVictory": "Триумф {winner}",
-    "@gameTitleVictory": {
+    "funnyTitle_4": "The Grand Tournament",
+    "@funnyTitle_4": {
+        "description": "Funny title for game"
+    },
+    "funnyTitle_5": "Luck or skill?",
+    "@funnyTitle_5": {
+        "description": "Funny title for game"
+    },
+    "gameTitleVictory_0": "Triumph of {winner}",
+    "@gameTitleVictory_0": {
+        "description": "Title for winner",
+        "placeholders": {
+            "winner": {}
+        }
+    },
+    "gameTitleVictory_1": "{winner} is unstoppable!",
+    "@gameTitleVictory_1": {
+        "description": "Title for winner",
+        "placeholders": {
+            "winner": {}
+        }
+    },
+    "gameTitleVictory_2": "Glory to {winner}!",
+    "@gameTitleVictory_2": {
         "description": "Title for winner",
         "placeholders": {
             "winner": {}
