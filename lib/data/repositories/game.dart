@@ -31,6 +31,43 @@ class GameRepository implements AbstractRepository<Game> {
     return updatedPlayers;
   }
 
+  Future<void> syncPlayers(String gameId, List<Profile> newProfiles) async {
+    await db.transaction(() async {
+      final currentPlayersRows = await (db.select(
+        db.players,
+      )..where((p) => p.gameId.equals(gameId))).get();
+
+      final currentProfileIds = currentPlayersRows
+          .map((p) => p.profileId)
+          .toSet();
+      final newProfileIds = newProfiles.map((p) => p.id).toSet();
+
+      final idsToRemove = currentProfileIds.difference(newProfileIds);
+      if (idsToRemove.isNotEmpty) {
+        await (db.delete(db.players)..where(
+              (p) => p.gameId.equals(gameId) & p.profileId.isIn(idsToRemove),
+            ))
+            .go();
+      }
+
+      final idsToAdd = newProfileIds.difference(currentProfileIds);
+      for (var id in idsToAdd) {
+        await db
+            .into(db.players)
+            .insert(
+              PlayersCompanion.insert(
+                gameId: gameId,
+                profileId: id,
+                totalPoints: const Value(0),
+                boltsCount: const Value(0),
+                barrelAttempts: const Value(0),
+                isOnBarrel: const Value(false),
+              ),
+            );
+      }
+    });
+  }
+
   Future<Game> addFullGame(Game game) async {
     await db.transaction(() async {
       await add(game);

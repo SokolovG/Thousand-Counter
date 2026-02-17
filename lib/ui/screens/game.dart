@@ -9,8 +9,6 @@ import 'package:thousand_counter/ui/widgets/dialogs/rounds_history.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
-// TODO: добавление и удаление игроков не работает - при нажатии меняется биддер(иногда)
-// TODO: расписать не работает
 class GameScreen extends ConsumerWidget {
   final String gameId;
   const GameScreen({super.key, required this.gameId});
@@ -130,13 +128,13 @@ class GameScreen extends ConsumerWidget {
                           finalPoints[id] = isMinus ? -score : score;
                         }
 
-                         await gameService.confirmRound(
-                           game: currentGame,
-                           points: finalPoints,
-                           bidderId: activeBidderId,
-                           bid: bid,
-                           l10n: l10n,
-                         );
+                        await gameService.confirmRound(
+                          game: currentGame,
+                          points: finalPoints,
+                          bidderId: activeBidderId,
+                          bid: bid,
+                          l10n: l10n,
+                        );
                         if (!context.mounted) return;
 
                         ref.read(currentBidProvider.notifier).state = 100;
@@ -184,9 +182,12 @@ class GameScreen extends ConsumerWidget {
                                 bid,
                                 bidderIndex,
                               );
+                              ref.read(currentBidProvider.notifier).state = 100;
+                              ref.read(minusPressedProvider.notifier).state =
+                                  {};
+                              ref.read(roundScoresProvider.notifier).state = {};
                               ref.read(activeBidderIdProvider.notifier).state =
                                   null;
-                              ref.read(roundScoresProvider.notifier).state = {};
                             }
                           : null,
                       child: Text(l10n.split),

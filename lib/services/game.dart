@@ -125,8 +125,7 @@ class GameService {
         isOnBarrel: pOnBarrel,
       );
     }
-    roundResultsForHistory[activePlayer.profile.id] =
-        roundResultsForHistory[activePlayer.profile.id] = -bid;
+    roundResultsForHistory[activePlayer.profile.id] = -bid;
 
     Round newRound = Round(
       roundNumber: game.rounds.length + 1,
@@ -134,14 +133,17 @@ class GameService {
       specialEvents: gameEventsMap,
       gameId: game.id,
     );
-    await _gameUow.saveRoundResult(game, newRound);
 
-    return game.copyWith(
-      rounds: [...game.rounds, newRound],
+    final updatedGame = game.copyWith(
       players: updatedPlayers,
+      rounds: [...game.rounds, newRound],
       currentRound: game.currentRound + 1,
       currentPlayerIndex: (game.currentPlayerIndex + 1) % game.players.length,
     );
+
+    await _gameUow.saveRoundResult(updatedGame, newRound);
+
+    return updatedGame;
   }
 
   Future<Game> confirmRound({
@@ -260,8 +262,8 @@ class GameService {
       game = game.copyWith(name: victoryTitle);
     }
 
-    await _gameUow.saveRoundResult(game, newRound);
-    return game;
+    final updatedGame = await _gameUow.saveRoundResult(game, newRound);
+    return updatedGame;
   }
 
   Future<Game> addGame(Game newGame) async {
@@ -285,7 +287,7 @@ class GameService {
     return game.copyWith(players: updatedPlayers);
   }
 
-  Future<Game> updatePlayers(
+  Future<Game> updateAndDeletePlayers(
     Game currentGame,
     List<Profile> newProfiles,
   ) async {
@@ -308,6 +310,8 @@ class GameService {
     if (newIndex == -1) {
       newIndex = currentGame.currentPlayerIndex % updatedPlayers.length;
     }
+
+    await _gameRepository.syncPlayers(currentGame.id, newProfiles);
 
     final updatedGame = currentGame.copyWith(
       players: updatedPlayers,

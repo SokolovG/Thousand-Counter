@@ -33,7 +33,7 @@ class PlayerWidget extends ConsumerWidget {
     final player = ref.watch(
       gameStreamProvider(
         gameId,
-      ).select((game) => game.value?.players[playerIndex]),
+      ).select((game) => game.value?.players.elementAtOrNull(playerIndex)),
     );
     final currentGame = ref.watch(
       gameStreamProvider(gameId).select((g) => g.value),
