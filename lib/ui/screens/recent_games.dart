@@ -76,4 +76,3 @@ class RecentGamesScreen extends ConsumerWidget {
     );
   }
 }
-// TODO: если создать игру а потом удалить ПРОФИЛЬ, то в недавних играх он показывается а внутри игры нет его!

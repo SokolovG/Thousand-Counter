@@ -10,7 +10,6 @@ import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/services/profile.dart';
 import 'package:thousand_counter/services/rules.dart';
 import 'package:thousand_counter/ui/screens/game_settings.dart';
-// TODO: вынести в разные файлы + add autoDispose
 
 // REPORISTORIES PROVIDERS
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
@@ -36,7 +35,7 @@ final gameUnitOfWorkProvide = Provider<GameUnitOfWork>((ref) {
 final rulesServiceProvider = Provider((ref) => RulesService());
 
 final profileServiceProvider = Provider((ref) {
-  final repo = ref.watch(profileRepositoryProvider);
+  final repo = ref.read(profileRepositoryProvider);
   return ProfileService(repo);
 });
 
@@ -54,7 +53,9 @@ final gameStreamProvider = StreamProvider.family<Game?, String>((ref, gameId) {
   return service.watchGame(gameId);
 });
 final isEditModeProvider = StateProvider.autoDispose<bool>((ref) => false);
-final roundScoresProvider = StateProvider<Map<String, int>>((ref) => {});
+final roundScoresProvider = StateProvider.autoDispose<Map<String, int>>(
+  (ref) => {},
+);
 final profilesListProvider = FutureProvider<List<Profile>>((ref) async {
   final profileService = ref.read(profileServiceProvider);
   return profileService.getAllProfiles();
@@ -63,12 +64,14 @@ final gamesListProvider = FutureProvider<List<Game>>((ref) async {
   final gameService = ref.read(gameServiceProvider);
   return gameService.getAllGames();
 });
-final minusPressedProvider = StateProvider<Map<String, bool>>(
+final minusPressedProvider = StateProvider.autoDispose<Map<String, bool>>(
   (ref) => <String, bool>{},
 );
-final activeBidderIdProvider = StateProvider<String?>((ref) => null);
+final activeBidderIdProvider = StateProvider.autoDispose<String?>(
+  (ref) => null,
+);
 
-final currentBidProvider = StateProvider<int>((ref) => 100);
+final currentBidProvider = StateProvider.autoDispose<int>((ref) => 100);
 final splitAvailableProvider = Provider.family<bool, String>((ref, gameId) {
   final roundScores = ref.watch(roundScoresProvider);
   final activeBidderId = ref.watch(activeBidderIdProvider);

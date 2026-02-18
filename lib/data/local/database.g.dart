@@ -1231,7 +1231,7 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES games (id)',
+      'REFERENCES games (id) ON DELETE CASCADE',
     ),
   );
   @override
@@ -1578,6 +1578,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('players', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'games',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('rounds', kind: UpdateKind.delete)],
     ),
   ]);
 }

@@ -87,6 +87,3 @@ class ProfilesScreen extends ConsumerWidget {
     );
   }
 }
-
-// BUG: delete player doesnt work
-// BUG: edit player doesnt work

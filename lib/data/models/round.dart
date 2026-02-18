@@ -10,7 +10,8 @@ class Rounds extends Table {
   IntColumn get roundNumber => integer()();
   TextColumn get playerScores => text().map(MapConverter())();
   TextColumn get specialEvents => text().map(SpecialEventsConverter())();
-  TextColumn get gameId => text().references(Games, #id)();
+  TextColumn get gameId =>
+      text().references(Games, #id, onDelete: KeyAction.cascade)();
 
   @override
   Set<Column> get primaryKey => {id};
