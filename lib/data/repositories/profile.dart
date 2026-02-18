@@ -34,7 +34,8 @@ class ProfileRepository implements AbstractRepository<Profile> {
 
   @override
   Future<List<Profile>> getAll() async {
-    final query = db.select(db.profiles);
+    final query = db.select(db.profiles)
+      ..orderBy([(p) => OrderingTerm(expression: p.name)]);
     final rows = await query.get();
     return rows.map((ProfileModel model) {
       return Profile.fromDb(model);

@@ -48,7 +48,7 @@ class Game extends Entity {
   @override
   @override
   String toString() {
-    return "Game(id: $id, players: ${players.length})";
+    return "Game(id: $id, players: ${players.length}, date: $createdAt)";
   }
 
   Game copyWith({
@@ -118,7 +118,8 @@ extension GameNameExtension on Game {
     final random = Random(seed);
 
     if (isFinished) {
-      final effectiveWinner = winner ??
+      final effectiveWinner =
+          winner ??
           (players.isNotEmpty
               ? players.reduce((a, b) => a.totalPoints > b.totalPoints ? a : b)
               : null);

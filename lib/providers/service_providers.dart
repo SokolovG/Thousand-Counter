@@ -10,6 +10,7 @@ import 'package:thousand_counter/services/game.dart';
 import 'package:thousand_counter/services/profile.dart';
 import 'package:thousand_counter/services/rules.dart';
 import 'package:thousand_counter/ui/screens/game_settings.dart';
+// TODO: вынести в разные файлы + add autoDispose
 
 // REPORISTORIES PROVIDERS
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {

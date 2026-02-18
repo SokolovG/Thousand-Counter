@@ -56,6 +56,7 @@ class GameWidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           child: SlidableObject(
             title: game.name,
+            date: game.createdAt,
             subtitle: GridView.builder(
               padding: const EdgeInsets.only(top: 8),
               shrinkWrap: true,

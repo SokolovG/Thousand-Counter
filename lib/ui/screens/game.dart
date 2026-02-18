@@ -8,6 +8,7 @@ import 'package:thousand_counter/ui/widgets/dialogs/profiles_select.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/rounds_history.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
+// TODO: sort players by profiles
 
 class GameScreen extends ConsumerWidget {
   final String gameId;
