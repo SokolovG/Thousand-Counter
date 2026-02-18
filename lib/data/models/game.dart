@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:thousand_counter/data/models/player.dart';
+import 'package:thousand_counter/data/models/profile.dart';
 import 'package:uuid/uuid.dart';
 
 @DataClassName("GameModel")
@@ -11,7 +11,7 @@ class Games extends Table {
   BoolColumn get isFinished => boolean().withDefault(const Constant(false))();
   IntColumn get currentPlayerIndex => integer()();
   TextColumn get winnerPlayerId =>
-      text().references(Players, #profileId).nullable()();
+      text().references(Profiles, #profileId).nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

@@ -208,439 +208,6 @@ class ProfilesCompanion extends UpdateCompanion<ProfileModel> {
   }
 }
 
-class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $PlayersTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _totalPointsMeta = const VerificationMeta(
-    'totalPoints',
-  );
-  @override
-  late final GeneratedColumn<int> totalPoints = GeneratedColumn<int>(
-    'total_points',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(0),
-  );
-  static const VerificationMeta _boltsCountMeta = const VerificationMeta(
-    'boltsCount',
-  );
-  @override
-  late final GeneratedColumn<int> boltsCount = GeneratedColumn<int>(
-    'bolts_count',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(0),
-  );
-  static const VerificationMeta _barrelAttemptsMeta = const VerificationMeta(
-    'barrelAttempts',
-  );
-  @override
-  late final GeneratedColumn<int> barrelAttempts = GeneratedColumn<int>(
-    'barrel_attempts',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(0),
-  );
-  static const VerificationMeta _isOnBarrelMeta = const VerificationMeta(
-    'isOnBarrel',
-  );
-  @override
-  late final GeneratedColumn<bool> isOnBarrel = GeneratedColumn<bool>(
-    'is_on_barrel',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_on_barrel" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
-  static const VerificationMeta _gameIdMeta = const VerificationMeta('gameId');
-  @override
-  late final GeneratedColumn<String> gameId = GeneratedColumn<String>(
-    'game_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _profileIdMeta = const VerificationMeta(
-    'profileId',
-  );
-  @override
-  late final GeneratedColumn<String> profileId = GeneratedColumn<String>(
-    'profile_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES profiles (id)',
-    ),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    totalPoints,
-    boltsCount,
-    barrelAttempts,
-    isOnBarrel,
-    gameId,
-    profileId,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'players';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<PlayerModel> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('total_points')) {
-      context.handle(
-        _totalPointsMeta,
-        totalPoints.isAcceptableOrUnknown(
-          data['total_points']!,
-          _totalPointsMeta,
-        ),
-      );
-    }
-    if (data.containsKey('bolts_count')) {
-      context.handle(
-        _boltsCountMeta,
-        boltsCount.isAcceptableOrUnknown(data['bolts_count']!, _boltsCountMeta),
-      );
-    }
-    if (data.containsKey('barrel_attempts')) {
-      context.handle(
-        _barrelAttemptsMeta,
-        barrelAttempts.isAcceptableOrUnknown(
-          data['barrel_attempts']!,
-          _barrelAttemptsMeta,
-        ),
-      );
-    }
-    if (data.containsKey('is_on_barrel')) {
-      context.handle(
-        _isOnBarrelMeta,
-        isOnBarrel.isAcceptableOrUnknown(
-          data['is_on_barrel']!,
-          _isOnBarrelMeta,
-        ),
-      );
-    }
-    if (data.containsKey('game_id')) {
-      context.handle(
-        _gameIdMeta,
-        gameId.isAcceptableOrUnknown(data['game_id']!, _gameIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_gameIdMeta);
-    }
-    if (data.containsKey('profile_id')) {
-      context.handle(
-        _profileIdMeta,
-        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_profileIdMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {gameId, profileId};
-  @override
-  PlayerModel map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return PlayerModel(
-      totalPoints: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}total_points'],
-      )!,
-      boltsCount: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}bolts_count'],
-      )!,
-      barrelAttempts: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}barrel_attempts'],
-      )!,
-      isOnBarrel: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_on_barrel'],
-      )!,
-      gameId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}game_id'],
-      )!,
-      profileId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}profile_id'],
-      )!,
-    );
-  }
-
-  @override
-  $PlayersTable createAlias(String alias) {
-    return $PlayersTable(attachedDatabase, alias);
-  }
-}
-
-class PlayerModel extends DataClass implements Insertable<PlayerModel> {
-  final int totalPoints;
-  final int boltsCount;
-  final int barrelAttempts;
-  final bool isOnBarrel;
-  final String gameId;
-  final String profileId;
-  const PlayerModel({
-    required this.totalPoints,
-    required this.boltsCount,
-    required this.barrelAttempts,
-    required this.isOnBarrel,
-    required this.gameId,
-    required this.profileId,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['total_points'] = Variable<int>(totalPoints);
-    map['bolts_count'] = Variable<int>(boltsCount);
-    map['barrel_attempts'] = Variable<int>(barrelAttempts);
-    map['is_on_barrel'] = Variable<bool>(isOnBarrel);
-    map['game_id'] = Variable<String>(gameId);
-    map['profile_id'] = Variable<String>(profileId);
-    return map;
-  }
-
-  PlayersCompanion toCompanion(bool nullToAbsent) {
-    return PlayersCompanion(
-      totalPoints: Value(totalPoints),
-      boltsCount: Value(boltsCount),
-      barrelAttempts: Value(barrelAttempts),
-      isOnBarrel: Value(isOnBarrel),
-      gameId: Value(gameId),
-      profileId: Value(profileId),
-    );
-  }
-
-  factory PlayerModel.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return PlayerModel(
-      totalPoints: serializer.fromJson<int>(json['totalPoints']),
-      boltsCount: serializer.fromJson<int>(json['boltsCount']),
-      barrelAttempts: serializer.fromJson<int>(json['barrelAttempts']),
-      isOnBarrel: serializer.fromJson<bool>(json['isOnBarrel']),
-      gameId: serializer.fromJson<String>(json['gameId']),
-      profileId: serializer.fromJson<String>(json['profileId']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'totalPoints': serializer.toJson<int>(totalPoints),
-      'boltsCount': serializer.toJson<int>(boltsCount),
-      'barrelAttempts': serializer.toJson<int>(barrelAttempts),
-      'isOnBarrel': serializer.toJson<bool>(isOnBarrel),
-      'gameId': serializer.toJson<String>(gameId),
-      'profileId': serializer.toJson<String>(profileId),
-    };
-  }
-
-  PlayerModel copyWith({
-    int? totalPoints,
-    int? boltsCount,
-    int? barrelAttempts,
-    bool? isOnBarrel,
-    String? gameId,
-    String? profileId,
-  }) => PlayerModel(
-    totalPoints: totalPoints ?? this.totalPoints,
-    boltsCount: boltsCount ?? this.boltsCount,
-    barrelAttempts: barrelAttempts ?? this.barrelAttempts,
-    isOnBarrel: isOnBarrel ?? this.isOnBarrel,
-    gameId: gameId ?? this.gameId,
-    profileId: profileId ?? this.profileId,
-  );
-  PlayerModel copyWithCompanion(PlayersCompanion data) {
-    return PlayerModel(
-      totalPoints: data.totalPoints.present
-          ? data.totalPoints.value
-          : this.totalPoints,
-      boltsCount: data.boltsCount.present
-          ? data.boltsCount.value
-          : this.boltsCount,
-      barrelAttempts: data.barrelAttempts.present
-          ? data.barrelAttempts.value
-          : this.barrelAttempts,
-      isOnBarrel: data.isOnBarrel.present
-          ? data.isOnBarrel.value
-          : this.isOnBarrel,
-      gameId: data.gameId.present ? data.gameId.value : this.gameId,
-      profileId: data.profileId.present ? data.profileId.value : this.profileId,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('PlayerModel(')
-          ..write('totalPoints: $totalPoints, ')
-          ..write('boltsCount: $boltsCount, ')
-          ..write('barrelAttempts: $barrelAttempts, ')
-          ..write('isOnBarrel: $isOnBarrel, ')
-          ..write('gameId: $gameId, ')
-          ..write('profileId: $profileId')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    totalPoints,
-    boltsCount,
-    barrelAttempts,
-    isOnBarrel,
-    gameId,
-    profileId,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is PlayerModel &&
-          other.totalPoints == this.totalPoints &&
-          other.boltsCount == this.boltsCount &&
-          other.barrelAttempts == this.barrelAttempts &&
-          other.isOnBarrel == this.isOnBarrel &&
-          other.gameId == this.gameId &&
-          other.profileId == this.profileId);
-}
-
-class PlayersCompanion extends UpdateCompanion<PlayerModel> {
-  final Value<int> totalPoints;
-  final Value<int> boltsCount;
-  final Value<int> barrelAttempts;
-  final Value<bool> isOnBarrel;
-  final Value<String> gameId;
-  final Value<String> profileId;
-  final Value<int> rowid;
-  const PlayersCompanion({
-    this.totalPoints = const Value.absent(),
-    this.boltsCount = const Value.absent(),
-    this.barrelAttempts = const Value.absent(),
-    this.isOnBarrel = const Value.absent(),
-    this.gameId = const Value.absent(),
-    this.profileId = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  PlayersCompanion.insert({
-    this.totalPoints = const Value.absent(),
-    this.boltsCount = const Value.absent(),
-    this.barrelAttempts = const Value.absent(),
-    this.isOnBarrel = const Value.absent(),
-    required String gameId,
-    required String profileId,
-    this.rowid = const Value.absent(),
-  }) : gameId = Value(gameId),
-       profileId = Value(profileId);
-  static Insertable<PlayerModel> custom({
-    Expression<int>? totalPoints,
-    Expression<int>? boltsCount,
-    Expression<int>? barrelAttempts,
-    Expression<bool>? isOnBarrel,
-    Expression<String>? gameId,
-    Expression<String>? profileId,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (totalPoints != null) 'total_points': totalPoints,
-      if (boltsCount != null) 'bolts_count': boltsCount,
-      if (barrelAttempts != null) 'barrel_attempts': barrelAttempts,
-      if (isOnBarrel != null) 'is_on_barrel': isOnBarrel,
-      if (gameId != null) 'game_id': gameId,
-      if (profileId != null) 'profile_id': profileId,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  PlayersCompanion copyWith({
-    Value<int>? totalPoints,
-    Value<int>? boltsCount,
-    Value<int>? barrelAttempts,
-    Value<bool>? isOnBarrel,
-    Value<String>? gameId,
-    Value<String>? profileId,
-    Value<int>? rowid,
-  }) {
-    return PlayersCompanion(
-      totalPoints: totalPoints ?? this.totalPoints,
-      boltsCount: boltsCount ?? this.boltsCount,
-      barrelAttempts: barrelAttempts ?? this.barrelAttempts,
-      isOnBarrel: isOnBarrel ?? this.isOnBarrel,
-      gameId: gameId ?? this.gameId,
-      profileId: profileId ?? this.profileId,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (totalPoints.present) {
-      map['total_points'] = Variable<int>(totalPoints.value);
-    }
-    if (boltsCount.present) {
-      map['bolts_count'] = Variable<int>(boltsCount.value);
-    }
-    if (barrelAttempts.present) {
-      map['barrel_attempts'] = Variable<int>(barrelAttempts.value);
-    }
-    if (isOnBarrel.present) {
-      map['is_on_barrel'] = Variable<bool>(isOnBarrel.value);
-    }
-    if (gameId.present) {
-      map['game_id'] = Variable<String>(gameId.value);
-    }
-    if (profileId.present) {
-      map['profile_id'] = Variable<String>(profileId.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('PlayersCompanion(')
-          ..write('totalPoints: $totalPoints, ')
-          ..write('boltsCount: $boltsCount, ')
-          ..write('barrelAttempts: $barrelAttempts, ')
-          ..write('isOnBarrel: $isOnBarrel, ')
-          ..write('gameId: $gameId, ')
-          ..write('profileId: $profileId, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $GamesTable extends Games with TableInfo<$GamesTable, GameModel> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -722,9 +289,6 @@ class $GamesTable extends Games with TableInfo<$GamesTable, GameModel> {
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES players (profile_id)',
-    ),
   );
   @override
   List<GeneratedColumn> get $columns => [
@@ -1124,6 +688,490 @@ class GamesCompanion extends UpdateCompanion<GameModel> {
   }
 }
 
+class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PlayersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _totalPointsMeta = const VerificationMeta(
+    'totalPoints',
+  );
+  @override
+  late final GeneratedColumn<int> totalPoints = GeneratedColumn<int>(
+    'total_points',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _boltsCountMeta = const VerificationMeta(
+    'boltsCount',
+  );
+  @override
+  late final GeneratedColumn<int> boltsCount = GeneratedColumn<int>(
+    'bolts_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _barrelAttemptsMeta = const VerificationMeta(
+    'barrelAttempts',
+  );
+  @override
+  late final GeneratedColumn<int> barrelAttempts = GeneratedColumn<int>(
+    'barrel_attempts',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isOnBarrelMeta = const VerificationMeta(
+    'isOnBarrel',
+  );
+  @override
+  late final GeneratedColumn<bool> isOnBarrel = GeneratedColumn<bool>(
+    'is_on_barrel',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_on_barrel" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _gameIdMeta = const VerificationMeta('gameId');
+  @override
+  late final GeneratedColumn<String> gameId = GeneratedColumn<String>(
+    'game_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES games (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<String> profileId = GeneratedColumn<String>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES profiles (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    totalPoints,
+    boltsCount,
+    barrelAttempts,
+    createdAt,
+    isOnBarrel,
+    gameId,
+    profileId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'players';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PlayerModel> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('total_points')) {
+      context.handle(
+        _totalPointsMeta,
+        totalPoints.isAcceptableOrUnknown(
+          data['total_points']!,
+          _totalPointsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('bolts_count')) {
+      context.handle(
+        _boltsCountMeta,
+        boltsCount.isAcceptableOrUnknown(data['bolts_count']!, _boltsCountMeta),
+      );
+    }
+    if (data.containsKey('barrel_attempts')) {
+      context.handle(
+        _barrelAttemptsMeta,
+        barrelAttempts.isAcceptableOrUnknown(
+          data['barrel_attempts']!,
+          _barrelAttemptsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('is_on_barrel')) {
+      context.handle(
+        _isOnBarrelMeta,
+        isOnBarrel.isAcceptableOrUnknown(
+          data['is_on_barrel']!,
+          _isOnBarrelMeta,
+        ),
+      );
+    }
+    if (data.containsKey('game_id')) {
+      context.handle(
+        _gameIdMeta,
+        gameId.isAcceptableOrUnknown(data['game_id']!, _gameIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_gameIdMeta);
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {gameId, profileId};
+  @override
+  PlayerModel map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PlayerModel(
+      totalPoints: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_points'],
+      )!,
+      boltsCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}bolts_count'],
+      )!,
+      barrelAttempts: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}barrel_attempts'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      isOnBarrel: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_on_barrel'],
+      )!,
+      gameId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}game_id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}profile_id'],
+      )!,
+    );
+  }
+
+  @override
+  $PlayersTable createAlias(String alias) {
+    return $PlayersTable(attachedDatabase, alias);
+  }
+}
+
+class PlayerModel extends DataClass implements Insertable<PlayerModel> {
+  final int totalPoints;
+  final int boltsCount;
+  final int barrelAttempts;
+  final DateTime createdAt;
+  final bool isOnBarrel;
+  final String gameId;
+  final String profileId;
+  const PlayerModel({
+    required this.totalPoints,
+    required this.boltsCount,
+    required this.barrelAttempts,
+    required this.createdAt,
+    required this.isOnBarrel,
+    required this.gameId,
+    required this.profileId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['total_points'] = Variable<int>(totalPoints);
+    map['bolts_count'] = Variable<int>(boltsCount);
+    map['barrel_attempts'] = Variable<int>(barrelAttempts);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['is_on_barrel'] = Variable<bool>(isOnBarrel);
+    map['game_id'] = Variable<String>(gameId);
+    map['profile_id'] = Variable<String>(profileId);
+    return map;
+  }
+
+  PlayersCompanion toCompanion(bool nullToAbsent) {
+    return PlayersCompanion(
+      totalPoints: Value(totalPoints),
+      boltsCount: Value(boltsCount),
+      barrelAttempts: Value(barrelAttempts),
+      createdAt: Value(createdAt),
+      isOnBarrel: Value(isOnBarrel),
+      gameId: Value(gameId),
+      profileId: Value(profileId),
+    );
+  }
+
+  factory PlayerModel.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PlayerModel(
+      totalPoints: serializer.fromJson<int>(json['totalPoints']),
+      boltsCount: serializer.fromJson<int>(json['boltsCount']),
+      barrelAttempts: serializer.fromJson<int>(json['barrelAttempts']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      isOnBarrel: serializer.fromJson<bool>(json['isOnBarrel']),
+      gameId: serializer.fromJson<String>(json['gameId']),
+      profileId: serializer.fromJson<String>(json['profileId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'totalPoints': serializer.toJson<int>(totalPoints),
+      'boltsCount': serializer.toJson<int>(boltsCount),
+      'barrelAttempts': serializer.toJson<int>(barrelAttempts),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'isOnBarrel': serializer.toJson<bool>(isOnBarrel),
+      'gameId': serializer.toJson<String>(gameId),
+      'profileId': serializer.toJson<String>(profileId),
+    };
+  }
+
+  PlayerModel copyWith({
+    int? totalPoints,
+    int? boltsCount,
+    int? barrelAttempts,
+    DateTime? createdAt,
+    bool? isOnBarrel,
+    String? gameId,
+    String? profileId,
+  }) => PlayerModel(
+    totalPoints: totalPoints ?? this.totalPoints,
+    boltsCount: boltsCount ?? this.boltsCount,
+    barrelAttempts: barrelAttempts ?? this.barrelAttempts,
+    createdAt: createdAt ?? this.createdAt,
+    isOnBarrel: isOnBarrel ?? this.isOnBarrel,
+    gameId: gameId ?? this.gameId,
+    profileId: profileId ?? this.profileId,
+  );
+  PlayerModel copyWithCompanion(PlayersCompanion data) {
+    return PlayerModel(
+      totalPoints: data.totalPoints.present
+          ? data.totalPoints.value
+          : this.totalPoints,
+      boltsCount: data.boltsCount.present
+          ? data.boltsCount.value
+          : this.boltsCount,
+      barrelAttempts: data.barrelAttempts.present
+          ? data.barrelAttempts.value
+          : this.barrelAttempts,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      isOnBarrel: data.isOnBarrel.present
+          ? data.isOnBarrel.value
+          : this.isOnBarrel,
+      gameId: data.gameId.present ? data.gameId.value : this.gameId,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PlayerModel(')
+          ..write('totalPoints: $totalPoints, ')
+          ..write('boltsCount: $boltsCount, ')
+          ..write('barrelAttempts: $barrelAttempts, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('isOnBarrel: $isOnBarrel, ')
+          ..write('gameId: $gameId, ')
+          ..write('profileId: $profileId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    totalPoints,
+    boltsCount,
+    barrelAttempts,
+    createdAt,
+    isOnBarrel,
+    gameId,
+    profileId,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PlayerModel &&
+          other.totalPoints == this.totalPoints &&
+          other.boltsCount == this.boltsCount &&
+          other.barrelAttempts == this.barrelAttempts &&
+          other.createdAt == this.createdAt &&
+          other.isOnBarrel == this.isOnBarrel &&
+          other.gameId == this.gameId &&
+          other.profileId == this.profileId);
+}
+
+class PlayersCompanion extends UpdateCompanion<PlayerModel> {
+  final Value<int> totalPoints;
+  final Value<int> boltsCount;
+  final Value<int> barrelAttempts;
+  final Value<DateTime> createdAt;
+  final Value<bool> isOnBarrel;
+  final Value<String> gameId;
+  final Value<String> profileId;
+  final Value<int> rowid;
+  const PlayersCompanion({
+    this.totalPoints = const Value.absent(),
+    this.boltsCount = const Value.absent(),
+    this.barrelAttempts = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.isOnBarrel = const Value.absent(),
+    this.gameId = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PlayersCompanion.insert({
+    this.totalPoints = const Value.absent(),
+    this.boltsCount = const Value.absent(),
+    this.barrelAttempts = const Value.absent(),
+    required DateTime createdAt,
+    this.isOnBarrel = const Value.absent(),
+    required String gameId,
+    required String profileId,
+    this.rowid = const Value.absent(),
+  }) : createdAt = Value(createdAt),
+       gameId = Value(gameId),
+       profileId = Value(profileId);
+  static Insertable<PlayerModel> custom({
+    Expression<int>? totalPoints,
+    Expression<int>? boltsCount,
+    Expression<int>? barrelAttempts,
+    Expression<DateTime>? createdAt,
+    Expression<bool>? isOnBarrel,
+    Expression<String>? gameId,
+    Expression<String>? profileId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (totalPoints != null) 'total_points': totalPoints,
+      if (boltsCount != null) 'bolts_count': boltsCount,
+      if (barrelAttempts != null) 'barrel_attempts': barrelAttempts,
+      if (createdAt != null) 'created_at': createdAt,
+      if (isOnBarrel != null) 'is_on_barrel': isOnBarrel,
+      if (gameId != null) 'game_id': gameId,
+      if (profileId != null) 'profile_id': profileId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PlayersCompanion copyWith({
+    Value<int>? totalPoints,
+    Value<int>? boltsCount,
+    Value<int>? barrelAttempts,
+    Value<DateTime>? createdAt,
+    Value<bool>? isOnBarrel,
+    Value<String>? gameId,
+    Value<String>? profileId,
+    Value<int>? rowid,
+  }) {
+    return PlayersCompanion(
+      totalPoints: totalPoints ?? this.totalPoints,
+      boltsCount: boltsCount ?? this.boltsCount,
+      barrelAttempts: barrelAttempts ?? this.barrelAttempts,
+      createdAt: createdAt ?? this.createdAt,
+      isOnBarrel: isOnBarrel ?? this.isOnBarrel,
+      gameId: gameId ?? this.gameId,
+      profileId: profileId ?? this.profileId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (totalPoints.present) {
+      map['total_points'] = Variable<int>(totalPoints.value);
+    }
+    if (boltsCount.present) {
+      map['bolts_count'] = Variable<int>(boltsCount.value);
+    }
+    if (barrelAttempts.present) {
+      map['barrel_attempts'] = Variable<int>(barrelAttempts.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (isOnBarrel.present) {
+      map['is_on_barrel'] = Variable<bool>(isOnBarrel.value);
+    }
+    if (gameId.present) {
+      map['game_id'] = Variable<String>(gameId.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<String>(profileId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PlayersCompanion(')
+          ..write('totalPoints: $totalPoints, ')
+          ..write('boltsCount: $boltsCount, ')
+          ..write('barrelAttempts: $barrelAttempts, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('isOnBarrel: $isOnBarrel, ')
+          ..write('gameId: $gameId, ')
+          ..write('profileId: $profileId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -1509,8 +1557,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $ProfilesTable profiles = $ProfilesTable(this);
-  late final $PlayersTable players = $PlayersTable(this);
   late final $GamesTable games = $GamesTable(this);
+  late final $PlayersTable players = $PlayersTable(this);
   late final $RoundsTable rounds = $RoundsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -1518,10 +1566,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     profiles,
-    players,
     games,
+    players,
     rounds,
   ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'games',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('players', kind: UpdateKind.delete)],
+    ),
+  ]);
 }
 
 typedef $$ProfilesTableCreateCompanionBuilder =
@@ -1756,350 +1814,6 @@ typedef $$ProfilesTableProcessedTableManager =
       ProfileModel,
       PrefetchHooks Function({bool playersRefs})
     >;
-typedef $$PlayersTableCreateCompanionBuilder =
-    PlayersCompanion Function({
-      Value<int> totalPoints,
-      Value<int> boltsCount,
-      Value<int> barrelAttempts,
-      Value<bool> isOnBarrel,
-      required String gameId,
-      required String profileId,
-      Value<int> rowid,
-    });
-typedef $$PlayersTableUpdateCompanionBuilder =
-    PlayersCompanion Function({
-      Value<int> totalPoints,
-      Value<int> boltsCount,
-      Value<int> barrelAttempts,
-      Value<bool> isOnBarrel,
-      Value<String> gameId,
-      Value<String> profileId,
-      Value<int> rowid,
-    });
-
-final class $$PlayersTableReferences
-    extends BaseReferences<_$AppDatabase, $PlayersTable, PlayerModel> {
-  $$PlayersTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $ProfilesTable _profileIdTable(_$AppDatabase db) => db.profiles
-      .createAlias($_aliasNameGenerator(db.players.profileId, db.profiles.id));
-
-  $$ProfilesTableProcessedTableManager get profileId {
-    final $_column = $_itemColumn<String>('profile_id')!;
-
-    final manager = $$ProfilesTableTableManager(
-      $_db,
-      $_db.profiles,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_profileIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-}
-
-class $$PlayersTableFilterComposer
-    extends Composer<_$AppDatabase, $PlayersTable> {
-  $$PlayersTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get totalPoints => $composableBuilder(
-    column: $table.totalPoints,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get boltsCount => $composableBuilder(
-    column: $table.boltsCount,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get barrelAttempts => $composableBuilder(
-    column: $table.barrelAttempts,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get isOnBarrel => $composableBuilder(
-    column: $table.isOnBarrel,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get gameId => $composableBuilder(
-    column: $table.gameId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$ProfilesTableFilterComposer get profileId {
-    final $$ProfilesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.profileId,
-      referencedTable: $db.profiles,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ProfilesTableFilterComposer(
-            $db: $db,
-            $table: $db.profiles,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$PlayersTableOrderingComposer
-    extends Composer<_$AppDatabase, $PlayersTable> {
-  $$PlayersTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get totalPoints => $composableBuilder(
-    column: $table.totalPoints,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get boltsCount => $composableBuilder(
-    column: $table.boltsCount,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get barrelAttempts => $composableBuilder(
-    column: $table.barrelAttempts,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get isOnBarrel => $composableBuilder(
-    column: $table.isOnBarrel,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get gameId => $composableBuilder(
-    column: $table.gameId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$ProfilesTableOrderingComposer get profileId {
-    final $$ProfilesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.profileId,
-      referencedTable: $db.profiles,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ProfilesTableOrderingComposer(
-            $db: $db,
-            $table: $db.profiles,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$PlayersTableAnnotationComposer
-    extends Composer<_$AppDatabase, $PlayersTable> {
-  $$PlayersTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get totalPoints => $composableBuilder(
-    column: $table.totalPoints,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<int> get boltsCount => $composableBuilder(
-    column: $table.boltsCount,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<int> get barrelAttempts => $composableBuilder(
-    column: $table.barrelAttempts,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<bool> get isOnBarrel => $composableBuilder(
-    column: $table.isOnBarrel,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get gameId =>
-      $composableBuilder(column: $table.gameId, builder: (column) => column);
-
-  $$ProfilesTableAnnotationComposer get profileId {
-    final $$ProfilesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.profileId,
-      referencedTable: $db.profiles,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ProfilesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.profiles,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$PlayersTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $PlayersTable,
-          PlayerModel,
-          $$PlayersTableFilterComposer,
-          $$PlayersTableOrderingComposer,
-          $$PlayersTableAnnotationComposer,
-          $$PlayersTableCreateCompanionBuilder,
-          $$PlayersTableUpdateCompanionBuilder,
-          (PlayerModel, $$PlayersTableReferences),
-          PlayerModel,
-          PrefetchHooks Function({bool profileId})
-        > {
-  $$PlayersTableTableManager(_$AppDatabase db, $PlayersTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$PlayersTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$PlayersTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$PlayersTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> totalPoints = const Value.absent(),
-                Value<int> boltsCount = const Value.absent(),
-                Value<int> barrelAttempts = const Value.absent(),
-                Value<bool> isOnBarrel = const Value.absent(),
-                Value<String> gameId = const Value.absent(),
-                Value<String> profileId = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => PlayersCompanion(
-                totalPoints: totalPoints,
-                boltsCount: boltsCount,
-                barrelAttempts: barrelAttempts,
-                isOnBarrel: isOnBarrel,
-                gameId: gameId,
-                profileId: profileId,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> totalPoints = const Value.absent(),
-                Value<int> boltsCount = const Value.absent(),
-                Value<int> barrelAttempts = const Value.absent(),
-                Value<bool> isOnBarrel = const Value.absent(),
-                required String gameId,
-                required String profileId,
-                Value<int> rowid = const Value.absent(),
-              }) => PlayersCompanion.insert(
-                totalPoints: totalPoints,
-                boltsCount: boltsCount,
-                barrelAttempts: barrelAttempts,
-                isOnBarrel: isOnBarrel,
-                gameId: gameId,
-                profileId: profileId,
-                rowid: rowid,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$PlayersTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({profileId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (profileId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.profileId,
-                                referencedTable: $$PlayersTableReferences
-                                    ._profileIdTable(db),
-                                referencedColumn: $$PlayersTableReferences
-                                    ._profileIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-
-                    return state;
-                  },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$PlayersTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $PlayersTable,
-      PlayerModel,
-      $$PlayersTableFilterComposer,
-      $$PlayersTableOrderingComposer,
-      $$PlayersTableAnnotationComposer,
-      $$PlayersTableCreateCompanionBuilder,
-      $$PlayersTableUpdateCompanionBuilder,
-      (PlayerModel, $$PlayersTableReferences),
-      PlayerModel,
-      PrefetchHooks Function({bool profileId})
-    >;
 typedef $$GamesTableCreateCompanionBuilder =
     GamesCompanion Function({
       Value<String> id,
@@ -2126,6 +1840,24 @@ typedef $$GamesTableUpdateCompanionBuilder =
 final class $$GamesTableReferences
     extends BaseReferences<_$AppDatabase, $GamesTable, GameModel> {
   $$GamesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$PlayersTable, List<PlayerModel>>
+  _playersRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.players,
+    aliasName: $_aliasNameGenerator(db.games.id, db.players.gameId),
+  );
+
+  $$PlayersTableProcessedTableManager get playersRefs {
+    final manager = $$PlayersTableTableManager(
+      $_db,
+      $_db.players,
+    ).filter((f) => f.gameId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_playersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 
   static MultiTypedResultKey<$RoundsTable, List<RoundModel>> _roundsRefsTable(
     _$AppDatabase db,
@@ -2184,6 +1916,36 @@ class $$GamesTableFilterComposer extends Composer<_$AppDatabase, $GamesTable> {
     column: $table.currentPlayerIndex,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<String> get winnerPlayerId => $composableBuilder(
+    column: $table.winnerPlayerId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> playersRefs(
+    Expression<bool> Function($$PlayersTableFilterComposer f) f,
+  ) {
+    final $$PlayersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.players,
+      getReferencedColumn: (t) => t.gameId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PlayersTableFilterComposer(
+            $db: $db,
+            $table: $db.players,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 
   Expression<bool> roundsRefs(
     Expression<bool> Function($$RoundsTableFilterComposer f) f,
@@ -2249,6 +2011,11 @@ class $$GamesTableOrderingComposer
     column: $table.currentPlayerIndex,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get winnerPlayerId => $composableBuilder(
+    column: $table.winnerPlayerId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$GamesTableAnnotationComposer
@@ -2283,6 +2050,36 @@ class $$GamesTableAnnotationComposer
     column: $table.currentPlayerIndex,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get winnerPlayerId => $composableBuilder(
+    column: $table.winnerPlayerId,
+    builder: (column) => column,
+  );
+
+  Expression<T> playersRefs<T extends Object>(
+    Expression<T> Function($$PlayersTableAnnotationComposer a) f,
+  ) {
+    final $$PlayersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.players,
+      getReferencedColumn: (t) => t.gameId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PlayersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.players,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 
   Expression<T> roundsRefs<T extends Object>(
     Expression<T> Function($$RoundsTableAnnotationComposer a) f,
@@ -2323,7 +2120,7 @@ class $$GamesTableTableManager
           $$GamesTableUpdateCompanionBuilder,
           (GameModel, $$GamesTableReferences),
           GameModel,
-          PrefetchHooks Function({bool roundsRefs})
+          PrefetchHooks Function({bool playersRefs, bool roundsRefs})
         > {
   $$GamesTableTableManager(_$AppDatabase db, $GamesTable table)
     : super(
@@ -2382,13 +2179,32 @@ class $$GamesTableTableManager
                     (e.readTable(table), $$GamesTableReferences(db, table, e)),
               )
               .toList(),
-          prefetchHooksCallback: ({roundsRefs = false}) {
+          prefetchHooksCallback: ({playersRefs = false, roundsRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [if (roundsRefs) db.rounds],
+              explicitlyWatchedTables: [
+                if (playersRefs) db.players,
+                if (roundsRefs) db.rounds,
+              ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
+                  if (playersRefs)
+                    await $_getPrefetchedData<
+                      GameModel,
+                      $GamesTable,
+                      PlayerModel
+                    >(
+                      currentTable: table,
+                      referencedTable: $$GamesTableReferences._playersRefsTable(
+                        db,
+                      ),
+                      managerFromTypedResult: (p0) =>
+                          $$GamesTableReferences(db, table, p0).playersRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.gameId == item.id),
+                      typedResults: items,
+                    ),
                   if (roundsRefs)
                     await $_getPrefetchedData<
                       GameModel,
@@ -2425,7 +2241,457 @@ typedef $$GamesTableProcessedTableManager =
       $$GamesTableUpdateCompanionBuilder,
       (GameModel, $$GamesTableReferences),
       GameModel,
-      PrefetchHooks Function({bool roundsRefs})
+      PrefetchHooks Function({bool playersRefs, bool roundsRefs})
+    >;
+typedef $$PlayersTableCreateCompanionBuilder =
+    PlayersCompanion Function({
+      Value<int> totalPoints,
+      Value<int> boltsCount,
+      Value<int> barrelAttempts,
+      required DateTime createdAt,
+      Value<bool> isOnBarrel,
+      required String gameId,
+      required String profileId,
+      Value<int> rowid,
+    });
+typedef $$PlayersTableUpdateCompanionBuilder =
+    PlayersCompanion Function({
+      Value<int> totalPoints,
+      Value<int> boltsCount,
+      Value<int> barrelAttempts,
+      Value<DateTime> createdAt,
+      Value<bool> isOnBarrel,
+      Value<String> gameId,
+      Value<String> profileId,
+      Value<int> rowid,
+    });
+
+final class $$PlayersTableReferences
+    extends BaseReferences<_$AppDatabase, $PlayersTable, PlayerModel> {
+  $$PlayersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $GamesTable _gameIdTable(_$AppDatabase db) => db.games.createAlias(
+    $_aliasNameGenerator(db.players.gameId, db.games.id),
+  );
+
+  $$GamesTableProcessedTableManager get gameId {
+    final $_column = $_itemColumn<String>('game_id')!;
+
+    final manager = $$GamesTableTableManager(
+      $_db,
+      $_db.games,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_gameIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $ProfilesTable _profileIdTable(_$AppDatabase db) => db.profiles
+      .createAlias($_aliasNameGenerator(db.players.profileId, db.profiles.id));
+
+  $$ProfilesTableProcessedTableManager get profileId {
+    final $_column = $_itemColumn<String>('profile_id')!;
+
+    final manager = $$ProfilesTableTableManager(
+      $_db,
+      $_db.profiles,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_profileIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$PlayersTableFilterComposer
+    extends Composer<_$AppDatabase, $PlayersTable> {
+  $$PlayersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get totalPoints => $composableBuilder(
+    column: $table.totalPoints,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get boltsCount => $composableBuilder(
+    column: $table.boltsCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get barrelAttempts => $composableBuilder(
+    column: $table.barrelAttempts,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isOnBarrel => $composableBuilder(
+    column: $table.isOnBarrel,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$GamesTableFilterComposer get gameId {
+    final $$GamesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.gameId,
+      referencedTable: $db.games,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GamesTableFilterComposer(
+            $db: $db,
+            $table: $db.games,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ProfilesTableFilterComposer get profileId {
+    final $$ProfilesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableFilterComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PlayersTableOrderingComposer
+    extends Composer<_$AppDatabase, $PlayersTable> {
+  $$PlayersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get totalPoints => $composableBuilder(
+    column: $table.totalPoints,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get boltsCount => $composableBuilder(
+    column: $table.boltsCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get barrelAttempts => $composableBuilder(
+    column: $table.barrelAttempts,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isOnBarrel => $composableBuilder(
+    column: $table.isOnBarrel,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$GamesTableOrderingComposer get gameId {
+    final $$GamesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.gameId,
+      referencedTable: $db.games,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GamesTableOrderingComposer(
+            $db: $db,
+            $table: $db.games,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ProfilesTableOrderingComposer get profileId {
+    final $$ProfilesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableOrderingComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PlayersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PlayersTable> {
+  $$PlayersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get totalPoints => $composableBuilder(
+    column: $table.totalPoints,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get boltsCount => $composableBuilder(
+    column: $table.boltsCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get barrelAttempts => $composableBuilder(
+    column: $table.barrelAttempts,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get isOnBarrel => $composableBuilder(
+    column: $table.isOnBarrel,
+    builder: (column) => column,
+  );
+
+  $$GamesTableAnnotationComposer get gameId {
+    final $$GamesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.gameId,
+      referencedTable: $db.games,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GamesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.games,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ProfilesTableAnnotationComposer get profileId {
+    final $$ProfilesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PlayersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PlayersTable,
+          PlayerModel,
+          $$PlayersTableFilterComposer,
+          $$PlayersTableOrderingComposer,
+          $$PlayersTableAnnotationComposer,
+          $$PlayersTableCreateCompanionBuilder,
+          $$PlayersTableUpdateCompanionBuilder,
+          (PlayerModel, $$PlayersTableReferences),
+          PlayerModel,
+          PrefetchHooks Function({bool gameId, bool profileId})
+        > {
+  $$PlayersTableTableManager(_$AppDatabase db, $PlayersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PlayersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PlayersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PlayersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> totalPoints = const Value.absent(),
+                Value<int> boltsCount = const Value.absent(),
+                Value<int> barrelAttempts = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<bool> isOnBarrel = const Value.absent(),
+                Value<String> gameId = const Value.absent(),
+                Value<String> profileId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PlayersCompanion(
+                totalPoints: totalPoints,
+                boltsCount: boltsCount,
+                barrelAttempts: barrelAttempts,
+                createdAt: createdAt,
+                isOnBarrel: isOnBarrel,
+                gameId: gameId,
+                profileId: profileId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> totalPoints = const Value.absent(),
+                Value<int> boltsCount = const Value.absent(),
+                Value<int> barrelAttempts = const Value.absent(),
+                required DateTime createdAt,
+                Value<bool> isOnBarrel = const Value.absent(),
+                required String gameId,
+                required String profileId,
+                Value<int> rowid = const Value.absent(),
+              }) => PlayersCompanion.insert(
+                totalPoints: totalPoints,
+                boltsCount: boltsCount,
+                barrelAttempts: barrelAttempts,
+                createdAt: createdAt,
+                isOnBarrel: isOnBarrel,
+                gameId: gameId,
+                profileId: profileId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$PlayersTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({gameId = false, profileId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (gameId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.gameId,
+                                referencedTable: $$PlayersTableReferences
+                                    ._gameIdTable(db),
+                                referencedColumn: $$PlayersTableReferences
+                                    ._gameIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (profileId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.profileId,
+                                referencedTable: $$PlayersTableReferences
+                                    ._profileIdTable(db),
+                                referencedColumn: $$PlayersTableReferences
+                                    ._profileIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$PlayersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PlayersTable,
+      PlayerModel,
+      $$PlayersTableFilterComposer,
+      $$PlayersTableOrderingComposer,
+      $$PlayersTableAnnotationComposer,
+      $$PlayersTableCreateCompanionBuilder,
+      $$PlayersTableUpdateCompanionBuilder,
+      (PlayerModel, $$PlayersTableReferences),
+      PlayerModel,
+      PrefetchHooks Function({bool gameId, bool profileId})
     >;
 typedef $$RoundsTableCreateCompanionBuilder =
     RoundsCompanion Function({
@@ -2763,10 +3029,10 @@ class $AppDatabaseManager {
   $AppDatabaseManager(this._db);
   $$ProfilesTableTableManager get profiles =>
       $$ProfilesTableTableManager(_db, _db.profiles);
-  $$PlayersTableTableManager get players =>
-      $$PlayersTableTableManager(_db, _db.players);
   $$GamesTableTableManager get games =>
       $$GamesTableTableManager(_db, _db.games);
+  $$PlayersTableTableManager get players =>
+      $$PlayersTableTableManager(_db, _db.players);
   $$RoundsTableTableManager get rounds =>
       $$RoundsTableTableManager(_db, _db.rounds);
 }

@@ -9,7 +9,6 @@ import 'package:thousand_counter/ui/widgets/dialogs/rounds_history.dart';
 import 'package:thousand_counter/ui/widgets/objects/player.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
-// TODO: при удаленгии игрока и добавлении - встает на то же место что и был
 class GameScreen extends ConsumerWidget {
   final String gameId;
   const GameScreen({super.key, required this.gameId});

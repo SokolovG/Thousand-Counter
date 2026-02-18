@@ -31,7 +31,9 @@ Future<String?> showProfileEditDialog(
             valueListenable: controller,
             builder: (context, value, child) {
               return TextButton(
-                onPressed: value.text.trim().isNotEmpty
+                onPressed:
+                    value.text.trim().isNotEmpty &&
+                        value.text.trim().length >= 2
                     ? () => Navigator.pop(context, controller.text.trim())
                     : null,
                 child: Text(l10n.save),

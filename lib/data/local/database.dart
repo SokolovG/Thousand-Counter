@@ -17,13 +17,23 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (migrator, from, to) async {
+      if (from == 1 && to == 2) {
+        migrator.addColumn(players, players.createdAt);
+      }
+    },
+  );
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
       name: 'thosand_counter_database.sqlite',
-      native: const DriftNativeOptions(
+      native: DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory,
+        setup: (db) => db.execute("PRAGMA foreign_keys = ON"),
       ),
       web: DriftWebOptions(
         sqlite3Wasm: Uri.parse('sqlite3.wasm'),

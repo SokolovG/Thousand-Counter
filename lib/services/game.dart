@@ -333,9 +333,15 @@ class GameService {
 
   Future<Game> startGame(List<Profile> profiles, AppLocalizations l10n) async {
     GameValidators.validatePlayerCount(profiles.length, l10n);
-    final players = profiles
-        .map((profile) => Player(profile: profile))
-        .toList();
+    List<Player> players = [];
+    for (int i = 0; i < profiles.length; i++) {
+      var player = Player(
+        profile: profiles[i],
+        createdAt: DateTime.now().add(Duration(seconds: i)),
+      );
+      players.add(player);
+    }
+
     Game game = Game(players: players);
     game = await addGameWithPlayers(game);
 

@@ -62,6 +62,7 @@ class GameRepository implements AbstractRepository<Game> {
                 boltsCount: const Value(0),
                 barrelAttempts: const Value(0),
                 isOnBarrel: const Value(false),
+                createdAt: DateTime.now(),
               ),
             );
       }
@@ -82,6 +83,7 @@ class GameRepository implements AbstractRepository<Game> {
                 isOnBarrel: Value(player.isOnBarrel),
                 gameId: game.id,
                 profileId: player.profile.id,
+                createdAt: player.createdAt,
               ),
               mode: InsertMode.insertOrReplace,
             );
@@ -125,7 +127,7 @@ class GameRepository implements AbstractRepository<Game> {
             ),
           ])
           ..where(db.games.id.equals(id))
-          ..orderBy([OrderingTerm(expression: db.profiles.name)]);
+          ..orderBy([OrderingTerm(expression: db.players.createdAt)]);
     return query.watch().map((List<TypedResult> rows) {
       if (rows.isEmpty) return null;
       final gameModel = rows.first.readTable(db.games);
@@ -162,7 +164,10 @@ class GameRepository implements AbstractRepository<Game> {
             db.profiles.id.equalsExp(db.players.profileId),
           ),
         ])..orderBy([
-          OrderingTerm(expression: db.games.createdAt, mode: OrderingMode.desc),
+          OrderingTerm(
+            expression: db.players.createdAt,
+            mode: OrderingMode.desc,
+          ),
         ]);
 
     final rows = await query.get();

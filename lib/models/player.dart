@@ -6,6 +6,7 @@ class Player {
   final int boltsCount;
   final bool isOnBarrel;
   final int barrelAttempts;
+  final DateTime createdAt;
 
   Player({
     required this.profile,
@@ -13,7 +14,8 @@ class Player {
     this.boltsCount = 0,
     this.isOnBarrel = false,
     this.barrelAttempts = 0,
-  });
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now();
 
   Player copyWith({
     int? boltsCount,
@@ -29,6 +31,7 @@ class Player {
       boltsCount: boltsCount ?? this.boltsCount,
       barrelAttempts: barrelAttempts ?? this.barrelAttempts,
       isOnBarrel: isOnBarrel ?? this.isOnBarrel,
+      createdAt: createdAt,
     );
   }
 }

@@ -212,7 +212,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addProfiles =>
-      'You don\'t have any player profiles yet... it\'s time to add some friends';
+      'You don\'t have any player profiles yet... it\'s time to add some friends!';
 
   @override
   String get playGame =>

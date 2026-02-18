@@ -473,7 +473,7 @@ abstract class AppLocalizations {
   /// Message when no profile has been created yet
   ///
   /// In en, this message translates to:
-  /// **'You don\'t have any player profiles yet... it\'s time to add some friends'**
+  /// **'You don\'t have any player profiles yet... it\'s time to add some friends!'**
   String get addProfiles;
 
   /// Message when no game has been played yet

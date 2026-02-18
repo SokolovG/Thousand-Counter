@@ -269,7 +269,7 @@
     "@loadingGame": {
         "description": "Loading indicator text"
     },
-    "addProfiles": "You don't have any player profiles yet... it's time to add some friends",
+    "addProfiles": "You don't have any player profiles yet... it's time to add some friends!",
     "@addProfiles": {
         "description": "Message when no profile has been created yet"
     },
