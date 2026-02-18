@@ -39,72 +39,97 @@ void showProfilesSelectDialog(
                         children: [
                           Expanded(
                             child: allProfilesAsync.when(
-                              data: (profiles) => ProfilesCheckBoxWidget(
-                                profiles: profiles,
-                                selectedIds: currentGame.players
-                                    .map((p) => p.profile.id)
-                                    .toSet(),
-                                onChanged: (id) async {
-                                  final currentSelectedIds = currentGame.players
+                              data: (profiles) {
+                                final inGame = currentGame.players
+                                    .map((p) => p.profile)
+                                    .toList();
+                                final inGameIds = inGame
+                                    .map((p) => p.id)
+                                    .toSet();
+
+                                final notInGame = profiles
+                                    .where((p) => !inGameIds.contains(p.id))
+                                    .toList();
+
+                                final sortedProfiles = [
+                                  ...inGame,
+                                  ...notInGame,
+                                ];
+
+                                return ProfilesCheckBoxWidget(
+                                  profiles: sortedProfiles,
+                                  selectedIds: currentGame.players
                                       .map((p) => p.profile.id)
-                                      .toSet();
+                                      .toSet(),
+                                  onChanged: (id) async {
+                                    final currentSelectedIds = currentGame
+                                        .players
+                                        .map((p) => p.profile.id)
+                                        .toSet();
 
-                                  if (currentSelectedIds.contains(id)) {
-                                    if (currentSelectedIds.length <=
-                                        minPlayers) {
-                                      setState(
-                                        () => errorText = l10n.minPlayersError,
-                                      );
-                                      return;
+                                    if (currentSelectedIds.contains(id)) {
+                                      if (currentSelectedIds.length <=
+                                          minPlayers) {
+                                        setState(
+                                          () =>
+                                              errorText = l10n.minPlayersError,
+                                        );
+                                        return;
+                                      }
+                                      currentSelectedIds.remove(id);
+                                    } else {
+                                      if (currentSelectedIds.length >=
+                                          maxPlayers) {
+                                        setState(
+                                          () =>
+                                              errorText = l10n.maxPlayersError,
+                                        );
+                                        return;
+                                      }
+                                      currentSelectedIds.add(id);
                                     }
-                                    currentSelectedIds.remove(id);
-                                  } else {
-                                    if (currentSelectedIds.length >=
-                                        maxPlayers) {
-                                      setState(
-                                        () => errorText = l10n.maxPlayersError,
-                                      );
-                                      return;
-                                    }
-                                    currentSelectedIds.add(id);
-                                  }
 
-                                  final existing = currentGame.players
-                                      .map((p) => p.profile)
-                                      .where(
-                                        (p) =>
-                                            currentSelectedIds.contains(p.id),
-                                      )
-                                      .toList();
+                                    final existing = currentGame.players
+                                        .map((p) => p.profile)
+                                        .where(
+                                          (p) =>
+                                              currentSelectedIds.contains(p.id),
+                                        )
+                                        .toList();
 
-                                  final newcomers = profiles
-                                      .where(
-                                        (p) =>
-                                            currentSelectedIds.contains(p.id) &&
-                                            !currentGame.players.any(
-                                              (cp) => cp.profile.id == p.id,
-                                            ),
-                                      )
-                                      .toList();
+                                    final newcomers = profiles
+                                        .where(
+                                          (p) =>
+                                              currentSelectedIds.contains(
+                                                p.id,
+                                              ) &&
+                                              !currentGame.players.any(
+                                                (cp) => cp.profile.id == p.id,
+                                              ),
+                                        )
+                                        .toList();
 
-                                  final sortedProfiles = [
-                                    ...existing,
-                                    ...newcomers,
-                                  ];
+                                    final sortedProfiles = [
+                                      ...existing,
+                                      ...newcomers,
+                                    ];
 
-                                  await gameService.updateAndDeletePlayers(
-                                    currentGame,
-                                    sortedProfiles,
-                                  );
+                                    await gameService.updateAndDeletePlayers(
+                                      currentGame,
+                                      sortedProfiles,
+                                    );
 
-                                  ref
-                                          .read(activeBidderIdProvider.notifier)
-                                          .state =
-                                      null;
+                                    ref
+                                            .read(
+                                              activeBidderIdProvider.notifier,
+                                            )
+                                            .state =
+                                        null;
 
-                                  setState(() => errorText = "");
-                                },
-                              ),
+                                    setState(() => errorText = "");
+                                  },
+                                );
+                              },
                               error: (err, stack) =>
                                   Text(l10n.errorGeneric(err)),
                               loading: () => const Center(

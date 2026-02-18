@@ -116,10 +116,16 @@ class GameRepository implements AbstractRepository<Game> {
 
   @override
   Stream<Game?> get(String id) {
-    final query = db.select(db.games).join([
-      innerJoin(db.players, db.players.gameId.equalsExp(db.games.id)),
-      innerJoin(db.profiles, db.profiles.id.equalsExp(db.players.profileId)),
-    ])..where(db.games.id.equals(id));
+    final query =
+        db.select(db.games).join([
+            innerJoin(db.players, db.players.gameId.equalsExp(db.games.id)),
+            innerJoin(
+              db.profiles,
+              db.profiles.id.equalsExp(db.players.profileId),
+            ),
+          ])
+          ..where(db.games.id.equals(id))
+          ..orderBy([OrderingTerm(expression: db.profiles.name)]);
     return query.watch().map((List<TypedResult> rows) {
       if (rows.isEmpty) return null;
       final gameModel = rows.first.readTable(db.games);
@@ -148,10 +154,16 @@ class GameRepository implements AbstractRepository<Game> {
 
   @override
   Future<List<Game>> getAll() async {
-    final query = db.select(db.games).join([
-      innerJoin(db.players, db.players.gameId.equalsExp(db.games.id)),
-      innerJoin(db.profiles, db.profiles.id.equalsExp(db.players.profileId)),
-    ]);
+    final query =
+        db.select(db.games).join([
+          innerJoin(db.players, db.players.gameId.equalsExp(db.games.id)),
+          innerJoin(
+            db.profiles,
+            db.profiles.id.equalsExp(db.players.profileId),
+          ),
+        ])..orderBy([
+          OrderingTerm(expression: db.games.createdAt, mode: OrderingMode.desc),
+        ]);
 
     final rows = await query.get();
     final Map<String, GameModel> gameModelsMap = {};
