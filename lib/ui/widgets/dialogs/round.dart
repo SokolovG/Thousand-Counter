@@ -5,11 +5,12 @@ import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/round.dart';
+import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/theme/text_styles.dart';
 import 'package:thousand_counter/ui/widgets/objects/event_icons.dart';
 
-void roundialog(
+void rounDialog(
   BuildContext context,
   WidgetRef ref,
   Round round,
@@ -17,6 +18,10 @@ void roundialog(
 ) {
   final appColors = Theme.of(context).extension<AppColors>()!;
   final textTheme = Theme.of(context).textTheme;
+  final gameService = ref.read(gameServiceProvider);
+  final game = ref.read(gameStreamProvider(round.gameId)).value;
+
+  if (game == null) return;
 
   showDialog(
     context: context,
@@ -114,8 +119,10 @@ void roundialog(
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextButton.icon(
-                    onPressed: () {
-                      // TODO: Invalidate data round
+                    onPressed: () async {
+                      await gameService.deleteRound(game, round.id);
+                      ref.invalidate(gamesListProvider);
+                      ref.invalidate(gameStreamProvider);
                       if (context.mounted) {
                         Navigator.of(context).pop();
                       }

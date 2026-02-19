@@ -62,7 +62,7 @@ class GameScreen extends ConsumerWidget {
                   context,
                   ref,
                   currentGame.players,
-                  currentGame.rounds,
+                  currentGame.id,
                 ),
                 icon: Icon(Icons.history),
               ),

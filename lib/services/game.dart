@@ -39,8 +39,38 @@ class GameService {
     return game;
   }
 
-  Game deleteRound(Game game) {
-    // TODO
+  Future<Game> deleteRound(Game game, String roundId) async {
+    await _roundRepository.delete(roundId);
+    final List<Round> currentRounds = game.rounds
+        .where((r) => r.id != roundId)
+        .toList();
+
+    List<Player> players = [];
+    final List<Round> newRounds = [];
+
+    for (int i = 0; i < game.players.length; i++) {
+      Profile profile = game.players[i].profile;
+      var player = Player(
+        profile: profile,
+        createdAt: game.players[i].createdAt,
+      );
+      players.add(player);
+    }
+
+    game = game.copyWith(
+      currentRound: 1,
+      currentPlayerIndex: 0,
+      players: players,
+    );
+
+    for (Round r in currentRounds) {
+      game = _applyRound(game, r.playerScores);
+      newRounds.add(r);
+    }
+    game = game.copyWith(rounds: newRounds);
+
+    await _gameRepository.update(game);
+    await _gameRepository.updatePlayers(game.players, game.id);
     return game;
   }
 
@@ -147,6 +177,7 @@ class GameService {
   }
 
   Future<Game> confirmRound({
+    // NEXT VERSION: REFACTORING
     required Game game,
     required Map<String, int> points,
     required String bidderId,
@@ -350,6 +381,81 @@ class GameService {
     await _gameRepository.update(game);
 
     return game;
+  }
+
+  Game _applyRound(Game game, Map<String, int> points) {
+    final processedPoints = Map<String, int>.from(points);
+
+    Player? newBarrelPlayer = game.players.where((p) {
+      final scoreToAdd = processedPoints[p.profile.id] ?? 0;
+      final newTotal = p.totalPoints + scoreToAdd;
+      return newTotal >= barrelNumber && !p.isOnBarrel;
+    }).firstOrNull;
+
+    List<Player> updatedPlayers = game.players.map((p) {
+      final scoreToAdd = processedPoints[p.profile.id] ?? 0;
+      final newTotal = p.totalPoints + scoreToAdd;
+
+      bool newIsOnBarrel = p.isOnBarrel;
+      int newBarrelAttempts = p.barrelAttempts;
+      int newTotalPoints = p.totalPoints;
+
+      if (p.isOnBarrel) {
+        if (newTotal >= maxPoints) {
+          // WIN
+          newTotalPoints = newTotal;
+          newIsOnBarrel = false;
+          newBarrelAttempts = 0;
+        } else if (newBarrelPlayer != null &&
+            newBarrelPlayer.profile.id != p.profile.id) {
+          newIsOnBarrel = false;
+          newBarrelAttempts = 0;
+          newTotalPoints = barrelNumber - barrelPenalty;
+        } else {
+          newBarrelAttempts = p.barrelAttempts + 1;
+          if (newBarrelAttempts >= maxBarrelsNumber) {
+            newIsOnBarrel = false;
+            newBarrelAttempts = 0;
+            newTotalPoints = barrelNumber - barrelPenalty;
+          } else {
+            newTotalPoints = barrelNumber;
+          }
+        }
+      } else if (newTotal >= barrelNumber) {
+        newIsOnBarrel = true;
+        newBarrelAttempts = 0;
+        newTotalPoints = barrelNumber;
+      } else {
+        newTotalPoints = newTotal;
+      }
+
+      final isBolt = _rulesService.isBolt(scoreToAdd, p.isOnBarrel);
+
+      int newBoltsCount = isBolt ? p.boltsCount + 1 : p.boltsCount;
+      final isMagic = _rulesService.isMagicNumber(newTotalPoints);
+
+      final isThreeBolts = _rulesService.hasThreeBoltsFromInt(newBoltsCount);
+
+      if (isBolt && isThreeBolts) {
+        newTotalPoints -= boltPenalty;
+        newBoltsCount = 0;
+      }
+
+      return p.copyWith(
+        totalPoints: isMagic ? 0 : newTotalPoints,
+        isOnBarrel: newIsOnBarrel,
+        barrelAttempts: newBarrelAttempts,
+        boltsCount: newBoltsCount,
+      );
+    }).toList();
+
+    final updatedGame = game.copyWith(
+      players: updatedPlayers,
+      currentRound: game.currentRound + 1,
+      currentPlayerIndex: (game.currentPlayerIndex + 1) % game.players.length,
+    );
+
+    return updatedGame;
   }
 
   Player? getWinner(Game game) {
