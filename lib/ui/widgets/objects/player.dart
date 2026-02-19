@@ -4,13 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
-import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
 import 'package:thousand_counter/ui/widgets/dialogs/player_game_history.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 
 class PlayerWidget extends ConsumerWidget {
-  final Player player;
   final Color color;
   final bool isCurrentPlayer;
   final String gameId;
@@ -18,7 +16,6 @@ class PlayerWidget extends ConsumerWidget {
 
   const PlayerWidget({
     super.key,
-    required this.player,
     required this.color,
     this.isCurrentPlayer = false,
     required this.gameId,

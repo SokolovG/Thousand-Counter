@@ -11,7 +11,7 @@ class Games extends Table {
   BoolColumn get isFinished => boolean().withDefault(const Constant(false))();
   IntColumn get currentPlayerIndex => integer()();
   TextColumn get winnerPlayerId =>
-      text().references(Profiles, #profileId).nullable()();
+      text().references(Profiles, #id).nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

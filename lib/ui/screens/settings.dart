@@ -19,8 +19,6 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String language = "English";
-
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -32,7 +30,6 @@ class SettingsScreen extends ConsumerWidget {
         children: _buildSettingsItems(
           ref,
           context,
-          language,
           l10n,
         ).map((item) => _buildItem(item)).toList(),
       ),
@@ -43,7 +40,6 @@ class SettingsScreen extends ConsumerWidget {
 List<SettingsItem> _buildSettingsItems(
   WidgetRef ref,
   BuildContext context,
-  String language,
   AppLocalizations l10n,
 ) {
   final currentTheme = ref.watch(themeModeProvider);

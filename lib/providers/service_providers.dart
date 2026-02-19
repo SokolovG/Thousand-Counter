@@ -24,7 +24,7 @@ final roundRepositoryProvider = Provider<RoundsRepository>((ref) {
   final db = ref.read(databaseProvider);
   return RoundsRepository(db);
 });
-final gameUnitOfWorkProvide = Provider<GameUnitOfWork>((ref) {
+final gameUnitOfWorkProvider = Provider<GameUnitOfWork>((ref) {
   final gameRepo = ref.read(gameRepositoryProvider);
   final roundRepo = ref.read(roundRepositoryProvider);
   final db = ref.read(databaseProvider);
@@ -43,7 +43,7 @@ final gameServiceProvider = Provider((ref) {
   final rulesService = ref.read(rulesServiceProvider);
   final gameRepo = ref.read(gameRepositoryProvider);
   final roundRepo = ref.read(roundRepositoryProvider);
-  final gameUow = ref.read(gameUnitOfWorkProvide);
+  final gameUow = ref.read(gameUnitOfWorkProvider);
   return GameService(rulesService, gameRepo, roundRepo, gameUow);
 });
 

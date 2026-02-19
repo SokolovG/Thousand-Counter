@@ -142,6 +142,7 @@ class GameRepository implements AbstractRepository<Game> {
           boltsCount: playerModel.boltsCount,
           isOnBarrel: playerModel.isOnBarrel,
           barrelAttempts: playerModel.barrelAttempts,
+          createdAt: playerModel.createdAt,
         );
       }).toList();
       final winner = gameModel.winnerPlayerId != null
@@ -185,6 +186,7 @@ class GameRepository implements AbstractRepository<Game> {
         boltsCount: playerModel.boltsCount,
         isOnBarrel: playerModel.isOnBarrel,
         barrelAttempts: playerModel.barrelAttempts,
+        createdAt: playerModel.createdAt,
       );
 
       gameModelsMap.putIfAbsent(gameModel.id, () => gameModel);

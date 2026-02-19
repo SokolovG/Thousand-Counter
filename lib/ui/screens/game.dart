@@ -75,7 +75,6 @@ class GameScreen extends ConsumerWidget {
                   key: ValueKey(currentGame.currentRound),
                   itemCount: players.length,
                   itemBuilder: (context, index) {
-                    final player = currentGame.players[index];
                     final appColors = Theme.of(context).extension<AppColors>()!;
                     final isCurrentPlayer =
                         index == currentGame.currentPlayerIndex;
@@ -84,7 +83,6 @@ class GameScreen extends ConsumerWidget {
                         : appColors.cardBackground;
 
                     return PlayerWidget(
-                      player: player,
                       color: color,
                       isCurrentPlayer: isCurrentPlayer,
                       gameId: currentGame.id,

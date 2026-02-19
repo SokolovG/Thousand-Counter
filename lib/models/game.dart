@@ -46,7 +46,6 @@ class Game extends Entity {
   }
 
   @override
-  @override
   String toString() {
     return "Game(id: $id, players: ${players.length}, date: $createdAt)";
   }

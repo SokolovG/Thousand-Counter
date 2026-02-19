@@ -30,7 +30,7 @@ class AppDatabase extends _$AppDatabase {
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
-      name: 'thosand_counter_database.sqlite',
+      name: 'thousand_counter_database.sqlite',
       native: DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory,
         setup: (db) => db.execute("PRAGMA foreign_keys = ON"),

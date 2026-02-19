@@ -58,6 +58,8 @@ class GameService {
     }
 
     game = game.copyWith(
+      winner: null,
+      isFinished: false,
       currentRound: 1,
       currentPlayerIndex: 0,
       players: players,
@@ -359,7 +361,7 @@ class GameService {
     final updatedGame = currentGame.copyWith(
       players: [...currentGame.players, player],
     );
-    _gameRepository.update(updatedGame);
+    await _gameRepository.update(updatedGame);
   }
 
   Future<Game> startGame(List<Profile> profiles, AppLocalizations l10n) async {
