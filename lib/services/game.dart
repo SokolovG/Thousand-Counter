@@ -1,5 +1,6 @@
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/enums.dart';
+import 'package:thousand_counter/core/utils/game_names.dart';
 import 'package:thousand_counter/core/utils/validators.dart';
 import 'package:thousand_counter/data/repositories/game.dart';
 import 'package:thousand_counter/data/repositories/rounds.dart';
@@ -291,7 +292,7 @@ class GameService {
     Player? winner = getWinner(game);
     if (winner != null) {
       game = game.copyWith(winner: winner, isFinished: true);
-      final victoryTitle = game.getLocalizedName(l10n);
+      final victoryTitle = generateVictoryGameName(winner.profile.name, l10n);
       game = game.copyWith(name: victoryTitle);
     }
 
@@ -378,7 +379,7 @@ class GameService {
     Game game = Game(players: players);
     game = await addGameWithPlayers(game);
 
-    final persistentName = game.getLocalizedName(l10n);
+    final persistentName = generateGameName(l10n);
     game = game.copyWith(name: persistentName);
     await _gameRepository.update(game);
 
