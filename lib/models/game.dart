@@ -8,6 +8,8 @@ import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/player_stats.dart';
 import 'package:thousand_counter/models/round.dart';
 
+const _absent = Object();
+
 class Game extends Entity {
   final List<Player> players;
   final List<Round> rounds;
@@ -56,7 +58,7 @@ class Game extends Entity {
     int? currentRound,
     bool? isFinished,
     String? name,
-    Player? winner,
+    Object? winner = _absent,
     int? currentPlayerIndex,
   }) {
     return Game(
@@ -67,7 +69,7 @@ class Game extends Entity {
       currentRound: currentRound ?? this.currentRound,
       isFinished: isFinished ?? this.isFinished,
       name: name ?? this.name,
-      winner: winner ?? this.winner,
+      winner: winner == _absent ? this.winner : winner as Player?,
       currentPlayerIndex: currentPlayerIndex ?? this.currentPlayerIndex,
     );
   }

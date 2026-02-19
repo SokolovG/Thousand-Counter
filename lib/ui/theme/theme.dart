@@ -37,18 +37,9 @@ class AppTheme {
         fontSize: 18,
         fontWeight: FontWeight.w600,
       ),
-      bodyLarge: TextStyle(
-        color: AppPalette.warmBrown,
-        fontSize: 16,
-      ),
-      bodyMedium: TextStyle(
-        color: AppPalette.mutedBrown,
-        fontSize: 14,
-      ),
-      labelSmall: TextStyle(
-        color: AppPalette.mutedBrown,
-        fontSize: 12,
-      ),
+      bodyLarge: TextStyle(color: AppPalette.warmBrown, fontSize: 16),
+      bodyMedium: TextStyle(color: AppPalette.mutedBrown, fontSize: 14),
+      labelSmall: TextStyle(color: AppPalette.mutedBrown, fontSize: 12),
     ),
     extensions: [
       AppColors(
@@ -97,27 +88,24 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
     ),
-    textTheme: const TextTheme(
-      titleLarge: TextStyle(
+    textTheme: TextTheme(
+      titleLarge: const TextStyle(
         color: AppPalette.warmText,
         fontSize: 22,
         fontWeight: FontWeight.bold,
       ),
-      titleMedium: TextStyle(
+      titleMedium: const TextStyle(
         color: AppPalette.warmText,
         fontSize: 18,
         fontWeight: FontWeight.w600,
       ),
-      bodyLarge: TextStyle(
-        color: AppPalette.warmText,
-        fontSize: 16,
-      ),
+      bodyLarge: const TextStyle(color: AppPalette.warmText, fontSize: 16),
       bodyMedium: TextStyle(
-        color: AppPalette.mutedBrown,
+        color: AppPalette.warmText.withValues(alpha: 0.7),
         fontSize: 14,
       ),
       labelSmall: TextStyle(
-        color: AppPalette.mutedBrown,
+        color: AppPalette.warmText.withValues(alpha: 0.6),
         fontSize: 12,
       ),
     ),
@@ -128,13 +116,15 @@ class AppTheme {
         goldCrown: AppPalette.softGold,
         cardBackground: AppPalette.darkCard,
         alert: const Color(0xFFAB6B6B), // Brightened muted red
-        shadow: AppPalette.softShadow,
+        shadow: AppPalette.darkShadow,
         iconActive: AppPalette.mutedBlue,
         iconDelete: const Color(0xFFAB6B6B),
         textPrimary: AppPalette.warmText,
-        textSecondary: AppPalette.mutedBrown,
-        iconSecondary: AppPalette.mutedBrown,
-        playerHighlight: const Color(0xFF4A3B2F), // Lighter brown for dark theme contrast
+        textSecondary: AppPalette.warmText.withValues(alpha: 0.7),
+        iconSecondary: AppPalette.warmText.withValues(alpha: 0.7),
+        playerHighlight: const Color(
+          0xFF4A3B2F,
+        ), // Lighter brown for dark theme contrast
         gridBorder: const Color(0xFF4D6153), // Deep dark sage for dark
         success: const Color(0xFF829E8A), // Brightened muted green
         info: Colors.blueAccent,

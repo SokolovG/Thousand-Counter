@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
+import 'package:thousand_counter/ui/theme/colors.dart';
 import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/widgets/objects/slidable.dart';
 
@@ -70,25 +71,33 @@ class GameWidget extends ConsumerWidget {
               itemCount: game.players.length,
               itemBuilder: (context, index) {
                 final p = game.players[index];
+                final isWinner = game.winner == p;
+                final cardTextColor = isWinner
+                    ? AppPalette.warmBrown
+                    : appColors.textPrimary;
+                final secondaryTextColor = isWinner
+                    ? AppPalette.warmBrown.withValues(alpha: 0.8)
+                    : appColors.textSecondary;
+
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
-                    color: game.winner == p
-                        ? appColors.goldCrown.withValues(alpha: 0.50)
+                    color: isWinner
+                        ? appColors.goldCrown.withValues(alpha: 0.70)
                         : appColors.playerHighlight.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: appColors.playerHighlight.withValues(alpha: 0.3),
+                      color: isWinner
+                          ? appColors.goldCrown.withValues(alpha: 0.5)
+                          : appColors.playerHighlight.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Row(
                     children: [
                       Icon(
-                        game.winner == p
-                            ? Icons.emoji_events
-                            : Icons.person_outline,
+                        isWinner ? Icons.emoji_events : Icons.person_outline,
                         size: 14,
-                        color: appColors.textSecondary,
+                        color: secondaryTextColor,
                       ),
                       const SizedBox(width: 4),
                       Expanded(
@@ -97,7 +106,7 @@ class GameWidget extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.labelSmall
                               ?.copyWith(
-                                color: appColors.textPrimary,
+                                color: cardTextColor,
                                 fontWeight: FontWeight.w600,
                               ),
                         ),
@@ -106,7 +115,7 @@ class GameWidget extends ConsumerWidget {
                       Text(
                         '${p.totalPoints}',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: appColors.textSecondary,
+                          color: secondaryTextColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

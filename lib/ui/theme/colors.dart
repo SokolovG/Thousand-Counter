@@ -9,6 +9,7 @@ class AppPalette {
 
   static const darkWood = Color(0xFF2C2218);
   static const darkCard = Color(0xFF3D2E22);
+  static const darkShadow = Color(0x99000000);
   static const warmText = Color(0xFFF2E0C8);
 
   static const terracotta = Color(0xFFC0503A);
