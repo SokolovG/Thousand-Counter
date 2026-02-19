@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
+import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/round.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
@@ -15,13 +16,11 @@ void rounDialog(
   WidgetRef ref,
   Round round,
   List<Player> players,
+  Game game,
 ) {
   final appColors = Theme.of(context).extension<AppColors>()!;
   final textTheme = Theme.of(context).textTheme;
   final gameService = ref.read(gameServiceProvider);
-  final game = ref.read(gameStreamProvider(round.gameId)).value;
-
-  if (game == null) return;
 
   showDialog(
     context: context,

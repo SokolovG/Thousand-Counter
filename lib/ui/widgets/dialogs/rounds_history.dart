@@ -20,7 +20,10 @@ void roundsHistoryDialog(
       return Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           final game = ref.watch(gameStreamProvider(gameId)).value;
-          final rounds = game?.rounds ?? [];
+          if (game == null) {
+            return SimpleDialog(children: [CircularProgressIndicator()]);
+          }
+          final rounds = game.rounds;
           int roundsCount = rounds.length;
           return SimpleDialog(
             title: Center(child: Text(l10n.roundsHistory)),
@@ -41,7 +44,13 @@ void roundsHistoryDialog(
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              rounDialog(context, ref, rounds[index], players);
+                              rounDialog(
+                                context,
+                                ref,
+                                rounds[index],
+                                players,
+                                game,
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(

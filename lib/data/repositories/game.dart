@@ -165,10 +165,7 @@ class GameRepository implements AbstractRepository<Game> {
             db.profiles.id.equalsExp(db.players.profileId),
           ),
         ])..orderBy([
-          OrderingTerm(
-            expression: db.players.createdAt,
-            mode: OrderingMode.desc,
-          ),
+          OrderingTerm(expression: db.games.createdAt, mode: OrderingMode.desc),
         ]);
 
     final rows = await query.get();
