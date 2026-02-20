@@ -42,6 +42,10 @@ class ProfileRepository implements AbstractRepository<Profile> {
     }).toList();
   }
 
+  Future<bool> hasActiveGamesFromId(String profileId) async {
+    return true;
+  }
+
   @override
   Future<Profile> update(Profile updatedProfile) async {
     await (db.update(db.profiles)..where((p) => p.id.equals(updatedProfile.id)))

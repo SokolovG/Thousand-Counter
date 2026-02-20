@@ -246,13 +246,15 @@ class GameService {
       }
 
       final isBolt = _rulesService.isBolt(scoreToAdd, p.isOnBarrel);
-      if (isBolt && !p.isOnBarrel) pEvents.add(SpecialGameEvent.bolt);
 
       int newBoltsCount = isBolt ? p.boltsCount + 1 : p.boltsCount;
       final isMagic = _rulesService.isMagicNumber(newTotalPoints);
       if (isMagic) pEvents.add(SpecialGameEvent.magicNumber);
 
       final isThreeBolts = _rulesService.hasThreeBoltsFromInt(newBoltsCount);
+      if (isBolt && !p.isOnBarrel && !isThreeBolts) {
+        pEvents.add(SpecialGameEvent.bolt);
+      }
 
       int pureDelta = scoreToAdd;
 
@@ -260,6 +262,7 @@ class GameService {
         newTotalPoints -= boltPenalty;
         newBoltsCount = 0;
         pureDelta -= boltPenalty;
+        pEvents.add(SpecialGameEvent.boltFall);
       }
 
       if (pEvents.isNotEmpty) {

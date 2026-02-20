@@ -32,7 +32,7 @@ void playerGameHistoryDialog(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.flash_on),
+                        Icon(Icons.offline_bolt),
                         Text(": ${playerStats.currentBolts}"),
                       ],
                     ),
@@ -69,7 +69,7 @@ void playerGameHistoryDialog(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     child: Row(
                       children: [
-                        Icon(Icons.flash_on),
+                        Icon(Icons.offline_bolt),
                         Text(": ${playerStats.totalBolts}"),
                       ],
                     ),

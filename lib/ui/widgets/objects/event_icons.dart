@@ -16,13 +16,17 @@ Widget buildEventIcons(BuildContext context, List<SpecialGameEvent>? events) {
         case SpecialGameEvent.barrelFall:
           return Icon(Icons.downhill_skiing, color: appColors.alert, size: 18);
         case SpecialGameEvent.bolt:
-          return Icon(Icons.flash_on, color: appColors.bolt, size: 18);
-        case SpecialGameEvent.magicNumber:
-          return Icon(
-            Icons.auto_fix_high,
-            color: appColors.warning,
-            size: 18,
+          return Icon(Icons.offline_bolt, color: appColors.bolt, size: 18);
+        case SpecialGameEvent.boltFall:
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("x3"),
+              Icon(Icons.offline_bolt, color: appColors.bolt, size: 18),
+            ],
           );
+        case SpecialGameEvent.magicNumber:
+          return Icon(Icons.auto_fix_high, color: appColors.warning, size: 18);
       }
     }).toList(),
   );

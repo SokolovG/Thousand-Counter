@@ -26,7 +26,12 @@ class ProfileService {
     await _repository.update(profile);
   }
 
-  Future<void> deleteProfile(String id) async {
-    await _repository.delete(id);
+  Future<void> deleteProfile(String profileId) async {
+    final hasActiveGames = await _repository.hasActiveGamesFromId(profileId);
+    if (hasActiveGames == true) {
+      // reurn dialog
+    } else {
+      await _repository.delete(profileId);
+    }
   }
 }
