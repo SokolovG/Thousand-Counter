@@ -14,27 +14,10 @@ A mobile and web application for scoring the Eastern European card game **(Thous
 
 - 🎮 **Full game management** — create games, track rounds, view history
 - 👥 **Player profiles** — persistent profiles reusable across multiple games
-- 🛢️ **Barrel system** — automatic tracking of barrel attempts and falls
-- ⚡ **Bolt penalties** — 3-bolt tracking with automatic 120-point deduction
-- ✨ **Magic numbers** — automatic detection of 555 / -555
 - 📊 **Round history** — view and delete individual rounds with full replay logic
 - 🌍 **Internationalization** — English and Russian
 - 🌙 **Dark / Light / System theme**
 - 📱 **iOS + Android + Web**
-
----
-
-## Game Rules
-
-The game "Thousand" is a trick-taking card game for 3-4 players. Key mechanics implemented in this app:
-
-- **Bidding** — players bid points, winner must meet their contract or lose those points
-- **Marriages** — declaring a King+Queen pair grants bonus points
-- **Bolt** — taking zero tricks earns a bolt; 3 bolts = -120 points penalty
-- **Barrel** — reaching 880 points puts a player "on the barrel"; they have 3 attempts to reach 1000 to win
-- **Magic numbers** — reaching exactly 555 or -555 resets score to 0
-
-Full rules are available in the app under Settings → Game Rules.
 
 ---
 
