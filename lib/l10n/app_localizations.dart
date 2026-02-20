@@ -541,6 +541,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Glory to {winner}!'**
   String gameTitleVictory_2(Object winner);
+
+  /// Error message when trying to delete a profile with game history
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot delete: player has game history'**
+  String get profileHasGames;
 }
 
 class _AppLocalizationsDelegate

@@ -325,5 +325,9 @@
         "placeholders": {
             "winner": {}
         }
+    },
+    "profileHasGames": "Нельзя удалить: у игрока есть история игр",
+    "@profileHasGames": {
+        "description": "Error message when trying to delete a profile with game history"
     }
 }

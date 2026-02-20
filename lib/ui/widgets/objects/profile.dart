@@ -13,9 +13,20 @@ class ProfileWidget extends ConsumerWidget {
 
   const ProfileWidget({super.key, required this.profile});
 
-  void _onDelete(WidgetRef ref) async {
-    await ref.read(profileServiceProvider).deleteProfile(profile.id);
-    ref.invalidate(profilesListProvider);
+  void _onDelete(
+    WidgetRef ref,
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
+    try {
+      await ref.read(profileServiceProvider).deleteProfile(profile.id);
+      ref.invalidate(profilesListProvider);
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.profileHasGames)));
+    }
   }
 
   void _onEdit(
@@ -52,7 +63,7 @@ class ProfileWidget extends ConsumerWidget {
         children: [
           SlidableAction(
             onPressed: (context) async {
-              _onDelete(ref);
+              _onDelete(ref, context, l10n);
             },
             backgroundColor: appColors.iconDelete,
             icon: Icons.delete,

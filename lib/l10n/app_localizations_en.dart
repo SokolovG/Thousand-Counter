@@ -253,4 +253,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String gameTitleVictory_2(Object winner) {
     return 'Glory to $winner!';
   }
+
+  @override
+  String get profileHasGames => 'Cannot delete: player has game history';
 }

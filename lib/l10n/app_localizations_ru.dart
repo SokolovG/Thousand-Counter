@@ -252,4 +252,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String gameTitleVictory_2(Object winner) {
     return 'Слава: $winner!';
   }
+
+  @override
+  String get profileHasGames => 'Нельзя удалить: у игрока есть история игр';
 }

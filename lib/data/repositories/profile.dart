@@ -43,7 +43,10 @@ class ProfileRepository implements AbstractRepository<Profile> {
   }
 
   Future<bool> hasActiveGamesFromId(String profileId) async {
-    return true;
+    final playersQuery = db.select(db.players)
+      ..where((p) => p.profileId.equals(profileId));
+    final players = await playersQuery.get();
+    return players.isNotEmpty;
   }
 
   @override
