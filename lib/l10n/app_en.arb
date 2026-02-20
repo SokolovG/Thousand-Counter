@@ -329,5 +329,9 @@
     "profileHasGames": "Cannot delete: player has game history",
     "@profileHasGames": {
         "description": "Error message when trying to delete a profile with game history"
+    },
+    "playerNotPlayed": "Did not play",
+    "@playerNotPlayed": {
+        "description": "Shown in round history when player did not participate"
     }
 }

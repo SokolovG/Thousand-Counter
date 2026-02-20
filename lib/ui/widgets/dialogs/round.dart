@@ -39,6 +39,7 @@ void rounDialog(
             mainAxisSize: MainAxisSize.min,
             children: players.map((p) {
               final score = round.playerScores[p.profile.id] ?? 0;
+              final playerNotPlayed = round.playerScores[p.profile.id] == null;
               final events = round.specialEvents[p.profile.id] ?? [];
               final isMagic = events.contains(SpecialGameEvent.magicNumber);
               final isFalledFromBarrel = events.contains(
@@ -57,13 +58,24 @@ void rounDialog(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      score > 0 ? "+$score" : "$score",
-                      style: TextStyles.scoreText(
-                        context,
-                        color: score < 0 ? appColors.alert : appColors.success,
+                    if (!playerNotPlayed)
+                      Text(
+                        score > 0 ? "+$score" : "$score",
+                        style: TextStyles.scoreText(
+                          context,
+                          color: score < 0
+                              ? appColors.alert
+                              : appColors.success,
+                        ),
                       ),
-                    ),
+                    if (playerNotPlayed)
+                      Text(
+                        l10n.playerNotPlayed,
+                        style: textTheme.labelSmall?.copyWith(
+                          color: appColors.warning,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     if (isMagic)
                       Text(
                         "→ 0",

@@ -547,6 +547,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cannot delete: player has game history'**
   String get profileHasGames;
+
+  /// Shown in round history when player did not participate
+  ///
+  /// In en, this message translates to:
+  /// **'Did not play'**
+  String get playerNotPlayed;
 }
 
 class _AppLocalizationsDelegate

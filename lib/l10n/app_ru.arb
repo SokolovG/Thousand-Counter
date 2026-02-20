@@ -329,5 +329,9 @@
     "profileHasGames": "Нельзя удалить: у игрока есть история игр",
     "@profileHasGames": {
         "description": "Error message when trying to delete a profile with game history"
+    },
+    "playerNotPlayed": "Не участвовал",
+    "@playerNotPlayed": {
+        "description": "Shown in round history when player did not participate"
     }
 }

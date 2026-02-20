@@ -256,4 +256,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileHasGames => 'Cannot delete: player has game history';
+
+  @override
+  String get playerNotPlayed => 'Did not play';
 }

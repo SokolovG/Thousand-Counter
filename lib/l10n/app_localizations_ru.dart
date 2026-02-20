@@ -255,4 +255,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileHasGames => 'Нельзя удалить: у игрока есть история игр';
+
+  @override
+  String get playerNotPlayed => 'Не участвовал';
 }
