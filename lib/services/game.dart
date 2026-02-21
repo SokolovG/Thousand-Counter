@@ -106,6 +106,9 @@ class GameService {
     } else {
       activePlayerPoints = activePlayer.totalPoints - bid;
     }
+    gameEventsMap[updatedPlayers[bidderIndex].profile.id] = [
+      SpecialGameEvent.split,
+    ];
 
     updatedPlayers[bidderIndex] = activePlayer.copyWith(
       totalPoints: activePlayerPoints,

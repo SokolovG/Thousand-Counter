@@ -18,15 +18,15 @@ Widget buildEventIcons(BuildContext context, List<SpecialGameEvent>? events) {
         case SpecialGameEvent.bolt:
           return Icon(Icons.offline_bolt, color: appColors.bolt, size: 18);
         case SpecialGameEvent.boltFall:
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("x3"),
-              Icon(Icons.offline_bolt, color: appColors.bolt, size: 18),
-            ],
+          return Badge(
+            label: Text("×3", style: TextStyle(fontSize: 9)),
+            backgroundColor: appColors.alert,
+            child: Icon(Icons.offline_bolt, color: appColors.bolt, size: 18),
           );
         case SpecialGameEvent.magicNumber:
           return Icon(Icons.auto_fix_high, color: appColors.warning, size: 18);
+        case SpecialGameEvent.split:
+          return Icon(Icons.call_split, color: appColors.warning, size: 18);
       }
     }).toList(),
   );

@@ -258,4 +258,27 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get playerNotPlayed => 'Не участвовал';
+
+  @override
+  String get iconsInfo => 'Иконки';
+
+  @override
+  String get iconsInfoBolt => 'Болт — игрок не взял ни одной взятки';
+
+  @override
+  String get iconsInfoBoltFall => '3 болта — штраф 120 очков';
+
+  @override
+  String get iconsInfoBarrel => 'Бочка — игрок набрал 880 очков';
+
+  @override
+  String get iconsInfoBarrelFall =>
+      'Слетел с бочки — 3 попытки провалены, -120 очков';
+
+  @override
+  String get iconsInfoMagic => 'Магическое число — счёт сброшен в 0';
+
+  @override
+  String get iconsInfoSplit =>
+      'Роспись — заказчик расписался, очки делятся между остальными';
 }

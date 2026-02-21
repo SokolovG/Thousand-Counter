@@ -553,6 +553,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Did not play'**
   String get playerNotPlayed;
+
+  /// Title for icons info dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Icons guide'**
+  String get iconsInfo;
+
+  /// Bolt icon description
+  ///
+  /// In en, this message translates to:
+  /// **'Bolt — player took no tricks'**
+  String get iconsInfoBolt;
+
+  /// Bolt fall icon description
+  ///
+  /// In en, this message translates to:
+  /// **'3 bolts — 120 points penalty'**
+  String get iconsInfoBoltFall;
+
+  /// Barrel icon description
+  ///
+  /// In en, this message translates to:
+  /// **'Barrel — player reached 880 points'**
+  String get iconsInfoBarrel;
+
+  /// Barrel fall icon description
+  ///
+  /// In en, this message translates to:
+  /// **'Barrel fall — failed 3 attempts, -120 points'**
+  String get iconsInfoBarrelFall;
+
+  /// Magic number icon description
+  ///
+  /// In en, this message translates to:
+  /// **'Magic number — score reset to 0'**
+  String get iconsInfoMagic;
+
+  /// Split icon description
+  ///
+  /// In en, this message translates to:
+  /// **'Split — bidder gave up, points split between others'**
+  String get iconsInfoSplit;
 }
 
 class _AppLocalizationsDelegate

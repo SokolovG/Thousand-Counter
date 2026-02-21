@@ -259,4 +259,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get playerNotPlayed => 'Did not play';
+
+  @override
+  String get iconsInfo => 'Icons guide';
+
+  @override
+  String get iconsInfoBolt => 'Bolt — player took no tricks';
+
+  @override
+  String get iconsInfoBoltFall => '3 bolts — 120 points penalty';
+
+  @override
+  String get iconsInfoBarrel => 'Barrel — player reached 880 points';
+
+  @override
+  String get iconsInfoBarrelFall =>
+      'Barrel fall — failed 3 attempts, -120 points';
+
+  @override
+  String get iconsInfoMagic => 'Magic number — score reset to 0';
+
+  @override
+  String get iconsInfoSplit =>
+      'Split — bidder gave up, points split between others';
 }

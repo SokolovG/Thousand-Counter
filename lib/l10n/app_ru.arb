@@ -333,5 +333,33 @@
     "playerNotPlayed": "Не участвовал",
     "@playerNotPlayed": {
         "description": "Shown in round history when player did not participate"
+    },
+    "iconsInfo": "Иконки",
+    "@iconsInfo": {
+        "description": "Title for icons info dialog"
+    },
+    "iconsInfoBolt": "Болт — игрок не взял ни одной взятки",
+    "@iconsInfoBolt": {
+        "description": "Bolt icon description"
+    },
+    "iconsInfoBoltFall": "3 болта — штраф 120 очков",
+    "@iconsInfoBoltFall": {
+        "description": "Bolt fall icon description"
+    },
+    "iconsInfoBarrel": "Бочка — игрок набрал 880 очков",
+    "@iconsInfoBarrel": {
+        "description": "Barrel icon description"
+    },
+    "iconsInfoBarrelFall": "Слетел с бочки — 3 попытки провалены, -120 очков",
+    "@iconsInfoBarrelFall": {
+        "description": "Barrel fall icon description"
+    },
+    "iconsInfoMagic": "Магическое число — счёт сброшен в 0",
+    "@iconsInfoMagic": {
+        "description": "Magic number icon description"
+    },
+    "iconsInfoSplit": "Роспись — заказчик расписался, очки делятся между остальными",
+    "@iconsInfoSplit": {
+        "description": "Split icon description"
     }
 }

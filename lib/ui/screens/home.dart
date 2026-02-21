@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
 import 'package:thousand_counter/ui/models/menu_item.dart';
+import 'package:thousand_counter/ui/widgets/dialogs/info.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -31,6 +32,10 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appTitle),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () => infoDialog(context, ref),
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () => context.push("/settings"),

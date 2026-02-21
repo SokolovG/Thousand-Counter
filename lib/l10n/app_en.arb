@@ -333,5 +333,33 @@
     "playerNotPlayed": "Did not play",
     "@playerNotPlayed": {
         "description": "Shown in round history when player did not participate"
+    },
+    "iconsInfo": "Icons guide",
+    "@iconsInfo": {
+        "description": "Title for icons info dialog"
+    },
+    "iconsInfoBolt": "Bolt — player took no tricks",
+    "@iconsInfoBolt": {
+        "description": "Bolt icon description"
+    },
+    "iconsInfoBoltFall": "3 bolts — 120 points penalty",
+    "@iconsInfoBoltFall": {
+        "description": "Bolt fall icon description"
+    },
+    "iconsInfoBarrel": "Barrel — player reached 880 points",
+    "@iconsInfoBarrel": {
+        "description": "Barrel icon description"
+    },
+    "iconsInfoBarrelFall": "Barrel fall — failed 3 attempts, -120 points",
+    "@iconsInfoBarrelFall": {
+        "description": "Barrel fall icon description"
+    },
+    "iconsInfoMagic": "Magic number — score reset to 0",
+    "@iconsInfoMagic": {
+        "description": "Magic number icon description"
+    },
+    "iconsInfoSplit": "Split — bidder gave up, points split between others",
+    "@iconsInfoSplit": {
+        "description": "Split icon description"
     }
 }
