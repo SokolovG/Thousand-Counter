@@ -10,15 +10,22 @@ void infoDialog(BuildContext context, WidgetRef ref) {
       final l10n = AppLocalizations.of(context)!;
       final appColors = Theme.of(context).extension<AppColors>()!;
       return AlertDialog(
-        title: Center(child: Text("data")),
+        title: Center(child: Text(l10n.iconsInfo)),
         content: SingleChildScrollView(
           child: Column(
             children: [
               _iconRow(Icons.offline_bolt, appColors.bolt, l10n.iconsInfoBolt),
-              _iconRow(
-                Icons.electric_bolt,
-                appColors.alert,
-                l10n.iconsInfoBoltFall,
+              ListTile(
+                leading: Badge(
+                  label: Text("×3", style: TextStyle(fontSize: 9)),
+                  backgroundColor: appColors.alert,
+                  child: Icon(
+                    Icons.offline_bolt,
+                    color: appColors.bolt,
+                    size: 24,
+                  ),
+                ),
+                title: Text(l10n.iconsInfoBoltFall),
               ),
               _iconRow(
                 Icons.oil_barrel,
