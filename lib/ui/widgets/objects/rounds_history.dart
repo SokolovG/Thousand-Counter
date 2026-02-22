@@ -55,131 +55,171 @@ class _RoundsHistoryContentState extends ConsumerState<RoundsHistoryContent> {
     final round = selectedRound;
 
     return SimpleDialog(
-      children: [
-        if (selectedRound == null)
-          GridView.builder(
-            padding: const EdgeInsets.all(16),
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-            ),
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedRound = rounds[index];
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: (index == roundsCount - 1)
-                        ? appColors.alert
-                        : appColors.success,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: appColors.gridBorder, width: 2),
-                  ),
+      title: selectedRound != null
+          ? Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () => setState(() {
+                    selectedRound = null;
+                  }),
+                ),
+                Expanded(
                   child: Center(
-                    child: Text(
-                      "${index + 1}",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    child: Text(l10n.roundNumber(selectedRound!.roundNumber)),
                   ),
                 ),
-              );
-            },
-            itemCount: rounds.length,
-          )
-        else
-          SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: players.map((p) {
-                final score = selectedRound!.playerScores[p.profile.id] ?? 0;
-                final playerNotPlayed =
-                    selectedRound!.playerScores[p.profile.id] == null;
-                final events = selectedRound!.specialEvents[p.profile.id] ?? [];
-                final isMagic = events.contains(SpecialGameEvent.magicNumber);
-                final isFalledFromBarrel = events.contains(
-                  SpecialGameEvent.barrelFall,
-                );
-                final isPlayerOnBarrel = events.contains(
-                  SpecialGameEvent.barrel,
-                );
+                SizedBox(width: 48),
+              ],
+            )
+          : Center(child: Text(l10n.roundsHistory)),
+      children: [
+        if (roundsCount > 0)
+          if (selectedRound == null)
+            SizedBox(
+              width: double.maxFinite,
+              height: 300,
+              child: GridView.builder(
+                padding: const EdgeInsets.all(16),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                ),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedRound = rounds[index];
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: (index == roundsCount - 1)
+                            ? appColors.alert
+                            : appColors.success,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: appColors.gridBorder,
+                          width: 2,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "${index + 1}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: rounds.length,
+              ),
+            )
+          else
+            SizedBox(
+              width: double.maxFinite,
+              height: 232,
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: players.map((p) {
+                      final score =
+                          selectedRound!.playerScores[p.profile.id] ?? 0;
+                      final playerNotPlayed =
+                          selectedRound!.playerScores[p.profile.id] == null;
+                      final events =
+                          selectedRound!.specialEvents[p.profile.id] ?? [];
+                      final isMagic = events.contains(
+                        SpecialGameEvent.magicNumber,
+                      );
+                      final isFalledFromBarrel = events.contains(
+                        SpecialGameEvent.barrelFall,
+                      );
+                      final isPlayerOnBarrel = events.contains(
+                        SpecialGameEvent.barrel,
+                      );
 
-                return ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                  leading: buildEventIcons(
-                    context,
-                    selectedRound!.specialEvents[p.profile.id],
+                      return ListTile(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                        leading: buildEventIcons(
+                          context,
+                          selectedRound!.specialEvents[p.profile.id],
+                        ),
+                        title: Text(
+                          p.profile.name,
+                          style: textTheme.titleMedium,
+                        ),
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            if (!playerNotPlayed)
+                              Text(
+                                score > 0 ? "+$score" : "$score",
+                                style: TextStyles.scoreText(
+                                  context,
+                                  color: score < 0
+                                      ? appColors.alert
+                                      : appColors.success,
+                                ),
+                              ),
+                            if (playerNotPlayed)
+                              Text(
+                                l10n.playerNotPlayed,
+                                style: textTheme.labelSmall?.copyWith(
+                                  color: appColors.warning,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            if (isMagic)
+                              Text(
+                                "→ 0",
+                                style: textTheme.labelSmall?.copyWith(
+                                  color: appColors.warning,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            if (isPlayerOnBarrel &&
+                                !isMagic &&
+                                !isFalledFromBarrel)
+                              Text(
+                                "→ $barrelNumber",
+                                style: textTheme.labelSmall?.copyWith(
+                                  color: appColors.info,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            if (isFalledFromBarrel)
+                              Text(
+                                "→ -$barrelPenalty",
+                                style: textTheme.labelSmall?.copyWith(
+                                  color: appColors.alert,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
                   ),
-                  title: Text(p.profile.name, style: textTheme.titleMedium),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      if (!playerNotPlayed)
-                        Text(
-                          score > 0 ? "+$score" : "$score",
-                          style: TextStyles.scoreText(
-                            context,
-                            color: score < 0
-                                ? appColors.alert
-                                : appColors.success,
-                          ),
-                        ),
-                      if (playerNotPlayed)
-                        Text(
-                          l10n.playerNotPlayed,
-                          style: textTheme.labelSmall?.copyWith(
-                            color: appColors.warning,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      if (isMagic)
-                        Text(
-                          "→ 0",
-                          style: textTheme.labelSmall?.copyWith(
-                            color: appColors.warning,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      if (isPlayerOnBarrel && !isMagic && !isFalledFromBarrel)
-                        Text(
-                          "→ $barrelNumber",
-                          style: textTheme.labelSmall?.copyWith(
-                            color: appColors.info,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      if (isFalledFromBarrel)
-                        Text(
-                          "→ -$barrelPenalty",
-                          style: textTheme.labelSmall?.copyWith(
-                            color: appColors.alert,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                    ],
-                  ),
-                );
-              }).toList(),
+                ),
+              ),
             ),
+        if (roundsCount <= 0)
+          Padding(
+            padding: EdgeInsets.all(24.0),
+            child: Center(child: Text(l10n.emptyRoundsHistory)),
           ),
         if (round != null)
           Row(
             children: [
-              TextButton(
-                onPressed: () => setState(() {
-                  selectedRound = null;
-                }),
-                child: Text("Cancel"),
-              ),
               // NEXT VERSION
               // Expanded(
               //   child: TextButton.icon(
