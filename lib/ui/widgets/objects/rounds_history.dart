@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thousand_counter/core/constants.dart';
 import 'package:thousand_counter/core/enums.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
-import 'package:thousand_counter/models/game.dart';
 import 'package:thousand_counter/models/player.dart';
 import 'package:thousand_counter/models/round.dart';
 import 'package:thousand_counter/providers/service_providers.dart';
@@ -11,39 +10,100 @@ import 'package:thousand_counter/ui/theme/extension.dart';
 import 'package:thousand_counter/ui/theme/text_styles.dart';
 import 'package:thousand_counter/ui/widgets/objects/event_icons.dart';
 
-void rounDialog(
-  BuildContext context,
-  WidgetRef ref,
-  Round round,
-  List<Player> players,
-  Game game,
-) {
-  final appColors = Theme.of(context).extension<AppColors>()!;
-  final textTheme = Theme.of(context).textTheme;
-  final gameService = ref.read(gameServiceProvider);
+class RoundsHistoryContent extends ConsumerStatefulWidget {
+  final String gameId;
+  final List<Player> players;
 
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      final l10n = AppLocalizations.of(context)!;
-      return SimpleDialog(
-        title: Center(
-          child: Text(
-            l10n.roundNumber(round.roundNumber),
-            style: textTheme.titleLarge,
-          ),
+  const RoundsHistoryContent({
+    super.key,
+    required this.gameId,
+    required this.players,
+  });
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _RoundsHistoryContentState();
+  }
+}
+
+class _RoundsHistoryContentState extends ConsumerState<RoundsHistoryContent> {
+  Round? selectedRound;
+
+  @override
+  Widget build(BuildContext context) {
+    final game = ref.watch(gameStreamProvider(widget.gameId)).value;
+    final rounds = game?.rounds ?? [];
+    final roundsCount = rounds.length;
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final l10n = AppLocalizations.of(context)!;
+    final players = widget.players;
+    final textTheme = Theme.of(context).textTheme;
+    final gameService = ref.read(gameServiceProvider);
+
+    if (game == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text(l10n.loadingGame),
+          ],
         ),
-        // actionsAlignment: MainAxisAlignment.center,
-        children: [
+      );
+    }
+    final round = selectedRound;
+
+    return SimpleDialog(
+      children: [
+        if (selectedRound == null)
+          GridView.builder(
+            padding: const EdgeInsets.all(16),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 5,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+            ),
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedRound = rounds[index];
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: (index == roundsCount - 1)
+                        ? appColors.alert
+                        : appColors.success,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: appColors.gridBorder, width: 2),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "${index + 1}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+            itemCount: rounds.length,
+          )
+        else
           SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: players.map((p) {
-                final score = round.playerScores[p.profile.id] ?? 0;
+                final score = selectedRound!.playerScores[p.profile.id] ?? 0;
                 final playerNotPlayed =
-                    round.playerScores[p.profile.id] == null;
-                final events = round.specialEvents[p.profile.id] ?? [];
+                    selectedRound!.playerScores[p.profile.id] == null;
+                final events = selectedRound!.specialEvents[p.profile.id] ?? [];
                 final isMagic = events.contains(SpecialGameEvent.magicNumber);
                 final isFalledFromBarrel = events.contains(
                   SpecialGameEvent.barrelFall,
@@ -56,7 +116,7 @@ void rounDialog(
                   contentPadding: EdgeInsets.symmetric(horizontal: 8),
                   leading: buildEventIcons(
                     context,
-                    round.specialEvents[p.profile.id],
+                    selectedRound!.specialEvents[p.profile.id],
                   ),
                   title: Text(p.profile.name, style: textTheme.titleMedium),
                   trailing: Column(
@@ -111,8 +171,15 @@ void rounDialog(
               }).toList(),
             ),
           ),
+        if (round != null)
           Row(
             children: [
+              TextButton(
+                onPressed: () => setState(() {
+                  selectedRound = null;
+                }),
+                child: Text("Cancel"),
+              ),
               // NEXT VERSION
               // Expanded(
               //   child: TextButton.icon(
@@ -158,8 +225,7 @@ void rounDialog(
               ),
             ],
           ),
-        ],
-      );
-    },
-  );
+      ],
+    );
+  }
 }
