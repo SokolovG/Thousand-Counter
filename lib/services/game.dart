@@ -128,7 +128,10 @@ class GameService {
       List<SpecialGameEvent> pEvents = [];
 
       if (i == bidderIndex) continue;
-      if (updatedPlayers.length == maxPlayers && i == dealerIndex) continue;
+      if (updatedPlayers.length == maxPlayers && i == dealerIndex) {
+        roundResultsForHistory[updatedPlayers[i].profile.id] = 0;
+        continue;
+      }
 
       if (pOnBarrel) {
         pAttempts += 1;
