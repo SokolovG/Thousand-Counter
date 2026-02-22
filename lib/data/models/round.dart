@@ -12,6 +12,7 @@ class Rounds extends Table {
   TextColumn get specialEvents => text().map(SpecialEventsConverter())();
   TextColumn get gameId =>
       text().references(Games, #id, onDelete: KeyAction.cascade)();
+  TextColumn get activeBidderId => text()();
 
   @override
   Set<Column> get primaryKey => {id};

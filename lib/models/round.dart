@@ -7,6 +7,7 @@ class Round extends Entity {
   final String gameId;
   final Map<String, int> playerScores;
   final Map<String, List<SpecialGameEvent>> specialEvents;
+  final String activeBidderId;
 
   Round({
     super.id,
@@ -14,6 +15,7 @@ class Round extends Entity {
     required this.playerScores,
     required this.specialEvents,
     required this.gameId,
+    required this.activeBidderId,
   });
 
   factory Round.fromDb(RoundModel model) {
@@ -23,6 +25,7 @@ class Round extends Entity {
       playerScores: model.playerScores,
       specialEvents: model.specialEvents,
       gameId: model.gameId,
+      activeBidderId: model.activeBidderId,
     );
   }
 

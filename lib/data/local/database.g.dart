@@ -1237,6 +1237,17 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
       'REFERENCES games (id) ON DELETE CASCADE',
     ),
   );
+  static const VerificationMeta _activeBidderIdMeta = const VerificationMeta(
+    'activeBidderId',
+  );
+  @override
+  late final GeneratedColumn<String> activeBidderId = GeneratedColumn<String>(
+    'active_bidder_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1244,6 +1255,7 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
     playerScores,
     specialEvents,
     gameId,
+    activeBidderId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1279,6 +1291,17 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
     } else if (isInserting) {
       context.missing(_gameIdMeta);
     }
+    if (data.containsKey('active_bidder_id')) {
+      context.handle(
+        _activeBidderIdMeta,
+        activeBidderId.isAcceptableOrUnknown(
+          data['active_bidder_id']!,
+          _activeBidderIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_activeBidderIdMeta);
+    }
     return context;
   }
 
@@ -1312,6 +1335,10 @@ class $RoundsTable extends Rounds with TableInfo<$RoundsTable, RoundModel> {
         DriftSqlType.string,
         data['${effectivePrefix}game_id'],
       )!,
+      activeBidderId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}active_bidder_id'],
+      )!,
     );
   }
 
@@ -1332,12 +1359,14 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
   final Map<String, int> playerScores;
   final Map<String, List<SpecialGameEvent>> specialEvents;
   final String gameId;
+  final String activeBidderId;
   const RoundModel({
     required this.id,
     required this.roundNumber,
     required this.playerScores,
     required this.specialEvents,
     required this.gameId,
+    required this.activeBidderId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1355,6 +1384,7 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
       );
     }
     map['game_id'] = Variable<String>(gameId);
+    map['active_bidder_id'] = Variable<String>(activeBidderId);
     return map;
   }
 
@@ -1365,6 +1395,7 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
       playerScores: Value(playerScores),
       specialEvents: Value(specialEvents),
       gameId: Value(gameId),
+      activeBidderId: Value(activeBidderId),
     );
   }
 
@@ -1381,6 +1412,7 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
         json['specialEvents'],
       ),
       gameId: serializer.fromJson<String>(json['gameId']),
+      activeBidderId: serializer.fromJson<String>(json['activeBidderId']),
     );
   }
   @override
@@ -1394,6 +1426,7 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
         specialEvents,
       ),
       'gameId': serializer.toJson<String>(gameId),
+      'activeBidderId': serializer.toJson<String>(activeBidderId),
     };
   }
 
@@ -1403,12 +1436,14 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
     Map<String, int>? playerScores,
     Map<String, List<SpecialGameEvent>>? specialEvents,
     String? gameId,
+    String? activeBidderId,
   }) => RoundModel(
     id: id ?? this.id,
     roundNumber: roundNumber ?? this.roundNumber,
     playerScores: playerScores ?? this.playerScores,
     specialEvents: specialEvents ?? this.specialEvents,
     gameId: gameId ?? this.gameId,
+    activeBidderId: activeBidderId ?? this.activeBidderId,
   );
   RoundModel copyWithCompanion(RoundsCompanion data) {
     return RoundModel(
@@ -1423,6 +1458,9 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
           ? data.specialEvents.value
           : this.specialEvents,
       gameId: data.gameId.present ? data.gameId.value : this.gameId,
+      activeBidderId: data.activeBidderId.present
+          ? data.activeBidderId.value
+          : this.activeBidderId,
     );
   }
 
@@ -1433,14 +1471,21 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
           ..write('roundNumber: $roundNumber, ')
           ..write('playerScores: $playerScores, ')
           ..write('specialEvents: $specialEvents, ')
-          ..write('gameId: $gameId')
+          ..write('gameId: $gameId, ')
+          ..write('activeBidderId: $activeBidderId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, roundNumber, playerScores, specialEvents, gameId);
+  int get hashCode => Object.hash(
+    id,
+    roundNumber,
+    playerScores,
+    specialEvents,
+    gameId,
+    activeBidderId,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1449,7 +1494,8 @@ class RoundModel extends DataClass implements Insertable<RoundModel> {
           other.roundNumber == this.roundNumber &&
           other.playerScores == this.playerScores &&
           other.specialEvents == this.specialEvents &&
-          other.gameId == this.gameId);
+          other.gameId == this.gameId &&
+          other.activeBidderId == this.activeBidderId);
 }
 
 class RoundsCompanion extends UpdateCompanion<RoundModel> {
@@ -1458,6 +1504,7 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
   final Value<Map<String, int>> playerScores;
   final Value<Map<String, List<SpecialGameEvent>>> specialEvents;
   final Value<String> gameId;
+  final Value<String> activeBidderId;
   final Value<int> rowid;
   const RoundsCompanion({
     this.id = const Value.absent(),
@@ -1465,6 +1512,7 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
     this.playerScores = const Value.absent(),
     this.specialEvents = const Value.absent(),
     this.gameId = const Value.absent(),
+    this.activeBidderId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   RoundsCompanion.insert({
@@ -1473,17 +1521,20 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
     required Map<String, int> playerScores,
     required Map<String, List<SpecialGameEvent>> specialEvents,
     required String gameId,
+    required String activeBidderId,
     this.rowid = const Value.absent(),
   }) : roundNumber = Value(roundNumber),
        playerScores = Value(playerScores),
        specialEvents = Value(specialEvents),
-       gameId = Value(gameId);
+       gameId = Value(gameId),
+       activeBidderId = Value(activeBidderId);
   static Insertable<RoundModel> custom({
     Expression<String>? id,
     Expression<int>? roundNumber,
     Expression<String>? playerScores,
     Expression<String>? specialEvents,
     Expression<String>? gameId,
+    Expression<String>? activeBidderId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1492,6 +1543,7 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
       if (playerScores != null) 'player_scores': playerScores,
       if (specialEvents != null) 'special_events': specialEvents,
       if (gameId != null) 'game_id': gameId,
+      if (activeBidderId != null) 'active_bidder_id': activeBidderId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1502,6 +1554,7 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
     Value<Map<String, int>>? playerScores,
     Value<Map<String, List<SpecialGameEvent>>>? specialEvents,
     Value<String>? gameId,
+    Value<String>? activeBidderId,
     Value<int>? rowid,
   }) {
     return RoundsCompanion(
@@ -1510,6 +1563,7 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
       playerScores: playerScores ?? this.playerScores,
       specialEvents: specialEvents ?? this.specialEvents,
       gameId: gameId ?? this.gameId,
+      activeBidderId: activeBidderId ?? this.activeBidderId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1536,6 +1590,9 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
     if (gameId.present) {
       map['game_id'] = Variable<String>(gameId.value);
     }
+    if (activeBidderId.present) {
+      map['active_bidder_id'] = Variable<String>(activeBidderId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1550,6 +1607,7 @@ class RoundsCompanion extends UpdateCompanion<RoundModel> {
           ..write('playerScores: $playerScores, ')
           ..write('specialEvents: $specialEvents, ')
           ..write('gameId: $gameId, ')
+          ..write('activeBidderId: $activeBidderId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2918,6 +2976,7 @@ typedef $$RoundsTableCreateCompanionBuilder =
       required Map<String, int> playerScores,
       required Map<String, List<SpecialGameEvent>> specialEvents,
       required String gameId,
+      required String activeBidderId,
       Value<int> rowid,
     });
 typedef $$RoundsTableUpdateCompanionBuilder =
@@ -2927,6 +2986,7 @@ typedef $$RoundsTableUpdateCompanionBuilder =
       Value<Map<String, int>> playerScores,
       Value<Map<String, List<SpecialGameEvent>>> specialEvents,
       Value<String> gameId,
+      Value<String> activeBidderId,
       Value<int> rowid,
     });
 
@@ -2987,6 +3047,11 @@ class $$RoundsTableFilterComposer
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
+  ColumnFilters<String> get activeBidderId => $composableBuilder(
+    column: $table.activeBidderId,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$GamesTableFilterComposer get gameId {
     final $$GamesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -3040,6 +3105,11 @@ class $$RoundsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get activeBidderId => $composableBuilder(
+    column: $table.activeBidderId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$GamesTableOrderingComposer get gameId {
     final $$GamesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -3090,6 +3160,11 @@ class $$RoundsTableAnnotationComposer
   GeneratedColumnWithTypeConverter<Map<String, List<SpecialGameEvent>>, String>
   get specialEvents => $composableBuilder(
     column: $table.specialEvents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get activeBidderId => $composableBuilder(
+    column: $table.activeBidderId,
     builder: (column) => column,
   );
 
@@ -3151,6 +3226,7 @@ class $$RoundsTableTableManager
                 Value<Map<String, List<SpecialGameEvent>>> specialEvents =
                     const Value.absent(),
                 Value<String> gameId = const Value.absent(),
+                Value<String> activeBidderId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RoundsCompanion(
                 id: id,
@@ -3158,6 +3234,7 @@ class $$RoundsTableTableManager
                 playerScores: playerScores,
                 specialEvents: specialEvents,
                 gameId: gameId,
+                activeBidderId: activeBidderId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3167,6 +3244,7 @@ class $$RoundsTableTableManager
                 required Map<String, int> playerScores,
                 required Map<String, List<SpecialGameEvent>> specialEvents,
                 required String gameId,
+                required String activeBidderId,
                 Value<int> rowid = const Value.absent(),
               }) => RoundsCompanion.insert(
                 id: id,
@@ -3174,6 +3252,7 @@ class $$RoundsTableTableManager
                 playerScores: playerScores,
                 specialEvents: specialEvents,
                 gameId: gameId,
+                activeBidderId: activeBidderId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

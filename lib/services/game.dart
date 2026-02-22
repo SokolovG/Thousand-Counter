@@ -77,11 +77,6 @@ class GameService {
     return game;
   }
 
-  // Game updateRound(Game game) {
-  // NEXT VERSION
-  //   return game;
-  // }
-
   Future<Game> split(Game game, int bid, int bidderIndex) async {
     final updatedPlayers = List<Player>.from(game.players);
     final activePlayer = updatedPlayers[bidderIndex];
@@ -171,6 +166,7 @@ class GameService {
       playerScores: roundResultsForHistory,
       specialEvents: gameEventsMap,
       gameId: game.id,
+      activeBidderId: activePlayer.profile.id,
     );
 
     final updatedGame = game.copyWith(
@@ -289,6 +285,7 @@ class GameService {
       playerScores: roundResultsForHistory,
       specialEvents: gameEventsMap,
       gameId: game.id,
+      activeBidderId: bidderId,
     );
 
     game = game.copyWith(

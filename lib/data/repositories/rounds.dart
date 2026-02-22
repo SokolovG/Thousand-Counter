@@ -19,6 +19,7 @@ class RoundsRepository implements AbstractRepository<Round> {
             specialEvents: round.specialEvents,
             gameId: round.gameId,
             id: Value(round.id),
+            activeBidderId: round.activeBidderId,
           ),
         );
     return round;

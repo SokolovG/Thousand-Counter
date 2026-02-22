@@ -154,7 +154,11 @@ class _RoundsHistoryContentState extends ConsumerState<RoundsHistoryContent> {
                         ),
                         title: Text(
                           p.profile.name,
-                          style: textTheme.titleMedium,
+                          style: textTheme.titleMedium?.copyWith(
+                            color: selectedRound!.activeBidderId == p.profile.id
+                                ? appColors.info
+                                : null,
+                          ),
                         ),
                         trailing: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

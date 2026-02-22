@@ -17,13 +17,16 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onUpgrade: (migrator, from, to) async {
       if (from == 1 && to == 2) {
         migrator.addColumn(players, players.createdAt);
+      }
+      if (from == 2 && to == 3) {
+        migrator.addColumn(rounds, rounds.activeBidderId);
       }
     },
   );
