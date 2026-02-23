@@ -14,7 +14,8 @@ GoRouter createRouter(bool isFirstLaunch) {
         builder: (context, state) => const HomeScreen(),
         redirect: (context, state) {
           if (state.uri.toString() == '/' && isFirstLaunch) {
-            return 'onboarding';
+            // return 'onboarding';
+            return null;
           } else {
             return null;
           }
