@@ -328,6 +328,8 @@ class GameService {
   }
 
   Future<Game> updateAndDeletePlayers(
+    // TODO: When a player is re-added to a game, their stats (bolts, points)
+    // are reset to 0. Need to preserve player state when rejoining.
     Game currentGame,
     List<Profile> newProfiles,
   ) async {

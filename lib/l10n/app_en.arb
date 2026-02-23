@@ -361,5 +361,53 @@
     "iconsInfoSplit": "Split — bidder gave up, points split between others",
     "@iconsInfoSplit": {
         "description": "Split icon description"
+    },
+    "onboardingSkip": "Skip",
+    "@onboardingSkip": {
+        "description": "Button to skip onboarding"
+    },
+    "onboardingNext": "Next",
+    "@onboardingNext": {
+        "description": "Button to go to next slide"
+    },
+    "onboardingStart": "Start!",
+    "@onboardingStart": {
+        "description": "Button to start the app on last slide"
+    },
+    "onboardingTitle1": "1. Create Players",
+    "@onboardingTitle1": {
+        "description": "Title for first onboarding slide"
+    },
+    "onboardingDesc1": "Before starting a game, add profiles for all participants. You can edit and delete them at any time.",
+    "@onboardingDesc1": {
+        "description": "Description for first onboarding slide"
+    },
+    "onboardingHint1": "Tap + to add a player",
+    "@onboardingHint1": {
+        "description": "Hint for first onboarding slide"
+    },
+    "onboardingTitle2": "2. Start a Game",
+    "@onboardingTitle2": {
+        "description": "Title for second onboarding slide"
+    },
+    "onboardingDesc2": "On the home screen, tap 'Create Game', select participants, and start the rounds.",
+    "@onboardingDesc2": {
+        "description": "Description for second onboarding slide"
+    },
+    "onboardingHint2": "Tap 'Create Game'",
+    "@onboardingHint2": {
+        "description": "Hint for second onboarding slide"
+    },
+    "onboardingTitle3": "3. Select Participants",
+    "@onboardingTitle3": {
+        "description": "Title for third onboarding slide"
+    },
+    "onboardingDesc3": "Mark the players who will participate and tap the button to start the game.",
+    "@onboardingDesc3": {
+        "description": "Description for third onboarding slide"
+    },
+    "onboardingHint3": "Select players and tap 'Start'",
+    "@onboardingHint3": {
+        "description": "Hint for third onboarding slide"
     }
 }

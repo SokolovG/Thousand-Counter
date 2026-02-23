@@ -595,6 +595,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Split — bidder gave up, points split between others'**
   String get iconsInfoSplit;
+
+  /// Button to skip onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// Button to go to next slide
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// Button to start the app on last slide
+  ///
+  /// In en, this message translates to:
+  /// **'Start!'**
+  String get onboardingStart;
+
+  /// Title for first onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'1. Create Players'**
+  String get onboardingTitle1;
+
+  /// Description for first onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'Before starting a game, add profiles for all participants. You can edit and delete them at any time.'**
+  String get onboardingDesc1;
+
+  /// Hint for first onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to add a player'**
+  String get onboardingHint1;
+
+  /// Title for second onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'2. Start a Game'**
+  String get onboardingTitle2;
+
+  /// Description for second onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'On the home screen, tap \'Create Game\', select participants, and start the rounds.'**
+  String get onboardingDesc2;
+
+  /// Hint for second onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \'Create Game\''**
+  String get onboardingHint2;
+
+  /// Title for third onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'3. Select Participants'**
+  String get onboardingTitle3;
+
+  /// Description for third onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the players who will participate and tap the button to start the game.'**
+  String get onboardingDesc3;
+
+  /// Hint for third onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'Select players and tap \'Start\''**
+  String get onboardingHint3;
 }
 
 class _AppLocalizationsDelegate

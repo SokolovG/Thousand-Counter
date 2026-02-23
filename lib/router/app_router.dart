@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/ui/screens/game.dart';
 import 'package:thousand_counter/ui/screens/game_settings.dart';
 import 'package:thousand_counter/ui/screens/home.dart';
+import 'package:thousand_counter/ui/screens/onboarding.dart';
 import 'package:thousand_counter/ui/screens/profiles.dart';
 import 'package:thousand_counter/ui/screens/recent_games.dart';
 import 'package:thousand_counter/ui/screens/settings.dart';
@@ -14,12 +15,14 @@ GoRouter createRouter(bool isFirstLaunch) {
         builder: (context, state) => const HomeScreen(),
         redirect: (context, state) {
           if (state.uri.toString() == '/' && isFirstLaunch) {
-            // return 'onboarding';
-            return null;
-          } else {
-            return null;
+            return '/onboarding';
           }
+          return null;
         },
+      ),
+      GoRoute(
+        path: '/onboarding',
+        builder: (context, state) => OnboardingScreen(),
       ),
       GoRoute(
         path: '/players_profiles',

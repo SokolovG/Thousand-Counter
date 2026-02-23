@@ -282,4 +282,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get iconsInfoSplit =>
       'Split — bidder gave up, points split between others';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingStart => 'Start!';
+
+  @override
+  String get onboardingTitle1 => '1. Create Players';
+
+  @override
+  String get onboardingDesc1 =>
+      'Before starting a game, add profiles for all participants. You can edit and delete them at any time.';
+
+  @override
+  String get onboardingHint1 => 'Tap + to add a player';
+
+  @override
+  String get onboardingTitle2 => '2. Start a Game';
+
+  @override
+  String get onboardingDesc2 =>
+      'On the home screen, tap \'Create Game\', select participants, and start the rounds.';
+
+  @override
+  String get onboardingHint2 => 'Tap \'Create Game\'';
+
+  @override
+  String get onboardingTitle3 => '3. Select Participants';
+
+  @override
+  String get onboardingDesc3 =>
+      'Mark the players who will participate and tap the button to start the game.';
+
+  @override
+  String get onboardingHint3 => 'Select players and tap \'Start\'';
 }

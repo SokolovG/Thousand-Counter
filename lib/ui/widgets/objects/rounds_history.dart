@@ -11,6 +11,9 @@ import 'package:thousand_counter/ui/theme/text_styles.dart';
 import 'package:thousand_counter/ui/widgets/objects/event_icons.dart';
 
 class RoundsHistoryContent extends ConsumerStatefulWidget {
+  // TODO: Players removed from the game disappear from round history.
+  // Round model should store its own player snapshot instead of
+  // relying on current game players list.
   final String gameId;
   final List<Player> players;
 

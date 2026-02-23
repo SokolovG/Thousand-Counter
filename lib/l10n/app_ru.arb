@@ -361,5 +361,53 @@
     "iconsInfoSplit": "Роспись — заказчик расписался, очки делятся между остальными",
     "@iconsInfoSplit": {
         "description": "Split icon description"
+    },
+    "onboardingSkip": "Пропустить",
+    "@onboardingSkip": {
+        "description": "Кнопка пропуска обучения"
+    },
+    "onboardingNext": "Далее",
+    "@onboardingNext": {
+        "description": "Кнопка перехода к следующему слайду"
+    },
+    "onboardingStart": "Начать!",
+    "@onboardingStart": {
+        "description": "Кнопка начала работы на последнем слайде"
+    },
+    "onboardingTitle1": "1. Создай игроков",
+    "@onboardingTitle1": {
+        "description": "Заголовок первого слайда обучения"
+    },
+    "onboardingDesc1": "Перед началом игры добавь профили всех участников. Их можно редактировать и удалять в любое время.",
+    "@onboardingDesc1": {
+        "description": "Описание первого слайда обучения"
+    },
+    "onboardingHint1": "Нажми + чтобы добавить игрока",
+    "@onboardingHint1": {
+        "description": "Подсказка первого слайда обучения"
+    },
+    "onboardingTitle2": "2. Начни игру",
+    "@onboardingTitle2": {
+        "description": "Заголовок второго слайда обучения"
+    },
+    "onboardingDesc2": "На главном экране нажми «Создать игру», выбери участников и начни раунды.",
+    "@onboardingDesc2": {
+        "description": "Описание второго слайда обучения"
+    },
+    "onboardingHint2": "Нажми «Создать игру»",
+    "@onboardingHint2": {
+        "description": "Подсказка второго слайда обучения"
+    },
+    "onboardingTitle3": "3. Выбери участников",
+    "@onboardingTitle3": {
+        "description": "Заголовок третьего слайда обучения"
+    },
+    "onboardingDesc3": "Отметь игроков, которые будут участвовать, и нажми кнопку для начала игры.",
+    "@onboardingDesc3": {
+        "description": "Описание третьего слайда обучения"
+    },
+    "onboardingHint3": "Отметь нужных игроков и нажми «Старт»",
+    "@onboardingHint3": {
+        "description": "Подсказка третьего слайда обучения"
     }
 }

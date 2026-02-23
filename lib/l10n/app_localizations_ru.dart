@@ -281,4 +281,43 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get iconsInfoSplit =>
       'Роспись — заказчик расписался, очки делятся между остальными';
+
+  @override
+  String get onboardingSkip => 'Пропустить';
+
+  @override
+  String get onboardingNext => 'Далее';
+
+  @override
+  String get onboardingStart => 'Начать!';
+
+  @override
+  String get onboardingTitle1 => '1. Создай игроков';
+
+  @override
+  String get onboardingDesc1 =>
+      'Перед началом игры добавь профили всех участников. Их можно редактировать и удалять в любое время.';
+
+  @override
+  String get onboardingHint1 => 'Нажми + чтобы добавить игрока';
+
+  @override
+  String get onboardingTitle2 => '2. Начни игру';
+
+  @override
+  String get onboardingDesc2 =>
+      'На главном экране нажми «Создать игру», выбери участников и начни раунды.';
+
+  @override
+  String get onboardingHint2 => 'Нажми «Создать игру»';
+
+  @override
+  String get onboardingTitle3 => '3. Выбери участников';
+
+  @override
+  String get onboardingDesc3 =>
+      'Отметь игроков, которые будут участвовать, и нажми кнопку для начала игры.';
+
+  @override
+  String get onboardingHint3 => 'Отметь нужных игроков и нажми «Старт»';
 }
