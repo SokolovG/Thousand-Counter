@@ -59,6 +59,9 @@ class _PreviewFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final displayImagePath = isDark ? slide.darkImagePath : slide.imagePath;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
@@ -79,7 +82,7 @@ class _PreviewFrame extends StatelessWidget {
         child: Stack(
           children: [
             Image.asset(
-              slide.imagePath,
+              displayImagePath,
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
                 return Center(
@@ -97,7 +100,7 @@ class _PreviewFrame extends StatelessWidget {
                         style: TextStyle(color: appColors.alert),
                       ),
                       Text(
-                        slide.imagePath,
+                        displayImagePath,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],

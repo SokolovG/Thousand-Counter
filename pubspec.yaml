@@ -40,6 +40,9 @@ flutter:
   generate: true
 
   assets:
-    - assets/images/onboarding_1.png
-    - assets/images/onboarding_2.png
-    - assets/images/onboarding_3.png
+    - assets/images/onboarding_1_light.png
+    - assets/images/onboarding_1_dark.png
+    - assets/images/onboarding_2_light.png
+    - assets/images/onboarding_2_dark.png
+    - assets/images/onboarding_3_light.png
+    - assets/images/onboarding_3_dark.png

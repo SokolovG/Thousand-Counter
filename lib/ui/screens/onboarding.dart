@@ -17,28 +17,31 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   int _currentPage = 0;
 
   List<OnboardingSlide> _getSlides(AppLocalizations l10n) => [
-    OnboardingSlide(
-      imagePath: 'assets/images/onboarding_1.png',
-      hintAlignment: Alignment.topRight,
-      hintText: l10n.onboardingHint1,
-      title: l10n.onboardingTitle1,
-      description: l10n.onboardingDesc1,
-    ),
-    OnboardingSlide(
-      imagePath: 'assets/images/onboarding_2.png',
-      hintAlignment: Alignment.topCenter,
-      hintText: l10n.onboardingHint2,
-      title: l10n.onboardingTitle2,
-      description: l10n.onboardingDesc2,
-    ),
-    OnboardingSlide(
-      imagePath: 'assets/images/onboarding_3.png',
-      hintAlignment: Alignment.bottomCenter,
-      hintText: l10n.onboardingHint3,
-      title: l10n.onboardingTitle3,
-      description: l10n.onboardingDesc3,
-    ),
-  ];
+        OnboardingSlide(
+          imagePath: 'assets/images/onboarding_1_light.png',
+          darkImagePath: 'assets/images/onboarding_1_dark.png',
+          hintAlignment: Alignment.topRight,
+          hintText: l10n.onboardingHint1,
+          title: l10n.onboardingTitle1,
+          description: l10n.onboardingDesc1,
+        ),
+        OnboardingSlide(
+          imagePath: 'assets/images/onboarding_2_light.png',
+          darkImagePath: 'assets/images/onboarding_2_dark.png',
+          hintAlignment: Alignment.topCenter,
+          hintText: l10n.onboardingHint2,
+          title: l10n.onboardingTitle2,
+          description: l10n.onboardingDesc2,
+        ),
+        OnboardingSlide(
+          imagePath: 'assets/images/onboarding_3_light.png',
+          darkImagePath: 'assets/images/onboarding_3_dark.png',
+          hintAlignment: Alignment.bottomCenter,
+          hintText: l10n.onboardingHint3,
+          title: l10n.onboardingTitle3,
+          description: l10n.onboardingDesc3,
+        ),
+      ];
 
   @override
   void initState() {
