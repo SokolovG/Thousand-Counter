@@ -14,42 +14,47 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const HomeScreen(),
-        redirect: (context, state) {
-          if (state.uri.toString() == '/' && !onboardingShown) {
-            return '/onboarding';
-          }
-          return null;
-        },
-      ),
-      GoRoute(
-        path: '/onboarding',
-        builder: (context, state) => const OnboardingScreen(),
-      ),
-      GoRoute(
-        path: '/players_profiles',
-        builder: (context, state) => const ProfilesScreen(),
-      ),
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: '/game/:gameId',
-        builder: (context, state) {
-          final gameId = state.pathParameters['gameId']!;
-          return GameScreen(gameId: gameId);
-        },
-      ),
-      GoRoute(
-        path: '/recent_games',
-        builder: (context, state) => const RecentGamesScreen(),
-      ),
-      GoRoute(
-        path: '/game_settings',
-        builder: (context, state) => const GameSettingsScreen(),
+      ShellRoute(
+        builder: (context, state, child) => child,
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => const HomeScreen(),
+            redirect: (context, state) {
+              if (state.uri.toString() == '/' && !onboardingShown) {
+                return '/onboarding';
+              }
+              return null;
+            },
+          ),
+          GoRoute(
+            path: '/onboarding',
+            builder: (context, state) => const OnboardingScreen(),
+          ),
+          GoRoute(
+            path: '/players_profiles',
+            builder: (context, state) => const ProfilesScreen(),
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+          GoRoute(
+            path: '/game/:gameId',
+            builder: (context, state) {
+              final gameId = state.pathParameters['gameId']!;
+              return GameScreen(gameId: gameId);
+            },
+          ),
+          GoRoute(
+            path: '/recent_games',
+            builder: (context, state) => const RecentGamesScreen(),
+          ),
+          GoRoute(
+            path: '/game_settings',
+            builder: (context, state) => const GameSettingsScreen(),
+          ),
+        ],
       ),
     ],
   );
