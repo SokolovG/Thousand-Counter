@@ -11,4 +11,12 @@ class SharedPreferencesManager {
   String? getString(String key) {
     return _prefs.getString(key);
   }
+
+  Future<void> setBool(String key, bool value) async {
+    await _prefs.setBool(key, value);
+  }
+
+  bool? getBool(String key) {
+    return _prefs.getBool(key);
+  }
 }

@@ -8,13 +8,13 @@ import 'package:thousand_counter/providers/settings_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ThousandCounterApp extends ConsumerWidget {
-  final bool isFirstLaunch;
-  const ThousandCounterApp({required this.isFirstLaunch, super.key});
+  const ThousandCounterApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
       localizationsDelegates: [
@@ -24,7 +24,7 @@ class ThousandCounterApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: supportedLocales,
-      routerConfig: createRouter(isFirstLaunch),
+      routerConfig: router,
       onGenerateTitle: (BuildContext context) {
         return AppLocalizations.of(context)!.appTitle;
       },

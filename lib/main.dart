@@ -7,10 +7,6 @@ import 'package:thousand_counter/ui/app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final isFirstLaunch = !(prefs.getBool('onboarding_shown') ?? false);
-  if (isFirstLaunch) {
-    prefs.setBool('onboarding_shown', true);
-  }
 
   final container = ProviderContainer(
     overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
@@ -19,7 +15,7 @@ void main() async {
   runApp(
     UncontrolledProviderScope(
       container: container,
-      child: ThousandCounterApp(isFirstLaunch: isFirstLaunch),
+      child: const ThousandCounterApp(),
     ),
   );
 }

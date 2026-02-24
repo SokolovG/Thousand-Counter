@@ -320,4 +320,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get onboardingHint3 => 'Отметь нужных игроков и нажми «Старт»';
+
+  @override
+  String get onboardingImageNotFound => 'Изображение не найдено';
 }

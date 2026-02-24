@@ -409,5 +409,9 @@
     "onboardingHint3": "Select players and tap 'Start'",
     "@onboardingHint3": {
         "description": "Hint for third onboarding slide"
+    },
+    "onboardingImageNotFound": "Image not found",
+    "@onboardingImageNotFound": {
+        "description": "Error message when an onboarding image fails to load"
     }
 }

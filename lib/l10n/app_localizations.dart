@@ -667,6 +667,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select players and tap \'Start\''**
   String get onboardingHint3;
+
+  /// Error message when an onboarding image fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Image not found'**
+  String get onboardingImageNotFound;
 }
 
 class _AppLocalizationsDelegate

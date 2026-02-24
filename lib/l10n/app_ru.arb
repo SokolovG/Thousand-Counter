@@ -409,5 +409,9 @@
     "onboardingHint3": "Отметь нужных игроков и нажми «Старт»",
     "@onboardingHint3": {
         "description": "Подсказка третьего слайда обучения"
+    },
+    "onboardingImageNotFound": "Изображение не найдено",
+    "@onboardingImageNotFound": {
+        "description": "Сообщение об ошибке, когда изображение онбординга не загрузилось"
     }
 }

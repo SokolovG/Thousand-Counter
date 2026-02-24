@@ -321,4 +321,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingHint3 => 'Select players and tap \'Start\'';
+
+  @override
+  String get onboardingImageNotFound => 'Image not found';
 }

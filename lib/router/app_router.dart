@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/ui/screens/game.dart';
 import 'package:thousand_counter/ui/screens/game_settings.dart';
@@ -6,15 +7,18 @@ import 'package:thousand_counter/ui/screens/onboarding.dart';
 import 'package:thousand_counter/ui/screens/profiles.dart';
 import 'package:thousand_counter/ui/screens/recent_games.dart';
 import 'package:thousand_counter/ui/screens/settings.dart';
+import 'package:thousand_counter/providers/settings_providers.dart';
 
-GoRouter createRouter(bool isFirstLaunch) {
-  final appRouter = GoRouter(
+final routerProvider = Provider<GoRouter>((ref) {
+  final onboardingShown = ref.watch(onboardingShownProvider);
+
+  return GoRouter(
     routes: [
       GoRoute(
         path: '/',
         builder: (context, state) => const HomeScreen(),
         redirect: (context, state) {
-          if (state.uri.toString() == '/' && isFirstLaunch) {
+          if (state.uri.toString() == '/' && !onboardingShown) {
             return '/onboarding';
           }
           return null;
@@ -22,7 +26,7 @@ GoRouter createRouter(bool isFirstLaunch) {
       ),
       GoRoute(
         path: '/onboarding',
-        builder: (context, state) => OnboardingScreen(),
+        builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
         path: '/players_profiles',
@@ -49,5 +53,4 @@ GoRouter createRouter(bool isFirstLaunch) {
       ),
     ],
   );
-  return appRouter;
-}
+});

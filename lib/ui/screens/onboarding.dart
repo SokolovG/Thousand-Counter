@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thousand_counter/l10n/app_localizations.dart';
+import 'package:thousand_counter/providers/settings_providers.dart';
 import 'package:thousand_counter/ui/widgets/objects/onboarding_slide.dart';
 import 'package:thousand_counter/ui/widgets/objects/onboarding_slide_widget.dart';
 
@@ -17,31 +18,31 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   int _currentPage = 0;
 
   List<OnboardingSlide> _getSlides(AppLocalizations l10n) => [
-        OnboardingSlide(
-          imagePath: 'assets/images/onboarding_1_light.png',
-          darkImagePath: 'assets/images/onboarding_1_dark.png',
-          hintAlignment: Alignment.topRight,
-          hintText: l10n.onboardingHint1,
-          title: l10n.onboardingTitle1,
-          description: l10n.onboardingDesc1,
-        ),
-        OnboardingSlide(
-          imagePath: 'assets/images/onboarding_2_light.png',
-          darkImagePath: 'assets/images/onboarding_2_dark.png',
-          hintAlignment: Alignment.topCenter,
-          hintText: l10n.onboardingHint2,
-          title: l10n.onboardingTitle2,
-          description: l10n.onboardingDesc2,
-        ),
-        OnboardingSlide(
-          imagePath: 'assets/images/onboarding_3_light.png',
-          darkImagePath: 'assets/images/onboarding_3_dark.png',
-          hintAlignment: Alignment.bottomCenter,
-          hintText: l10n.onboardingHint3,
-          title: l10n.onboardingTitle3,
-          description: l10n.onboardingDesc3,
-        ),
-      ];
+    OnboardingSlide(
+      imagePath: 'assets/images/onboarding_1_light.png',
+      darkImagePath: 'assets/images/onboarding_1_dark.png',
+      hintAlignment: const Alignment(0.0, 0.8), // Moved to the lower part
+      title: l10n.onboardingTitle1,
+      description: l10n.onboardingDesc1,
+      hintText: l10n.onboardingHint1,
+    ),
+    OnboardingSlide(
+      imagePath: 'assets/images/onboarding_2_light.png',
+      darkImagePath: 'assets/images/onboarding_2_dark.png',
+      hintAlignment: const Alignment(0.0, -0.45),
+      title: l10n.onboardingTitle2,
+      description: l10n.onboardingDesc2,
+      hintText: l10n.onboardingHint2,
+    ),
+    OnboardingSlide(
+      imagePath: 'assets/images/onboarding_3_light.png',
+      darkImagePath: 'assets/images/onboarding_3_dark.png',
+      hintAlignment: const Alignment(0.0, 0.5),
+      hintText: l10n.onboardingHint3,
+      title: l10n.onboardingTitle3,
+      description: l10n.onboardingDesc3,
+    ),
+  ];
 
   @override
   void initState() {
@@ -55,7 +56,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     super.dispose();
   }
 
-  void _finish() => context.go('/');
+  void _finish() {
+    ref.read(onboardingShownProvider.notifier).setShown(true);
+    context.go('/');
+  }
 
   void _nextPage(int slideCount) {
     if (_currentPage < slideCount - 1) {
