@@ -111,7 +111,8 @@ class GameService {
       isOnBarrel: activePlayerOnBarrel,
     );
 
-    final pointsToOthers = (bid / 2).round();
+    // When bid is at most the full deck value (120), each player gets half the deck (60)
+    final pointsToOthers = bid <= 120 ? 60 : (bid / 2).round();
 
     int dealerIndex = (game.currentPlayerIndex - 1) % updatedPlayers.length;
     if (dealerIndex < 0) dealerIndex = updatedPlayers.length - 1;
@@ -194,7 +195,7 @@ class GameService {
     Map<String, int> roundResultsForHistory = {};
     Map<String, List<SpecialGameEvent>> gameEventsMap = {};
 
-    if (bidderScore < bid) {
+    if (bidderScore >= 0 && bidderScore < bid) {
       processedPoints[bidderId] = -bid;
     }
 
@@ -304,6 +305,24 @@ class GameService {
 
     final updatedGame = await _gameUow.saveRoundResult(game, newRound);
     return updatedGame;
+  }
+
+  Future<Game> reorderPlayers(Game game, int oldIndex, int newIndex) async {
+    final updatedPlayers = List<Player>.from(game.players);
+    final moved = updatedPlayers.removeAt(oldIndex);
+    updatedPlayers.insert(newIndex, moved);
+
+    // currentPlayerIndex stays the same number: whoever lands at that position
+    // becomes the current player (drag to top → that player gets the highlight)
+    await _gameRepository.reorderPlayersAndUpdate(
+      game.id,
+      updatedPlayers,
+      game.currentPlayerIndex,
+    );
+
+    return game.copyWith(
+      players: updatedPlayers,
+    );
   }
 
   Future<Game> addGame(Game newGame) async {

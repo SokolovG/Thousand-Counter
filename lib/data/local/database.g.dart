@@ -732,6 +732,18 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _sortIndexMeta = const VerificationMeta(
+    'sortIndex',
+  );
+  @override
+  late final GeneratedColumn<int> sortIndex = GeneratedColumn<int>(
+    'sort_index',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -789,6 +801,7 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
     totalPoints,
     boltsCount,
     barrelAttempts,
+    sortIndex,
     createdAt,
     isOnBarrel,
     gameId,
@@ -828,6 +841,12 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
           data['barrel_attempts']!,
           _barrelAttemptsMeta,
         ),
+      );
+    }
+    if (data.containsKey('sort_index')) {
+      context.handle(
+        _sortIndexMeta,
+        sortIndex.isAcceptableOrUnknown(data['sort_index']!, _sortIndexMeta),
       );
     }
     if (data.containsKey('created_at')) {
@@ -884,6 +903,10 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, PlayerModel> {
         DriftSqlType.int,
         data['${effectivePrefix}barrel_attempts'],
       )!,
+      sortIndex: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sort_index'],
+      )!,
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -913,6 +936,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
   final int totalPoints;
   final int boltsCount;
   final int barrelAttempts;
+  final int sortIndex;
   final DateTime createdAt;
   final bool isOnBarrel;
   final String gameId;
@@ -921,6 +945,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     required this.totalPoints,
     required this.boltsCount,
     required this.barrelAttempts,
+    required this.sortIndex,
     required this.createdAt,
     required this.isOnBarrel,
     required this.gameId,
@@ -932,6 +957,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     map['total_points'] = Variable<int>(totalPoints);
     map['bolts_count'] = Variable<int>(boltsCount);
     map['barrel_attempts'] = Variable<int>(barrelAttempts);
+    map['sort_index'] = Variable<int>(sortIndex);
     map['created_at'] = Variable<DateTime>(createdAt);
     map['is_on_barrel'] = Variable<bool>(isOnBarrel);
     map['game_id'] = Variable<String>(gameId);
@@ -944,6 +970,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       totalPoints: Value(totalPoints),
       boltsCount: Value(boltsCount),
       barrelAttempts: Value(barrelAttempts),
+      sortIndex: Value(sortIndex),
       createdAt: Value(createdAt),
       isOnBarrel: Value(isOnBarrel),
       gameId: Value(gameId),
@@ -960,6 +987,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       totalPoints: serializer.fromJson<int>(json['totalPoints']),
       boltsCount: serializer.fromJson<int>(json['boltsCount']),
       barrelAttempts: serializer.fromJson<int>(json['barrelAttempts']),
+      sortIndex: serializer.fromJson<int>(json['sortIndex']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       isOnBarrel: serializer.fromJson<bool>(json['isOnBarrel']),
       gameId: serializer.fromJson<String>(json['gameId']),
@@ -973,6 +1001,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       'totalPoints': serializer.toJson<int>(totalPoints),
       'boltsCount': serializer.toJson<int>(boltsCount),
       'barrelAttempts': serializer.toJson<int>(barrelAttempts),
+      'sortIndex': serializer.toJson<int>(sortIndex),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'isOnBarrel': serializer.toJson<bool>(isOnBarrel),
       'gameId': serializer.toJson<String>(gameId),
@@ -984,6 +1013,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     int? totalPoints,
     int? boltsCount,
     int? barrelAttempts,
+    int? sortIndex,
     DateTime? createdAt,
     bool? isOnBarrel,
     String? gameId,
@@ -992,6 +1022,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     totalPoints: totalPoints ?? this.totalPoints,
     boltsCount: boltsCount ?? this.boltsCount,
     barrelAttempts: barrelAttempts ?? this.barrelAttempts,
+    sortIndex: sortIndex ?? this.sortIndex,
     createdAt: createdAt ?? this.createdAt,
     isOnBarrel: isOnBarrel ?? this.isOnBarrel,
     gameId: gameId ?? this.gameId,
@@ -1008,6 +1039,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
       barrelAttempts: data.barrelAttempts.present
           ? data.barrelAttempts.value
           : this.barrelAttempts,
+      sortIndex: data.sortIndex.present ? data.sortIndex.value : this.sortIndex,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       isOnBarrel: data.isOnBarrel.present
           ? data.isOnBarrel.value
@@ -1023,6 +1055,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
           ..write('totalPoints: $totalPoints, ')
           ..write('boltsCount: $boltsCount, ')
           ..write('barrelAttempts: $barrelAttempts, ')
+          ..write('sortIndex: $sortIndex, ')
           ..write('createdAt: $createdAt, ')
           ..write('isOnBarrel: $isOnBarrel, ')
           ..write('gameId: $gameId, ')
@@ -1036,6 +1069,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
     totalPoints,
     boltsCount,
     barrelAttempts,
+    sortIndex,
     createdAt,
     isOnBarrel,
     gameId,
@@ -1048,6 +1082,7 @@ class PlayerModel extends DataClass implements Insertable<PlayerModel> {
           other.totalPoints == this.totalPoints &&
           other.boltsCount == this.boltsCount &&
           other.barrelAttempts == this.barrelAttempts &&
+          other.sortIndex == this.sortIndex &&
           other.createdAt == this.createdAt &&
           other.isOnBarrel == this.isOnBarrel &&
           other.gameId == this.gameId &&
@@ -1058,6 +1093,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
   final Value<int> totalPoints;
   final Value<int> boltsCount;
   final Value<int> barrelAttempts;
+  final Value<int> sortIndex;
   final Value<DateTime> createdAt;
   final Value<bool> isOnBarrel;
   final Value<String> gameId;
@@ -1067,6 +1103,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     this.totalPoints = const Value.absent(),
     this.boltsCount = const Value.absent(),
     this.barrelAttempts = const Value.absent(),
+    this.sortIndex = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.isOnBarrel = const Value.absent(),
     this.gameId = const Value.absent(),
@@ -1077,6 +1114,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     this.totalPoints = const Value.absent(),
     this.boltsCount = const Value.absent(),
     this.barrelAttempts = const Value.absent(),
+    this.sortIndex = const Value.absent(),
     required DateTime createdAt,
     this.isOnBarrel = const Value.absent(),
     required String gameId,
@@ -1089,6 +1127,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     Expression<int>? totalPoints,
     Expression<int>? boltsCount,
     Expression<int>? barrelAttempts,
+    Expression<int>? sortIndex,
     Expression<DateTime>? createdAt,
     Expression<bool>? isOnBarrel,
     Expression<String>? gameId,
@@ -1099,6 +1138,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
       if (totalPoints != null) 'total_points': totalPoints,
       if (boltsCount != null) 'bolts_count': boltsCount,
       if (barrelAttempts != null) 'barrel_attempts': barrelAttempts,
+      if (sortIndex != null) 'sort_index': sortIndex,
       if (createdAt != null) 'created_at': createdAt,
       if (isOnBarrel != null) 'is_on_barrel': isOnBarrel,
       if (gameId != null) 'game_id': gameId,
@@ -1111,6 +1151,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     Value<int>? totalPoints,
     Value<int>? boltsCount,
     Value<int>? barrelAttempts,
+    Value<int>? sortIndex,
     Value<DateTime>? createdAt,
     Value<bool>? isOnBarrel,
     Value<String>? gameId,
@@ -1121,6 +1162,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
       totalPoints: totalPoints ?? this.totalPoints,
       boltsCount: boltsCount ?? this.boltsCount,
       barrelAttempts: barrelAttempts ?? this.barrelAttempts,
+      sortIndex: sortIndex ?? this.sortIndex,
       createdAt: createdAt ?? this.createdAt,
       isOnBarrel: isOnBarrel ?? this.isOnBarrel,
       gameId: gameId ?? this.gameId,
@@ -1140,6 +1182,9 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
     }
     if (barrelAttempts.present) {
       map['barrel_attempts'] = Variable<int>(barrelAttempts.value);
+    }
+    if (sortIndex.present) {
+      map['sort_index'] = Variable<int>(sortIndex.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
@@ -1165,6 +1210,7 @@ class PlayersCompanion extends UpdateCompanion<PlayerModel> {
           ..write('totalPoints: $totalPoints, ')
           ..write('boltsCount: $boltsCount, ')
           ..write('barrelAttempts: $barrelAttempts, ')
+          ..write('sortIndex: $sortIndex, ')
           ..write('createdAt: $createdAt, ')
           ..write('isOnBarrel: $isOnBarrel, ')
           ..write('gameId: $gameId, ')
@@ -2524,6 +2570,7 @@ typedef $$PlayersTableCreateCompanionBuilder =
       Value<int> totalPoints,
       Value<int> boltsCount,
       Value<int> barrelAttempts,
+      Value<int> sortIndex,
       required DateTime createdAt,
       Value<bool> isOnBarrel,
       required String gameId,
@@ -2535,6 +2582,7 @@ typedef $$PlayersTableUpdateCompanionBuilder =
       Value<int> totalPoints,
       Value<int> boltsCount,
       Value<int> barrelAttempts,
+      Value<int> sortIndex,
       Value<DateTime> createdAt,
       Value<bool> isOnBarrel,
       Value<String> gameId,
@@ -2603,6 +2651,11 @@ class $$PlayersTableFilterComposer
 
   ColumnFilters<int> get barrelAttempts => $composableBuilder(
     column: $table.barrelAttempts,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sortIndex => $composableBuilder(
+    column: $table.sortIndex,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2687,6 +2740,11 @@ class $$PlayersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get sortIndex => $composableBuilder(
+    column: $table.sortIndex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -2767,6 +2825,9 @@ class $$PlayersTableAnnotationComposer
     column: $table.barrelAttempts,
     builder: (column) => column,
   );
+
+  GeneratedColumn<int> get sortIndex =>
+      $composableBuilder(column: $table.sortIndex, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -2854,6 +2915,7 @@ class $$PlayersTableTableManager
                 Value<int> totalPoints = const Value.absent(),
                 Value<int> boltsCount = const Value.absent(),
                 Value<int> barrelAttempts = const Value.absent(),
+                Value<int> sortIndex = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<bool> isOnBarrel = const Value.absent(),
                 Value<String> gameId = const Value.absent(),
@@ -2863,6 +2925,7 @@ class $$PlayersTableTableManager
                 totalPoints: totalPoints,
                 boltsCount: boltsCount,
                 barrelAttempts: barrelAttempts,
+                sortIndex: sortIndex,
                 createdAt: createdAt,
                 isOnBarrel: isOnBarrel,
                 gameId: gameId,
@@ -2874,6 +2937,7 @@ class $$PlayersTableTableManager
                 Value<int> totalPoints = const Value.absent(),
                 Value<int> boltsCount = const Value.absent(),
                 Value<int> barrelAttempts = const Value.absent(),
+                Value<int> sortIndex = const Value.absent(),
                 required DateTime createdAt,
                 Value<bool> isOnBarrel = const Value.absent(),
                 required String gameId,
@@ -2883,6 +2947,7 @@ class $$PlayersTableTableManager
                 totalPoints: totalPoints,
                 boltsCount: boltsCount,
                 barrelAttempts: barrelAttempts,
+                sortIndex: sortIndex,
                 createdAt: createdAt,
                 isOnBarrel: isOnBarrel,
                 gameId: gameId,

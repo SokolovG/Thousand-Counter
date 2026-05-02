@@ -31,6 +31,27 @@ class GameRepository implements AbstractRepository<Game> {
     return updatedPlayers;
   }
 
+  Future<void> reorderPlayersAndUpdate(
+    String gameId,
+    List<Player> orderedPlayers,
+    int newCurrentPlayerIndex,
+  ) async {
+    await db.transaction(() async {
+      for (int i = 0; i < orderedPlayers.length; i++) {
+        await (db.update(db.players)
+              ..where(
+                (p) =>
+                    p.gameId.equals(gameId) &
+                    p.profileId.equals(orderedPlayers[i].profile.id),
+              ))
+            .write(PlayersCompanion(sortIndex: Value(i)));
+      }
+      await (db.update(db.games)..where((g) => g.id.equals(gameId))).write(
+        GamesCompanion(currentPlayerIndex: Value(newCurrentPlayerIndex)),
+      );
+    });
+  }
+
   Future<void> syncPlayers(String gameId, List<Profile> newProfiles) async {
     await db.transaction(() async {
       final currentPlayersRows = await (db.select(
@@ -51,6 +72,12 @@ class GameRepository implements AbstractRepository<Game> {
       }
 
       final idsToAdd = newProfileIds.difference(currentProfileIds);
+      final maxSortIndex = currentPlayersRows.isEmpty
+          ? -1
+          : currentPlayersRows
+              .map((p) => p.sortIndex)
+              .reduce((a, b) => a > b ? a : b);
+      int nextIndex = maxSortIndex + 1;
       for (var id in idsToAdd) {
         await db
             .into(db.players)
@@ -62,6 +89,7 @@ class GameRepository implements AbstractRepository<Game> {
                 boltsCount: const Value(0),
                 barrelAttempts: const Value(0),
                 isOnBarrel: const Value(false),
+                sortIndex: Value(nextIndex++),
                 createdAt: DateTime.now(),
               ),
             );
@@ -72,7 +100,8 @@ class GameRepository implements AbstractRepository<Game> {
   Future<Game> addFullGame(Game game) async {
     await db.transaction(() async {
       await add(game);
-      for (var player in game.players) {
+      for (int i = 0; i < game.players.length; i++) {
+        final player = game.players[i];
         await db
             .into(db.players)
             .insert(
@@ -81,6 +110,7 @@ class GameRepository implements AbstractRepository<Game> {
                 boltsCount: Value(player.boltsCount),
                 barrelAttempts: Value(player.barrelAttempts),
                 isOnBarrel: Value(player.isOnBarrel),
+                sortIndex: Value(i),
                 gameId: game.id,
                 profileId: player.profile.id,
                 createdAt: player.createdAt,
@@ -127,7 +157,7 @@ class GameRepository implements AbstractRepository<Game> {
             ),
           ])
           ..where(db.games.id.equals(id))
-          ..orderBy([OrderingTerm(expression: db.players.createdAt)]);
+          ..orderBy([OrderingTerm(expression: db.players.sortIndex)]);
     return query.watch().map((List<TypedResult> rows) {
       if (rows.isEmpty) return null;
       final gameModel = rows.first.readTable(db.games);
@@ -166,6 +196,7 @@ class GameRepository implements AbstractRepository<Game> {
           ),
         ])..orderBy([
           OrderingTerm(expression: db.games.createdAt, mode: OrderingMode.desc),
+          OrderingTerm(expression: db.players.sortIndex),
         ]);
 
     final rows = await query.get();

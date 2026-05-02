@@ -12,14 +12,14 @@ class PlayerWidget extends ConsumerWidget {
   final Color color;
   final bool isCurrentPlayer;
   final String gameId;
-  final int playerIndex;
+  final String playerId;
 
   const PlayerWidget({
     super.key,
     required this.color,
     this.isCurrentPlayer = false,
     required this.gameId,
-    required this.playerIndex,
+    required this.playerId,
   });
 
   @override
@@ -28,9 +28,11 @@ class PlayerWidget extends ConsumerWidget {
     final appColors = theme.extension<AppColors>()!;
     final activeBidderId = ref.watch(activeBidderIdProvider);
     final player = ref.watch(
-      gameStreamProvider(
-        gameId,
-      ).select((game) => game.value?.players.elementAtOrNull(playerIndex)),
+      gameStreamProvider(gameId).select(
+        (game) => game.value?.players
+            .where((p) => p.profile.id == playerId)
+            .firstOrNull,
+      ),
     );
     final currentGame = ref.watch(
       gameStreamProvider(gameId).select((g) => g.value),
@@ -110,21 +112,29 @@ class PlayerWidget extends ConsumerWidget {
                   ),
                 ),
               if (!currentGame.isFinished)
-                IconButton(
-                  icon: Icon(
-                    isBidder ? Icons.gavel : Icons.gavel_outlined,
-                    color: isBidder
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.outlineVariant,
-                  ),
-                  onPressed: () {
+                GestureDetector(
+                  onLongPress: () {
                     if (activeBidderId != player.profile.id) {
                       ref.read(activeBidderIdProvider.notifier).state =
                           player.profile.id;
-                      ref.read(currentBidProvider.notifier).state =
-                          currentBid + 5;
                     }
                   },
+                  child: IconButton(
+                    icon: Icon(
+                      isBidder ? Icons.gavel : Icons.gavel_outlined,
+                      color: isBidder
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.outlineVariant,
+                    ),
+                    onPressed: () {
+                      if (activeBidderId != player.profile.id) {
+                        ref.read(activeBidderIdProvider.notifier).state =
+                            player.profile.id;
+                        ref.read(currentBidProvider.notifier).state =
+                            currentBid + 5;
+                      }
+                    },
+                  ),
                 ),
               if (player.totalPoints >= maxPoints)
                 Padding(

@@ -1,3 +1,5 @@
+import 'dart:math' show max;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -71,8 +73,19 @@ class GameScreen extends ConsumerWidget {
           body: Column(
             children: [
               Expanded(
-                child: ListView.builder(
+                child: ReorderableListView.builder(
                   key: ValueKey(currentGame.currentRound),
+                  buildDefaultDragHandles: false,
+                  onReorder: currentGame.isFinished
+                      ? (_, _) {}
+                      : (oldIndex, newIndex) async {
+                          if (oldIndex < newIndex) newIndex -= 1;
+                          await gameService.reorderPlayers(
+                            currentGame,
+                            oldIndex,
+                            newIndex,
+                          );
+                        },
                   itemCount: players.length,
                   itemBuilder: (context, index) {
                     final appColors = Theme.of(context).extension<AppColors>()!;
@@ -82,11 +95,31 @@ class GameScreen extends ConsumerWidget {
                         ? appColors.playerHighlight
                         : appColors.cardBackground;
 
-                    return PlayerWidget(
-                      color: color,
-                      isCurrentPlayer: isCurrentPlayer,
-                      gameId: currentGame.id,
-                      playerIndex: index,
+                    return Row(
+                      key: ValueKey(players[index].profile.id),
+                      children: [
+                        if (!currentGame.isFinished)
+                          ReorderableDragStartListener(
+                            index: index,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6.0,
+                              ),
+                              child: Icon(
+                                Icons.drag_handle,
+                                color: appColors.iconSecondary,
+                              ),
+                            ),
+                          ),
+                        Expanded(
+                          child: PlayerWidget(
+                            color: color,
+                            isCurrentPlayer: isCurrentPlayer,
+                            gameId: currentGame.id,
+                            playerId: players[index].profile.id,
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -167,8 +200,11 @@ class GameScreen extends ConsumerWidget {
                                       .profile
                                       .id;
 
-                              int bid = scores[activeBidderId] ?? 100;
-                              if (bid == 0) bid = 100;
+                              final typedBid = scores[activeBidderId] ?? 0;
+                              int bid = max(
+                                ref.read(currentBidProvider),
+                                typedBid,
+                              );
 
                               final bidderIndex = currentGame.players
                                   .indexWhere(
