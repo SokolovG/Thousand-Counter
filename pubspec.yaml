@@ -2,7 +2,7 @@ name: thousand_counter
 description: "Counter for card game Thousand"
 publish_to: "none"
 
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.10.7
